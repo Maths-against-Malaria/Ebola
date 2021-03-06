@@ -43,6 +43,7 @@ def q (pop, t, t_iso, qmax, Nerls, index):
         #print(index)
         Q = (popsum(pop=pop, compartment ='P', script1='t', script2='_', Nerls=Nerls, index=index) + \
              popsum(pop=pop, compartment ='I', script1='_', script2='i', Nerls=Nerls, index=index))
+        #print(Q)
         if Q <= qmax:
             q = 1
         else:

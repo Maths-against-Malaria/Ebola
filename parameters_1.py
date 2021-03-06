@@ -3,7 +3,6 @@ NE = NP = NIp = NIh = NIi = 16
 
 N = 10_000
 
-
 DE = 7
 DP = 5.5
 DI = 5
@@ -23,15 +22,14 @@ cF = 1      # relative contagiousness after death before being buried
 
 P0 = 1     # P(0)
 
-# before day 250
 t_iso = 250
 
 f_p1 = 0.5
 f_h1 = 0.5
 
 #after day 250
-f_p2 = [0.5, 0.5, 0.3, 0.1]
-f_h2 = [0.3, 0.1, 0.1, 0.1]
+f_p2 = [0.5, 0.5, 0.5, 0.3, 0.1]
+f_h2 = [0.5, 0.3, 0.1, 0.1, 0.1]
 k = 0 # scenario
 
 f_tb = 1# trace back

@@ -49,4 +49,4 @@ def indexFunction(Nerls):
     #print(index)
     return index
 
-print(indexFunction([2,3,5,7,11]))
+#print(indexFunction([2,3,5,7,11]))
