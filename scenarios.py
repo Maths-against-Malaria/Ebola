@@ -63,7 +63,20 @@ from solve_function import *
 #modelEbola(days=1500, k=4, f_tb=0.6, ph = 0.6, qmax=100)
 #modelEbola(days=1500, k=4, f_tb=0.6, ph = 0.8, qmax=100)
 
+#-------
+# 'Qmax__f_iso0.8_f_tb1_ph0.6'
+#modelEbola(days=1500, k=4, f_tb=1, ph = 0.6, qmax=1)
+#modelEbola(days=1500, k=4, f_tb=1, ph = 0.6, qmax=10)
+#modelEbola(days=1500, k=4, f_tb=1, ph = 0.6, qmax=100)
+#modelEbola(days=1500, k=4, f_tb=1, ph = 0.6, qmax=1000)
+#modelEbola(days=1500, k=4, f_tb=1, ph = 0.6, qmax=10000)
 
+# 'Qmax__f_iso0.8_f_tb1_ph0.2'
+modelEbola(days=1500, k=4, f_tb=1, ph = 0.2, qmax=1)
+modelEbola(days=1500, k=4, f_tb=1, ph = 0.2, qmax=10)
+modelEbola(days=1500, k=4, f_tb=1, ph = 0.2, qmax=100)
+modelEbola(days=1500, k=4, f_tb=1, ph = 0.2, qmax=1000)
+modelEbola(days=1500, k=4, f_tb=1, ph = 0.2, qmax=10000)
 
 
 
