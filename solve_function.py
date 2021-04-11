@@ -49,6 +49,10 @@ def modelEbola(
         f_tb=f_tb,
         ph=ph,
         qmax=qmax,
+        f_di_h=f_di_h,
+        f_di_p=f_di_p,
+        t_vac=t_vac,
+        Nvac=Nvac,
         nameIn='',
         pathOut='results'):
     name = str(days) + '_' \
@@ -82,6 +86,10 @@ def modelEbola(
            + str(f_tb) + '_' \
            + str(ph) + '_' \
            + str(qmax) + '_' \
+           + str(f_di_h) + '_' \
+           + str(f_di_p) + '_' \
+           + str(t_vac) + '_' \
+           + str(Nvac) + '_' \
            + nameIn
 
     print(name)
@@ -119,6 +127,8 @@ def modelEbola(
         ls_ = la__[1]  # ls(f_phi_[2], pop, betaP, betaIp, betaIh)
         lt_ = lt(la=la_, ls=ls_)
 
+        vac_ = vac(pop=pop, index=index, t=t,t_vac=t_vac, Nvac=Nvac)
+
         rec[int(t)] = [t, q_]
         #rec[j] = [t, q_]
         #j = j + 1
@@ -128,7 +138,7 @@ def modelEbola(
 
         ## Differential equations for compartments
         # Susceptible
-        out[index['S__']] = dS(pop=pop, lt=lt_, N=N, index=index)
+        out[index['S__']] = dS(pop=pop, lt=lt_, N=N, index=index, vac=vac_)
 
         # Latent
         out[index['E__1']] = dE__1(pop=pop, la=la_, N=N, DE=DE, index=index)
@@ -199,13 +209,13 @@ def modelEbola(
 
         # Recovered, Dead
         out[index['R__']] = dR(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, fdead_i=fdead_i, DI=DI, NIp=NIp, NIh=NIh,
-                               NIi=NIi, index=index)
+                               NIi=NIi, index=index, vac=vac_)
 
-        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, DI=DI, DF=DF, NIp=NIp, NIh=NIh, index=index)
+        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, DI=DI, DF=DF, NIp=NIp, NIh=NIh, index=index, f_di_h=f_di_h, f_di_p=f_di_p)
 
         out[index['B_f']] = dB_f(pop=pop, DF=DF, index=index)
 
-        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i, DI=DI, NIi=NIi, index=index)
+        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i, DI=DI, NIi=NIi, index=index, f_di_h=f_di_h, f_di_p=f_di_p)
 
         # return
         return out

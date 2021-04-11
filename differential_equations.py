@@ -18,8 +18,8 @@ import numpy as np
 #fh = 0.3            # fhosp
 #fi = 1 - fp - fh    # fiso
 
-def dS(pop, lt, N, index):
-    x = - (lt/N) * pop[index['S__']]
+def dS(pop, lt, N, index, vac):
+    x = - (lt/N) * pop[index['S__']] - vac
     return x
     
 def dE__1(pop, la, N, DE, index):
@@ -163,15 +163,16 @@ def dI_ik(pop, j, DI, DT, index):
     return x
         
 
-def dR(pop,fdead_p, fdead_h, fdead_i, DI, NIp, NIh, NIi, index):
+def dR(pop,fdead_p, fdead_h, fdead_i, DI, NIp, NIh, NIi, index, vac):
     x = (1/DI)*((1-fdead_p) * pop[index['I_p' + str(NIp)]] \
               + (1-fdead_h) * pop[index['I_h' + str(NIh)]] \
-              + (1-fdead_i) * pop[index['I_i' + str(NIi)]])       
+              + (1-fdead_i) * pop[index['I_i' + str(NIi)]])\
+            + vac
     return x
 
-def dF(pop, fdead_p, fdead_h, DI, DF, NIp, NIh, index):
-    x = (1/DI) * (fdead_p * pop[index['I_p' + str(NIp)]] \
-               +   (fdead_h * pop[index['I_h' + str(NIh)]])) \
+def dF(pop, fdead_p, fdead_h, DI, DF, NIp, NIh, index,f_di_h, f_di_p):
+    x = (1/DI) * ((1-f_di_p) * fdead_p * pop[index['I_p' + str(NIp)]] \
+               +  (1-f_di_h) * fdead_h * pop[index['I_h' + str(NIh)]]) \
                 - (1/DF)  * pop[index['F__']]
     return x
 
@@ -179,7 +180,10 @@ def dB_f(pop, DF, index):
     x = (1/DF) *   pop[index['F__']] 
     return x
 
-def dB_j(pop, fdead_i, DI, NIi, index):
-    x = (1/DI) * fdead_i * pop[index['I_i' + str(NIi)]]# * (1-q(t)) * d_h
+def dB_j(pop, fdead_i, DI, NIi, index, f_di_h, f_di_p):
+    x = (1/DI) * (fdead_i * pop[index['I_i' + str(NIi)]] \
+                + f_di_p * fdead_p * pop[index['I_p' + str(NIp)]] \
+                + f_di_h * fdead_h * pop[index['I_h' + str(NIh)]])
+                  # * (1-q(t)) * d_h
 
     return x

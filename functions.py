@@ -117,6 +117,12 @@ def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
     x = [f_p, f_h, f_i]
     return x
 
+def vac(pop, index, t, t_vac, Nvac):
+    if t <= t_vac:
+        x = 0
+    if t > t_vac:
+        x = min(pop[index['S__']], Nvac)
+    return x
 '''
 # test: f_phi
     print(f_phi(300, 0))

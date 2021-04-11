@@ -2,7 +2,7 @@
 days = 1000
 # number of Erlang stages for the compartments (compartment names below)
 NE = NP = NIp = NIh = NIi = 16
-# initial population 
+# initial population
 N = 10_000
 # duration of diseas states in days
 ## general meaning of E (latent), P (podromal), I (fully infectous), F (dead, not yet buried)
@@ -22,7 +22,7 @@ R0 = 2      # basic reproduction number
 cP = 0.6
 cIp = 0.9   # c_I home
 cIh = 0.8   # c_I hosp
-cF = 1      # relative contagiousness after death before being buried       
+cF = 1      # relative contagiousness after death before being buried
 # initial number of sick (in state P) individuals
 P0 = 1     # P(0)
 
@@ -36,13 +36,22 @@ f_h1 = 0.5
 f_p2 = [0.5, 0.5, 0.3, 0.1]
 f_h2 = [0.3, 0.1, 0.1, 0.1]
 # index of the scenario from the ones above
-k = 0 
+k = 0
 # probability that a person who had contact with somebody who gets into isolation (f_iso = 1- (f_p2 + f_h2)) is traced back
 f_tb = 1
 # goodness of isolation beyond isolation wards (0 - not better than else at home/hospital)
-ph = 0 
+ph = 0
 # capacity of isolation wards
-qmax = N 
+qmax = N
 
+# probability of safe funeral for those dying
+f_di_p = 0  # at home
+f_di_h = 0  # in hospital (no isolation)
+
+# vaccination
+# start date
+t_vac=500
+# daily number
+Nvac=0
 
 
