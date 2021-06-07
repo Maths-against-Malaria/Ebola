@@ -98,7 +98,7 @@ def modelEbola(
     Nerls = [NE, NP, NIp, NIh, NIi]
     index = indexFunction(Nerls)
 
-    cD = R0 / (cP * DP + cIh * DI + cIp * DI + cF * DF)
+    cD = R0 / (cP * DP + (cIh + cIp) * 0.5 * DI + cF * DF)
     cD = float(cD)
 
     betaP = cP * cD
