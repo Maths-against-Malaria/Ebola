@@ -14,6 +14,19 @@ from functions import *
 from differential_equations import *
 from solve_function import *
 
+# fiso = 0, 0.2...1; tb=0;
+# f_iso__f_tb0_qmaxN
+#modelEbola(days=730, k=0, f_tb=0, qmax=N)
+#modelEbola(days=730, k=1, f_tb=0, qmax=N)
+#modelEbola(days=730, k=2, f_tb=0, qmax=N)
+#modelEbola(days=730, k=3, f_tb=0, qmax=N)
+#modelEbola(days=730, k=4, f_tb=0, qmax=N)
+
+modelEbola(days=730, k=0, f_tb=0.8, qmax=N)
+modelEbola(days=730, k=1, f_tb=0.8, qmax=N)
+modelEbola(days=730, k=2, f_tb=0.8, qmax=N)
+modelEbola(days=730, k=3, f_tb=0.8, qmax=N)
+modelEbola(days=730, k=4, f_tb=0.8, qmax=N)
 
 # fiso = 0, 0.2...1; tb=0.2;
 # f_iso__f_tb0.2_qmaxN_ph0.6
@@ -113,9 +126,9 @@ from solve_function import *
 #modelEbola(days=1500, f_tb=0.2, k=1, qmax=100, Nvac=N/100)
 
 # 't_vac_f_iso0.8_QmaxN100_f_tb0.6_Nvac10'
-modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=300)
-modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=400)
-modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=500)
-modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=600)
-modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=700)
-modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=800)
+#modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=300)
+#modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=400)
+#modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=500)
+#modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=600)
+#modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=700)
+#modelEbola(days=1500, f_tb=0.6, k=4, qmax=100, Nvac=N/1000, t_vac=800)
