@@ -17,12 +17,12 @@ fdead_p = 0.7 # f dead home
 fdead_h = 0.5 # f dead hosp
 fdead_i = 0.3 # f dead iso
 # basic reproduction number of the virus
-R0 = 1.7#2      # basic reproduction number
+R0 = 2#1.7#2      # basic reproduction number
 # contagiousness in different states (P, I, F) and conditions (p, h - for I), cIi = 0
-cP = 0.3#0.6
-cIh = 0.6#0.8   # c_I hosp
-cIp = 0.7#0.9   # c_I home
-cF = 0.8#1      # relative contagiousness after death before being buried
+cP = 0.6#0.3#0.6
+cIh = 0.8#0.6#0.8   # c_I hosp
+cIp = 0.9#0.7#0.9   # c_I home
+cF = 1#0.8#1      # relative contagiousness after death before being buried
 # initial number of sick (in state P) individuals
 P0 = 1     # P(0)
 

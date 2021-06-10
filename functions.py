@@ -105,7 +105,7 @@ def la_Aliou(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, Nerls, index)
 def lt(la, ls):
     lt = la + ls
     return lt
-'''
+
 def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
     if t <= t_iso:
         f_p = f_p1
@@ -137,14 +137,16 @@ def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
     f_i = 1-(f_p + f_h)
     x = [f_p, f_h, f_i]
     return x
-
+'''
 def vac(pop, index, t, t_vac, Nvac):
     if t <= t_vac:
         x = 0
     if t > t_vac:
         x = min(pop[index['S__']], Nvac)
     return x
-'''
+
+
+'''    
 # test: f_phi
     print(f_phi(300, 0))
     print(f_phi(300, 1))

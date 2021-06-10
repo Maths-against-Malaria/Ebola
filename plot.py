@@ -307,7 +307,7 @@ def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, l
             p.plot(popSum[i][4], label=lab[i], color=col[i], linestyle='-')
         #p.legend((l2,l3,l4),bbox_to_anchor=(-2.6, 1.3, 1.5, 0), loc="lower left", mode="expand", ncol=3)
         #p.legend(bbox_to_anchor=(-0.4, 1.1, 1.5, 0), loc="lower left", mode="expand", ncol=1)
-        p.legend(bbox_to_anchor=(-2.5, -3, 3.5, 0.5), loc="upper left", mode="expand", ncol=3),
+        p.legend(bbox_to_anchor=(-3, -3, 3.5, 0.5), loc="upper left", mode="expand", ncol=3)
                  #handles=reversed(p.legend().legendHandles), labels=lab + ['a', 'b', 'c'])
         #print('a')
     else:
@@ -393,7 +393,15 @@ def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, l
     p.set_ylabel('Recovered ind')
     p.set_title(label='I.', loc='left')
 
-    plt.tight_layout()
+    plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=None)
+    #plt.tight_layout()
+    #ig = plt.figure(figsize=(15, 13))
+    #fig.legend(loc="upper center", bbox_to_anchor=(0.5,1))#, mode="expand", ncol=3)
+    #plt.legend(bbox_to_anchor=(0.5, 1), loc="upper center")#, mode="expand", ncol=3),
+    #p.legend(bbox_to_anchor=(-2.5, 1.1, 3.5, 0.5), loc="upper left", mode="expand", ncol=3),
+
+    #plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
+
     plt.savefig(pathOut + '/Ebola_all_' + savename + '.pdf', dpi=100)
     plt.show()
 
