@@ -171,6 +171,9 @@ names22=[
 '730_16_16_16_16_16_16_10000_9_5_5_2_9_0.7_0.5_0.3_1.7_0.3_0.7_0.6_0.8_1_250_0.5_0.5_[0.5, 0.5, 0.5, 0.3, 0.1]_[0.5, 0.3, 0.1, 0.1, 0.1]_3_0.8_0_10000_0_0_500_0_',
 '730_16_16_16_16_16_16_10000_9_5_5_2_9_0.7_0.5_0.3_1.7_0.3_0.7_0.6_0.8_1_250_0.5_0.5_[0.5, 0.5, 0.5, 0.3, 0.1]_[0.5, 0.3, 0.1, 0.1, 0.1]_4_0.8_0_10000_0_0_500_0_',
 ]
+names23=[
+'1500_16_16_16_16_16_16_10000_9_5_5_2_9_0.7_0.5_0.3_1.7_0.3_0.7_0.6_0.8_1_250_0.5_0.5_[0.5, 0.5, 0.5, 0.3, 0.1]_[0.5, 0.3, 0.1, 0.1, 0.1]_0_0.8_0_10000_0_0_500_0_'
+]
 
 
 '''
@@ -238,9 +241,13 @@ plotEbolaAll(names=names15, savename='t_vac_f_iso0.8_QmaxN100_f_tb0.6_Nvac10',
              lab=['t_vac=300','t_vac=400','t_vac=500','t_vac=600','t_vac=700','t_vac=800',],
              col=colsA, q_max=True)
 '''
-plotEbolaAll(names=names22, savename='f_iso__f_tb0_qmaxN',
+plotEbolaAll(names=names20, savename='testplot_noTB',
+            #lab=['f_iso=0'],
+             lab=['f_iso=0', 'f_iso=0.2', 'f_iso=0.4', 'f_iso=0.6', 'f_iso=0.8'],
+             col=colsA, q_max=False,tb=False)
+plotEbolaAll(names=names20, savename='testplot_TB',
+            #lab=['f_iso=0'],
              lab=['f_iso=0', 'f_iso=0.2', 'f_iso=0.4', 'f_iso=0.6', 'f_iso=0.8'],
              col=colsA, q_max=False,tb=True)
-
 
 

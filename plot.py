@@ -251,10 +251,9 @@ def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, l
     p = fig.add_subplot(331)
     for i in range(0, len(names)):
         l4=l3=l2=l1=p.plot(popSum[i][0], label=lab[i], color=col[i])
-    if legendout:
+    if legendout == False:
         #p.legend(bbox_to_anchor=(-0.2, 1.1, 3.5, -0.2), loc="lower left", mode="expand", ncol=len(lab))
-        p.legend(bbox_to_anchor=(-0.2, 1.1, 2.3, -0.2), loc="lower left", mode="expand", ncol=3)
-    else:
+        #p.legend(bbox_to_anchor=(-0.2, 1.1, 2.3, -0.2), loc="lower left", mode="expand", ncol=3)
         p.legend()
     p.set_ylabel('Susceptible ind.')
     p.set_title(label='A.', loc='left')
@@ -280,7 +279,7 @@ def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, l
     p = fig.add_subplot(333)
     if tb == True:
         if legendout:
-            l2=p.plot(popSum[0][4], color=col[0], linestyle='-', label='never traced back (and unsafe funeral)')
+            p.plot(popSum[0][4], color=col[0], linestyle='-', label='never traced back (and unsafe funeral)')
         else:
             p.plot(popSum[0][4], color=col[0], linestyle='-', label='never traced back')
         p.plot(popSum[0][6], color=col[0], linestyle='--', label='not yet traced back')
@@ -295,16 +294,22 @@ def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, l
                 p.plot(np.multiply(popSum[i][5], np.multiply(q_[i],-1)+1), color=col[i], linestyle='-.')
         if q_max == False:
             if legendout:
-                l4=p.plot(popSum[0][5], color=col[0], linestyle=':', label='traced back (and safe funeral)')
+                p.plot(popSum[0][5], color=col[0], linestyle=':', label='traced back (and safe funeral)')
             else:
                 p.plot(popSum[0][5], color=col[0], linestyle=':', label='traced back')
-    else:
+    if tb == False:
         if legendout:
-            l2=p.plot(popSum[0][4], color=col[0], linestyle='-', label='(and unsafe funeral)')
-            l3=p.plot(popSum[0][4], color=col[0], linestyle=':', label='(and safe funeral)')
+            p.plot(popSum[0][4], color=col[0], linestyle='-', label='unsafe funeral')
+            p.plot(popSum[0][4], color=col[0], linestyle=':', label='safe funeral')
+            p.plot(popSum[0][4], color='w', linestyle=':', label=' ')
     if legendout:
+        for i in range(0, len(names)):
+            p.plot(popSum[i][4], label=lab[i], color=col[i], linestyle='-')
         #p.legend((l2,l3,l4),bbox_to_anchor=(-2.6, 1.3, 1.5, 0), loc="lower left", mode="expand", ncol=3)
-        p.legend(bbox_to_anchor=(-0.4, 1.1, 1.5, 0), loc="lower left", mode="expand", ncol=1)
+        #p.legend(bbox_to_anchor=(-0.4, 1.1, 1.5, 0), loc="lower left", mode="expand", ncol=1)
+        p.legend(bbox_to_anchor=(-2.5, -3, 3.5, 0.5), loc="upper left", mode="expand", ncol=3),
+                 #handles=reversed(p.legend().legendHandles), labels=lab + ['a', 'b', 'c'])
+        #print('a')
     else:
         p.legend()
     for i in range(0, len(names)):

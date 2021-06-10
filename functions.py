@@ -105,7 +105,7 @@ def la_Aliou(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, Nerls, index)
 def lt(la, ls):
     lt = la + ls
     return lt
-
+'''
 def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
     if t <= t_iso:
         f_p = f_p1
@@ -113,6 +113,27 @@ def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
     else:
         f_p = f_p2[k]
         f_h = f_h2[k]
+    f_i = 1-(f_p + f_h)
+    x = [f_p, f_h, f_i]
+    return x
+'''
+
+def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
+    if t <= 100:
+        f_p = f_p2[0]
+        f_h = f_h2[0]
+    if t <= 200:
+        f_p = f_p2[1]
+        f_h = f_h2[1]
+    if t <= 300:
+        f_p = f_p2[2]
+        f_h = f_h2[2]
+    if t <= 400:
+        f_p = f_p2[3]
+        f_h = f_h2[3]
+    if t > 400:
+        f_p = f_p2[4]
+        f_h = f_h2[4]
     f_i = 1-(f_p + f_h)
     x = [f_p, f_h, f_i]
     return x
