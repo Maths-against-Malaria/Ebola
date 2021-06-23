@@ -170,9 +170,9 @@ def dR(pop,fdead_p, fdead_h, fdead_i, DI, NIp, NIh, NIi, index, vac):
             + vac
     return x
 
-def dF(pop, fdead_p, fdead_h, DI, DF, NIp, NIh, index,f_di_h, f_di_p):
-    x = (1/DI) * ((1-f_di_p) * fdead_p * pop[index['I_p' + str(NIp)]] \
-               +  (1-f_di_h) * fdead_h * pop[index['I_h' + str(NIh)]]) \
+def dF(pop, fdead_p, fdead_h, DI, DF, NIp, NIh, index,d_h, d_p):
+    x = (1/DI) * ((1-d_p) * fdead_p * pop[index['I_p' + str(NIp)]] \
+               +  (1-d_h) * fdead_h * pop[index['I_h' + str(NIh)]]) \
                 - (1/DF)  * pop[index['F__']]
     return x
 
@@ -180,10 +180,9 @@ def dB_f(pop, DF, index):
     x = (1/DF) *   pop[index['F__']] 
     return x
 
-def dB_j(pop, fdead_i, DI, NIi, index, f_di_h, f_di_p):
+def dB_j(pop, fdead_i, DI, NIi, index, d_h, d_p):
     x = (1/DI) * (fdead_i * pop[index['I_i' + str(NIi)]] \
-                + f_di_p * fdead_p * pop[index['I_p' + str(NIp)]] \
-                + f_di_h * fdead_h * pop[index['I_h' + str(NIh)]])
+                + d_p * fdead_p * pop[index['I_p' + str(NIp)]] \
+                + d_h * fdead_h * pop[index['I_h' + str(NIh)]])
                   # * (1-q(t)) * d_h
-
     return x

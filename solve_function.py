@@ -36,7 +36,7 @@ def modelEbola(
         fdead_i=fdead_i,
         R0=R0,
         cP=cP,
-        cIp=cIp,
+        cI=cI,
         cIh=cIh,
         cF=cF,
         P0=P0,  # P(0)
@@ -49,8 +49,9 @@ def modelEbola(
         f_tb=f_tb,
         ph=ph,
         qmax=qmax,
-        f_di_h=f_di_h,
-        f_di_p=f_di_p,
+        cmax=cmax,
+        d_h=d_h,
+        d_p=d_p,
         t_vac=t_vac,
         Nvac=Nvac,
         nameIn='',
@@ -73,7 +74,7 @@ def modelEbola(
            + str(fdead_i) + '_' \
            + str(R0) + '_' \
            + str(cP) + '_' \
-           + str(cIp) + '_' \
+           + str(cI) + '_' \
            + str(cIh) + '_' \
            + str(cF) + '_' \
            + str(P0) + '_' \
@@ -86,8 +87,9 @@ def modelEbola(
            + str(f_tb) + '_' \
            + str(ph) + '_' \
            + str(qmax) + '_' \
-           + str(f_di_h) + '_' \
-           + str(f_di_p) + '_' \
+           + str(cmax) + '_' \
+           + str(d_h) + '_' \
+           + str(d_p) + '_' \
            + str(t_vac) + '_' \
            + str(Nvac) + '_' \
            + nameIn
@@ -98,11 +100,11 @@ def modelEbola(
     Nerls = [NE, NP, NIp, NIh, NIi]
     index = indexFunction(Nerls)
 
-    cD = R0 / (cP * DP + (cIh + cIp) * 0.5 * DI + cF * DF)
+    cD = R0 / (cP * DP + cI * DI + cF * DF)
     cD = float(cD)
 
     betaP = cP * cD
-    betaIp = cIp * cD
+    betaIp = cI * cD
     betaIh = cIh * cD
     betaF = cF * cD
 
@@ -117,8 +119,9 @@ def modelEbola(
         # compute once per time and then use constants
         f_phi_ = f_phi(t=t, k=k, t_iso=t_iso, f_p1=f_p1, f_h1=f_h1, f_p2=f_p2, f_h2=f_h2)
         q_ = q(pop=pop, t=t, t_iso=t_iso, qmax=qmax, Nerls=Nerls, index=index)
+        c_ = c(pop=pop, t=t, t_iso=t_iso, cmax=cmax, Nerls=Nerls, index=index, DT=DT, DP=DP, f_iso=f_phi_[2])
         la__ = la(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,
-                  q=q_, Nerls=Nerls, index=index)
+                  q=q_, c = c_, Nerls=Nerls, index=index)
         # la__ = la_Aliou(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph, q=q_, Nerls=Nerls, index=index)
         # la__ = la_aliou2(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,q=q_, Nerls=Nerls, index=index)
 
@@ -211,11 +214,11 @@ def modelEbola(
         out[index['R__']] = dR(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, fdead_i=fdead_i, DI=DI, NIp=NIp, NIh=NIh,
                                NIi=NIi, index=index, vac=vac_)
 
-        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, DI=DI, DF=DF, NIp=NIp, NIh=NIh, index=index, f_di_h=f_di_h, f_di_p=f_di_p)
+        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, DI=DI, DF=DF, NIp=NIp, NIh=NIh, index=index, d_h=d_h, d_p=d_p)
 
         out[index['B_f']] = dB_f(pop=pop, DF=DF, index=index)
 
-        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i, DI=DI, NIi=NIi, index=index, f_di_h=f_di_h, f_di_p=f_di_p)
+        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i, DI=DI, NIi=NIi, index=index, d_h=d_h, d_p=d_p)
 
         # return
         return out

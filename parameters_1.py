@@ -1,5 +1,5 @@
 # duration of simulation, in days
-days = 1000
+days = 1500
 # number of Erlang stages for the compartments (compartment names below)
 NE = NP = NIp = NIh = NIi = 16
 # initial population
@@ -18,13 +18,14 @@ fdead_h = 0.5 # f dead hosp
 fdead_i = 0.3 # f dead iso
 # basic reproduction number of the virus
 R0 = 2#1.7#2      # basic reproduction number
+
 # contagiousness in different states (P, I, F) and conditions (p, h - for I), cIi = 0
-cP = 0.6#0.3#0.6
-cIh = 0.8#0.6#0.8   # c_I hosp
-cIp = 0.9#0.7#0.9   # c_I home
+cP = 0.1#0.3#0.6
+cIh = 0.3#0.6#0.8   # c_I hosp
+cI = 0.5#0.7#0.9   # c_I home
 cF = 1#0.8#1      # relative contagiousness after death before being buried
 # initial number of sick (in state P) individuals
-P0 = 1     # P(0)
+P0 = 25
 
 # countermeasures
 # day when isolation starts
@@ -33,8 +34,8 @@ t_iso = 250
 f_p1 = 0.5
 f_h1 = 0.5
 # fraction at home, in hospital, in isolation after this day (4 scenarios provided)
-f_p2 = [0.5, 0.5, 0.5, 0.3, 0.1]
-f_h2 = [0.5, 0.3, 0.1, 0.1, 0.1]
+f_p2 = [0.5, 0.5, 0.5, 0.3, 0.1, 0.02]
+f_h2 = [0.5, 0.3, 0.1, 0.1, 0.1, 0]
 # index of the scenario from the ones above
 k = 0
 # probability that a person who had contact with somebody who gets into isolation (f_iso = 1- (f_p2 + f_h2)) is traced back
@@ -43,10 +44,12 @@ f_tb = 1
 ph = 0
 # capacity of isolation wards
 qmax = N
+# capacity for trace back
+cmax = N/1000
 
 # probability of safe funeral for those dying
-f_di_p = 0  # at home
-f_di_h = 0  # in hospital (no isolation)
+d_p = 0.5  # at home
+d_h = 0.8  # in hospital (no isolation)
 
 # vaccination
 # start date

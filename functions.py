@@ -50,7 +50,29 @@ def q (pop, t, t_iso, qmax, Nerls, index):
             q = qmax/Q
     return q
 
-def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, Nerls, index):
+def c (pop, t, t_iso, cmax, Nerls, index, DT, DP, f_iso):
+    if t < t_iso:
+        c = 0
+    else:
+        #print(index)
+        C = DT * (
+            1/DP * (
+                f_iso * (
+                    pop[index['P__' + str(NP)]] + pop[index['Ps_' + str(NP)]]) +
+                pop[index['Pt_' + str(NP)]]) +
+            1/DT * (
+                popsum(pop=pop, compartment='I', script1='s', script2='p', Nerls=Nerls, index=index) +
+                popsum(pop=pop, compartment='I', script1='s', script2='h', Nerls=Nerls, index=index)
+            )
+        )
+        #print(Q)
+        if C <= cmax:
+            c = 1
+        else:
+            c = cmax/C
+    return c
+
+def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, Nerls, index):
     ls0 =   betaP * (fiso * \
                 popsum(pop=pop, compartment='P', script1='_', script2='_', Nerls=Nerls, index=index) + \
                 popsum(pop=pop, compartment='P', script1='s', script2='_', Nerls=Nerls, index=index)) + \
@@ -68,8 +90,8 @@ def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, Nerls, index):
             betaIh * \
                 popsum(pop=pop, compartment='I', script1='_', script2='h', Nerls=Nerls, index=index) + \
             betaF * pop[index['F__']] + \
-            (1-f_tb) * ls0 # infections not traced back
-    ls =    f_tb * ls0 # infections that are traced back
+            (1-f_tb * c) * ls0 # infections not traced back
+    ls =    f_tb * c * ls0 # infections that are traced back
     return [l, ls]
 
 def la_aliou2(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, Nerls, index):

@@ -16,18 +16,30 @@ from solve_function import *
 
 # fiso = 0, 0.2...1; tb=0;
 # f_iso__f_tb0_qmaxN
-modelEbola(days=730, k=0, f_tb=0, qmax=N)
-modelEbola(days=730, k=1, f_tb=0, qmax=N)
-modelEbola(days=730, k=2, f_tb=0, qmax=N)
-modelEbola(days=730, k=3, f_tb=0, qmax=N)
-modelEbola(days=730, k=4, f_tb=0, qmax=N)
+#modelEbola(days=730, k=0, f_tb=0, qmax=N)
+#modelEbola(days=730, k=1, f_tb=0, qmax=N)
+#modelEbola(days=730, k=2, f_tb=0, qmax=N)
+#modelEbola(days=730, k=3, f_tb=0, qmax=N)
+#modelEbola(days=730, k=4, f_tb=0, qmax=N)
 
-modelEbola(days=730, k=4, f_tb=0, qmax=N)
-modelEbola(days=730, k=4, f_tb=0.2, qmax=N)
-modelEbola(days=730, k=4, f_tb=0.4, qmax=N)
-modelEbola(days=730, k=4, f_tb=0.6, qmax=N)
-modelEbola(days=730, k=4, f_tb=0.8, qmax=N)
-modelEbola(days=730, k=4, f_tb=1, qmax=N)
+
+#modelEbola(days=1000, k=4, f_tb=0.6, qmax=N, d_h = 0, d_p = 0)
+#modelEbola(days=1000, k=4, f_tb=0.6, qmax=N, d_h = 0.2, d_p = 0)
+#modelEbola(days=1000, k=4, f_tb=0.6, qmax=N, d_h = 0.4, d_p = 0)
+#modelEbola(days=1000, k=4, f_tb=0.6, qmax=N, d_h = 0.4, d_p = 0.2)
+#modelEbola(days=1000, k=4, f_tb=0.6, qmax=N, d_h = 0.4, d_p = 0.4)
+
+#modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 1)
+#modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 10)
+#modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 100)
+#modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 1000)
+#modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 10000)
+
+modelEbola(k=5, f_tb=1, qmax=N, cmax = 1)
+modelEbola(k=5, f_tb=1, qmax=N, cmax = 10)
+modelEbola(k=5, f_tb=1, qmax=N, cmax = 100)
+modelEbola(k=5, f_tb=1, qmax=N, cmax = 1000)
+modelEbola(k=5, f_tb=1, qmax=N, cmax = 10000)
 
 # fiso = 0, 0.2...1; tb=0.2;
 # f_iso__f_tb0.2_qmaxN_ph0.6
