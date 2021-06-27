@@ -94,7 +94,7 @@ def modelEbola(
            + str(Nvac) + '_' \
            + nameIn
 
-    print(name)
+    print("'" + name + "',")
 
     # compute values that do not change by time (or population)
     Nerls = [NE, NP, NIp, NIh, NIi]

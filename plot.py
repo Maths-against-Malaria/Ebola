@@ -230,6 +230,7 @@ def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, l
     popSum0 = popsum2d(pops=np.loadtxt(pathIn + '/ebola_' + names[0] + '.txt'), Nerls=Nerls)
     s = np.shape(popSum0)
     s1 = int(max(s[1], maxdays))
+    print(s)
     if q_max == True:
         q_ = np.empty(shape = [len(names),s[1]])
         for i in range(0, len(names)):

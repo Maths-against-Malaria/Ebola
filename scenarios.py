@@ -35,11 +35,12 @@ from solve_function import *
 #modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 1000)
 #modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 10000)
 
-modelEbola(k=5, f_tb=1, qmax=N, cmax = 1)
-modelEbola(k=5, f_tb=1, qmax=N, cmax = 10)
-modelEbola(k=5, f_tb=1, qmax=N, cmax = 100)
-modelEbola(k=5, f_tb=1, qmax=N, cmax = 1000)
-modelEbola(k=5, f_tb=1, qmax=N, cmax = 10000)
+modelEbola(k=5, f_tb=1, cmax = 0)
+modelEbola(k=5, f_tb=1, cmax = 25)
+modelEbola(k=5, f_tb=1, cmax = 50)
+modelEbola(k=5, f_tb=1, cmax = 75)
+modelEbola(k=5, f_tb=1, cmax = 100)
+modelEbola(k=5, f_tb=1, cmax = N)
 
 # fiso = 0, 0.2...1; tb=0.2;
 # f_iso__f_tb0.2_qmaxN_ph0.6
