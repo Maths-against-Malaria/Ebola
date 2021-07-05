@@ -35,12 +35,27 @@ from solve_function import *
 #modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 1000)
 #modelEbola(days=1000, k=4, f_tb=1, qmax=N, cmax = 10000)
 
-modelEbola(k=5, f_tb=1, cmax = 0)
-modelEbola(k=5, f_tb=1, cmax = 25)
-modelEbola(k=5, f_tb=1, cmax = 50)
-modelEbola(k=5, f_tb=1, cmax = 75)
-modelEbola(k=5, f_tb=1, cmax = 100)
-modelEbola(k=5, f_tb=1, cmax = N)
+#modelEbola(k=5, f_tb=1, cmax = 0)
+#modelEbola(k=5, f_tb=1, cmax = 25)
+#modelEbola(k=5, f_tb=1, cmax = 50)
+#modelEbola(k=5, f_tb=1, cmax = 75)
+#modelEbola(k=5, f_tb=1, cmax = 100)
+#modelEbola(k=5, f_tb=1, cmax = N)
+
+
+#modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 0)
+#modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 30)
+#modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 60)
+#modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 90)
+#modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 120)
+#modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 150)
+
+modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 0)
+modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 30)
+modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 60)
+modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 90)
+modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 120)
+modelEbola(k=5, f_tb=0.8, cmax = 100, t_iso = 150)
 
 # fiso = 0, 0.2...1; tb=0.2;
 # f_iso__f_tb0.2_qmaxN_ph0.6

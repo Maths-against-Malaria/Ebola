@@ -50,6 +50,13 @@ def q (pop, t, t_iso, qmax, Nerls, index):
             q = qmax/Q
     return q
 
+def fct (t, t_iso,fc):
+    if t < t_iso:
+        fct = 1
+    else:
+        fct = fc
+    return fct
+
 def c (pop, t, t_iso, cmax, Nerls, index, DT, DP, f_iso):
     if t < t_iso:
         c = 0
@@ -72,8 +79,8 @@ def c (pop, t, t_iso, cmax, Nerls, index, DT, DP, f_iso):
             c = cmax/C
     return c
 
-def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, Nerls, index):
-    ls0 =   betaP * (fiso * \
+def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, fc, Nerls, index):
+    ls0 =   fc * betaP * (fiso * \
                 popsum(pop=pop, compartment='P', script1='_', script2='_', Nerls=Nerls, index=index) + \
                 popsum(pop=pop, compartment='P', script1='s', script2='_', Nerls=Nerls, index=index)) + \
             betaIp * \
@@ -83,7 +90,7 @@ def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, Nerls, index):
             betaIh * (1-ph) * (1-q) * (
                 popsum(pop=pop, compartment='P', script1='t', script2='_', Nerls=Nerls, index=index) + \
                 popsum(pop=pop, compartment='I', script1='_', script2='i', Nerls=Nerls, index=index)) # infections of individuals who could be traced back
-    l =     betaP * (1 - fiso) * \
+    l =     fc*betaP * (1 - fiso) * \
                 popsum(pop=pop, compartment='P', script1='_', script2='_', Nerls=Nerls, index=index) + \
             betaIp * \
                 popsum(pop=pop, compartment='I', script1='_', script2='p', Nerls=Nerls, index=index) + \

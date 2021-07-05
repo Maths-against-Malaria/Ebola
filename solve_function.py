@@ -52,6 +52,7 @@ def modelEbola(
         cmax=cmax,
         d_h=d_h,
         d_p=d_p,
+        fc = fc,
         t_vac=t_vac,
         Nvac=Nvac,
         nameIn='',
@@ -90,6 +91,7 @@ def modelEbola(
            + str(cmax) + '_' \
            + str(d_h) + '_' \
            + str(d_p) + '_' \
+           + str(fc)  + '_' \
            + str(t_vac) + '_' \
            + str(Nvac) + '_' \
            + nameIn
@@ -117,11 +119,12 @@ def modelEbola(
 
         ## Values that change by time or population but are not differential equations
         # compute once per time and then use constants
+        fc_ = fct(t=t, t_iso=t_iso, fc=fc)
         f_phi_ = f_phi(t=t, k=k, t_iso=t_iso, f_p1=f_p1, f_h1=f_h1, f_p2=f_p2, f_h2=f_h2)
         q_ = q(pop=pop, t=t, t_iso=t_iso, qmax=qmax, Nerls=Nerls, index=index)
         c_ = c(pop=pop, t=t, t_iso=t_iso, cmax=cmax, Nerls=Nerls, index=index, DT=DT, DP=DP, f_iso=f_phi_[2])
         la__ = la(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,
-                  q=q_, c = c_, Nerls=Nerls, index=index)
+                  q=q_, c = c_, fc = fc_, Nerls=Nerls, index=index)
         # la__ = la_Aliou(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph, q=q_, Nerls=Nerls, index=index)
         # la__ = la_aliou2(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,q=q_, Nerls=Nerls, index=index)
 
