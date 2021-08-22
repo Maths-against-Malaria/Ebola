@@ -18,7 +18,7 @@ output desired ==> index : dictionary
 #from parameters_reinfection import *
 #from parameters_original import NE, NP, NI, NL
 import numpy as np
-from parameters_1 import *
+#from parameters_2 import *
 
 # Name: compartments
 # first index: _, t: tilde; s: star
@@ -49,4 +49,3 @@ def indexFunction(Nerls):
     #print(index)
     return index
 
-#print(indexFunction([2,3,5,7,11]))

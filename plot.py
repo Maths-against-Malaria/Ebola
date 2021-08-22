@@ -7,20 +7,20 @@ Created on Sat Dec 19 20:21:52 2020
 
 import matplotlib.pyplot as plt
 import numpy as np
-
+#import parameters_1
 
 from index import *
 
-Nerls=[NE, NP, NIp, NIh, NIi]
+
 #CD6700
 colsA = ["#000000", "#801980", "#59B3E6", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3"]
 lab = ['0.0', '0.2', '0.4', '0.6', '0.8', '1.0']
-index = indexFunction(Nerls)
+#index = indexFunction(Nerls)
 #pathIn = 'C:/Users/helle/PycharmProjects/ebola'
 pathIn = 'results'
 pathOut= 'plots'
 
-def popsum2d(pops, Nerls=Nerls):
+def popsum2d(pops, Nerls):
     index = indexFunction(Nerls)
     indexComp = [1, 1 + Nerls[0], 1 + 2*Nerls[0], 1 + 3*Nerls[0],
                     1 + 3*Nerls[0]+Nerls[1], 1 + 3*Nerls[0]+2*Nerls[1], 1 + 3*Nerls[0]+3*Nerls[1],
@@ -47,182 +47,63 @@ def popsum2d(pops, Nerls=Nerls):
     return popSum
 
 
-def getQ(pathIn, name, days=1500):
+def getQ(pathIn, name, i, days):
     path = pathIn + '/ebolaVar_'+ name + '.txt'
     q_  = np.loadtxt(path)
     q__ = np.delete(q_, np.where(q_ == [-1.00000000e+04, -1.00000000e+04]), axis=0)
-    q___ = np.interp(x=np.arange(days), xp=q__[:, 0], fp=q__[:, 1])
+    q___ = np.interp(x=np.arange(days), xp=q__[:, 0], fp=q__[:, i])
     return q___
 
-
-
-def plotEbola(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, lab=lab, type='all', q_max=False, Nerls=Nerls, legendtitle=''):
-
+def plotEbolaParameters(names, savename, Nerls, days, pathIn=pathIn, pathOut = pathOut, n=10, col=colsA):
     index = indexFunction(Nerls)
-    popSum0 = popsum2d(pops=np.loadtxt(pathIn + '/ebola_' + names[0] + '.txt'), Nerls=Nerls)
-    s = np.shape(popSum0)
-    if q_max == True:
-        q_ = np.empty(shape = [len(names),s[1]])
+    par_ji = getQ(pathIn=pathIn, name=names[1], i=1)
+    par = [[-10000 for i in np.arange(2)] for j in np.arange(days)]
+    for j in range(0, n):
+        par[j] = np.empty(shape = [len(names), days])#s[1]])
         for i in range(0, len(names)):
-            q_[i] = getQ(pathIn=pathIn, name = names[i])
-        if type == 'q':
-            for i in range(0,len(names)):
-                plt.plot(q_[i],color=col[i], label = lab[i],)
-            plt.ylim([-0.1,1.1])
-            plt.legend()
-            plt.ylabel('q')
-            plt.savefig (pathOut + '/Ebola_q_' + savename + '.pdf', dpi=100)
-            plt.show()
+            par[j][i] = getQ(pathIn=pathIn, name = names[i], i = j)
 
-    popSum = np.empty(shape = [len(names),s[0], s[1]])
-    popSum[0] = popSum0
-    for i in range(0,len(names)):
-        pops_i = np.loadtxt(pathIn + '/ebola_' + names[i] + '.txt')
-        #plt.plot(np.sum(pops_i, axis=0), color=col[i])
-        popSum[i] = popsum2d(pops_i, Nerls=Nerls)
+    fig = plt.figure()
+    fig.set_size_inches(12, 12)
 
-    #plt.show()
-    # total population (for test)
-    #for i in range(0, len(names)):
-    #    plt.plot(np.sum(popSum[i], axis =0), color=col[i])
-    #plt.show()
-    # Susceptible
-    if type == 'all' or type == 'S':
-        for i in range(0,len(names)):
-            plt.plot(popSum[i][0], label = lab[i], color=col[i])
-        plt.legend(title=legendtitle)
-        plt.ylabel('Susceptible ind.')
-        plt.savefig (pathOut + '/Ebola_S_' + savename + '.pdf', dpi=100)
-        plt.show()
+    p = fig.add_subplot(331)
+    for i in range(0, len(names)):
+        p.plot(par[0][i], color=col[i])
 
-    # Latent
-    if type == 'all' or type == 'E':
-        plt.plot(popSum[0][1], color=col[0], linestyle='-')
-        plt.plot(popSum[0][1], color=col[0], linestyle='-', label='never traced back')
-        plt.plot(popSum[0][3], color=col[0], linestyle='--', label='not yet traced back')
-        plt.plot(popSum[0][2], color=col[0], linestyle=':', label='traced back')
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][1], label=lab[i], color=col[i], linestyle='-')
-            plt.plot(popSum[i][2], color=col[i], linestyle=':')
-            plt.plot(popSum[i][3], color=col[i], linestyle='--')
-        plt.legend(title=legendtitle)
-        plt.ylabel('Latent ind.')
-        plt.savefig(pathOut + '/Ebola_E_' + savename + '.pdf', dpi=100)
-        plt.show()
-    # Podromal
-    if type == 'all' or type == 'P':
-        plt.plot(popSum[0][4], color=col[0], linestyle='-')
-        plt.plot(popSum[0][4], color=col[0], linestyle='-', label='never traced back')
-        plt.plot(popSum[0][6], color=col[0], linestyle='--', label='not yet traced back')
-        if q_max == True:
-            plt.plot(np.multiply(popSum[0][5], q_[0]), color=col[0], linestyle=':', label='traced back, in ward')
-            plt.plot(np.multiply(popSum[0][5], np.multiply(q_[0],-1)+1), color=col[0], linestyle='-.', label='traced back, not in ward')
-        else:
-            plt.plot(popSum[0][5], color=col[0], linestyle=':', label='traced back')
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][4], label=lab[i], color=col[i], linestyle='-')
-            plt.plot(popSum[i][6], color=col[i], linestyle='--')
-            if q_max == True:
-                plt.plot(np.multiply(popSum[i][5], q_[i]), color=col[i], linestyle=':')
-                plt.plot(np.multiply(popSum[i][5], np.multiply(q_[i],-1)+1), color=col[i], linestyle='-.')
-            else:
-                plt.plot(popSum[i][5], color=col[i], linestyle=':')
+    p = fig.add_subplot(332)
+    for i in range(0, len(names)):
+        p.plot(par[1][i], color=col[i])
 
-        plt.legend(title=legendtitle)
-        plt.ylabel('Podromal ind.')
-        plt.savefig(pathOut + '/Ebola_P_' + savename + '.pdf', dpi=100)
-        plt.show()
-    # Fully infected at home
-    if type == 'all' or type == 'Ip':
-        plt.plot(popSum[0][7], color=col[0], linestyle='-')
-        plt.plot(popSum[0][7], color=col[0], linestyle='-', label='never traced back')
-        plt.plot(popSum[0][11], color=col[0], linestyle='--', label='not yet traced back')
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][7], label=lab[i], color=col[i], linestyle='-')
-            plt.plot(popSum[i][11], color=col[i], linestyle=':')
-        plt.legend(title=legendtitle)
-        plt.ylabel('Fully inf. ind. at home')
-        plt.savefig(pathOut + '/Ebola_Ip_' + savename + '.pdf', dpi=100)
-        plt.show()
-    # Fully infected in hospital
-    if type == 'all' or type == 'Ih':
-        plt.plot(popSum[0][8], color=col[0], linestyle='-')
-        plt.plot(popSum[0][8], color=col[0], linestyle='-', label='never traced back')
-        plt.plot(popSum[0][10], color=col[0], linestyle='--', label='not yet traced back')
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][8], label=lab[i], color=col[i], linestyle='-')
-            plt.plot(popSum[i][10], color=col[i], linestyle=':')
-        plt.legend(title=legendtitle)
-        plt.ylabel('Fully inf. ind. in hospital')
-        plt.savefig(pathOut + '/Ebola_Ih_' + savename + '.pdf', dpi=100)
-        plt.show()
-    # Fully infected in isolation
-    if type == 'all' or type == 'Ii':
-        if q_max == True:
-            plt.plot(np.multiply(popSum[0][9], q_[0]), color=col[0], linestyle='-', label='in ward')
-            plt.plot(np.multiply(popSum[0][9], np.multiply(q_[0],-1)+1), color=col[0], linestyle='-.', label='traced back, not in ward')
-            for i in range(0, len(names)):
-                plt.plot(np.multiply(popSum[i][9], q_[i]), color=col[i], linestyle='-')
-                plt.plot(np.multiply(popSum[i][9], np.multiply(q_[i], -1) + 1), color=col[i], linestyle='-.')
-        if q_max == False:
-            plt.plot(popSum[0][9], label=lab[0], color=col[0], linestyle='-')
-            for i in range(0, len(names)):
-                plt.plot(popSum[i][9], label=lab[i], color=col[i], linestyle='-')
-        plt.ylim([-5,np.ndarray.max(popSum[:,9])*1.05])
-        plt.legend(title=legendtitle)
-        plt.ylabel('Fully inf. ind. in isolation')
-        plt.savefig(pathOut + '/Ebola_Ii_' + savename + '.pdf', dpi=100)
-        plt.show()
-    # Buried
-    if type == 'all' or type == 'B':
-        plt.plot(popSum[0][14], color=col[0], linestyle='-', label='unsafely')
-        plt.plot(popSum[0][13], color=col[0], linestyle='--', label='safely')
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][13], color=col[i], linestyle='--')
-            plt.plot(popSum[i][14], label=lab[i], color=col[i], linestyle='-')
-        plt.legend(title=legendtitle)
-        plt.ylabel('Buried ind.')
-        plt.savefig(pathOut + '/Ebola_B_' + savename + '.pdf', dpi=100)
-        plt.show()
-    # Unsafe funerals
-    if type == 'all' or type == 'F':
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][12], label=lab[i], color=col[i], linestyle='-')
-        plt.legend(title=legendtitle)
-        plt.ylabel('Unsafe funerals')
-        plt.savefig(pathOut + '/Ebola_F_' + savename + '.pdf', dpi=100)
-        plt.show()
-    # Recovered
-    if type == 'all' or type == 'R':
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][15], label=lab[i], color=col[i], linestyle='-')
-        plt.legend(title=legendtitle)
-        plt.ylabel('Recovered ind')
-        plt.savefig(pathOut + '/Ebola_R_' + savename + '.pdf', dpi=100)
-        plt.show()
+    p = fig.add_subplot(333)
+    for i in range(0, len(names)):
+        p.plot(par[2][i], color=col[i])
 
-    if type == 'all' or type == 'mix':
-        plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
-        plt.plot(np.sum(popSum[0][1:12], axis=0), label='infected (E+P+I)', color=col[0], linestyle='--')
-        plt.plot(np.sum(popSum[0][12:15], axis=0), label='dead (D+B)', color=col[0], linestyle=':')
-        for i in range(0, len(names)):
-            plt.plot(popSum[i][0] + popSum[i][15], label=lab[i],color=col[i], linestyle='-')
-            print('healthy ' + lab[i] + ': '+ str(round((popSum[i][0] + popSum[i][15])[-1])))
-            plt.plot(np.sum(popSum[i][1:12], axis=0), color=col[i], linestyle='--')
-            print('infected ' + lab[i] + ': ' + str(round(np.sum(popSum[i][1:12], axis=0)[-1])))
-            plt.plot(np.sum(popSum[i][12:15], axis=0), color=col[i], linestyle=':')
-            print('dead ' + lab[i] + ': ' + str(round(np.sum(popSum[i][12:15], axis=0)[-1])))
-        print('---------')
-        plt.legend(title=legendtitle)
-        plt.ylabel('Individuals')
-        plt.savefig(pathOut + '/Ebola_mix_' + savename + '.pdf', dpi=100)
-        plt.show()
-    return(savename)
+    p = fig.add_subplot(334)
+    for i in range(0, len(names)):
+        p.plot(par[3][i], color=col[i])
 
+    p = fig.add_subplot(335)
+    for i in range(0, len(names)):
+        p.plot(par[4][i], color=col[i])
 
-plt.rcParams['legend.framealpha'] = 0
+    p = fig.add_subplot(336)
+    for i in range(0, len(names)):
+        p.plot(par[5][i], color=col[i])
 
-def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, lab=lab, Nerls=Nerls, q_max=False, tb = True, legendout=True, maxdays=730):
+    p = fig.add_subplot(337)
+    for i in range(0, len(names)):
+        p.plot(par[6][i], color=col[i])
+
+    p = fig.add_subplot(338)
+    for i in range(0, len(names)):
+        p.plot(par[7][i], color=col[i])
+
+    p = fig.add_subplot(339)
+    for i in range(0, len(names)):
+        p.plot(par[8][i], color=col[i])
+    plt.show()
+
+def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=colsA, lab=lab, q_max=False, tb = True, legendout=True, maxdays=730):
     if legendout:
         plt.rcParams['legend.fontsize'] = 12
     plt.rcParams['axes.labelsize'] = 12
@@ -234,7 +115,7 @@ def plotEbolaAll(names, savename, pathIn=pathIn, pathOut = pathOut, col=colsA, l
     if q_max == True:
         q_ = np.empty(shape = [len(names),s[1]])
         for i in range(0, len(names)):
-            q_[i] = getQ(pathIn=pathIn, name = names[i])
+            q_[i] = getQ(pathIn=pathIn, name = names[i], i = 1)
 
     #popSum = np.empty(shape = [len(names),s[0], s[1]])
     #popSum[0] = popSum0

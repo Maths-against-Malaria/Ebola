@@ -5,8 +5,8 @@ Created on Fri Dec 11 16:13:23 2020
 @author: helle
 """
 
-from parameters_1 import *
-from index import *
+#from parameters_2 import *
+#from index import *
 import numpy as np
 
 
@@ -36,20 +36,6 @@ def popsum(pop, compartment, script1, script2, Nerls, index):
             x = x + pop[index[compartment + script1 + script2 + str(k)]]
     return x
 
-def q (pop, t, t_iso, qmax, Nerls, index):
-    if t < t_iso:
-        q = 0
-    else:
-        #print(index)
-        Q = (popsum(pop=pop, compartment ='P', script1='t', script2='_', Nerls=Nerls, index=index) + \
-             popsum(pop=pop, compartment ='I', script1='_', script2='i', Nerls=Nerls, index=index))
-        #print(Q)
-        if Q <= qmax:
-            q = 1
-        else:
-            q = qmax/Q
-    return q
-
 def fct (t, t_iso,fc):
     if t < t_iso:
         fct = 1
@@ -57,27 +43,54 @@ def fct (t, t_iso,fc):
         fct = fc
     return fct
 
-def c (pop, t, t_iso, cmax, Nerls, index, DT, DP, f_iso):
+def f_hom(t, b, t_iso, d_p1, d_p2):
+    if t < t_iso:
+        d_p = d_p1
+    else:
+        d_p = 1 - d_p2[b]
+    x = d_p
+    return x
+
+def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
+    if t <= t_iso:
+        f_p = f_p1
+        f_h = f_h1
+    else:
+        f_p = f_p2[k]
+        f_h = f_h2[k]
+    f_i = 1-(f_p + f_h)
+    x = [f_p, f_h, f_i]
+    return x
+
+def q (pop, t, t_iso, qmax, Nerls, index):
+    if t < t_iso:
+        q = 0
+    else:
+        Q = (popsum(pop=pop, compartment ='P', script1='t', script2='_', Nerls=Nerls, index=index) + \
+             popsum(pop=pop, compartment ='I', script1='_', script2='i', Nerls=Nerls, index=index))
+        if Q <= qmax:
+            q = 1
+        else:
+            q = qmax/Q
+    return q
+
+def c (pop, t, t_iso, cmax, Nerls, index, FT, FP, NP, f_iso):
     if t < t_iso:
         c = 0
+        C = 0
     else:
-        #print(index)
-        C = DT * (
-            1/DP * (
-                f_iso * (
-                    pop[index['P__' + str(NP)]] + pop[index['Ps_' + str(NP)]]) +
-                pop[index['Pt_' + str(NP)]]) +
-            1/DT * (
-                popsum(pop=pop, compartment='I', script1='s', script2='p', Nerls=Nerls, index=index) +
-                popsum(pop=pop, compartment='I', script1='s', script2='h', Nerls=Nerls, index=index)
-            )
-        )
-        #print(Q)
+        C = 1/FT * (
+                FP * (
+                    f_iso * (
+                        pop[index['P__' + str(NP)]] + pop[index['Ps_' + str(NP)]]) +
+                    pop[index['Pt_' + str(NP)]])) +\
+            popsum(pop=pop, compartment='I', script1='s', script2='p', Nerls=Nerls, index=index) +\
+            popsum(pop=pop, compartment='I', script1='s', script2='h', Nerls=Nerls, index=index)
         if C <= cmax:
             c = 1
         else:
             c = cmax/C
-    return c
+    return [c,C]
 
 def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, fc, Nerls, index):
     ls0 =   fc * betaP * (fiso * \
@@ -90,61 +103,28 @@ def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, fc, Nerls, index
             betaIh * (1-ph) * (1-q) * (
                 popsum(pop=pop, compartment='P', script1='t', script2='_', Nerls=Nerls, index=index) + \
                 popsum(pop=pop, compartment='I', script1='_', script2='i', Nerls=Nerls, index=index)) # infections of individuals who could be traced back
-    l =     fc*betaP * (1 - fiso) * \
+    l =     fc * betaP * (1 - fiso) * \
                 popsum(pop=pop, compartment='P', script1='_', script2='_', Nerls=Nerls, index=index) + \
             betaIp * \
                 popsum(pop=pop, compartment='I', script1='_', script2='p', Nerls=Nerls, index=index) + \
             betaIh * \
                 popsum(pop=pop, compartment='I', script1='_', script2='h', Nerls=Nerls, index=index) + \
             betaF * pop[index['F__']] + \
-            (1-f_tb * c) * ls0 # infections not traced back
+            (1 - f_tb * c) * ls0 # infections not traced back
     ls =    f_tb * c * ls0 # infections that are traced back
     return [l, ls]
-
-def la_aliou2(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, Nerls, index):
-    l =     betaP *  \
-                popsum(pop=pop, compartment='P', script1='_', script2='_', Nerls=Nerls, index=index) + \
-            betaIp * \
-                popsum(pop=pop, compartment='I', script1='_', script2='p', Nerls=Nerls, index=index) + \
-            betaIh * \
-                popsum(pop=pop, compartment='I', script1='_', script2='h', Nerls=Nerls, index=index) + \
-            betaF * pop[index['F__']]
-    ls =    0
-    return [l, ls]
-
-def la_Aliou(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, Nerls, index):
-    ls =   f_tb * betaP * (fiso * \
-                popsum(pop=pop, compartment='P', script1='_', script2='_', Nerls=Nerls, index=index) + \
-                popsum(pop=pop, compartment='P', script1='s', script2='_', Nerls=Nerls, index=index)) + \
-            betaIp * \
-                popsum(pop=pop, compartment='I', script1='s', script2='p', Nerls=Nerls, index=index)  + \
-            betaIh * \
-                popsum(pop=pop, compartment='I', script1='s', script2='h', Nerls=Nerls, index=index)
-    l =     (1-f_tb) * betaP * (1 - fiso) * \
-                popsum(pop=pop, compartment='P', script1='_', script2='_', Nerls=Nerls, index=index) + \
-            betaIp * \
-                popsum(pop=pop, compartment='I', script1='_', script2='p', Nerls=Nerls, index=index) + \
-            betaIh * \
-                popsum(pop=pop, compartment='I', script1='_', script2='h', Nerls=Nerls, index=index) + \
-            betaF * pop[index['F__']]
-
-    return [l, ls]
-
 
 def lt(la, ls):
     lt = la + ls
     return lt
 
-def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
-    if t <= t_iso:
-        f_p = f_p1
-        f_h = f_h1
-    else:
-        f_p = f_p2[k]
-        f_h = f_h2[k]
-    f_i = 1-(f_p + f_h)
-    x = [f_p, f_h, f_i]
+def vac(pop, index, t, t_vac, Nvac):
+    if t <= t_vac:
+        x = 0
+    if t > t_vac:
+        x = min(pop[index['S__']], Nvac)
     return x
+
 '''
 
 def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
@@ -166,16 +146,7 @@ def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
     f_i = 1-(f_p + f_h)
     x = [f_p, f_h, f_i]
     return x
-'''
-def vac(pop, index, t, t_vac, Nvac):
-    if t <= t_vac:
-        x = 0
-    if t > t_vac:
-        x = min(pop[index['S__']], Nvac)
-    return x
-
-
-'''    
+   
 # test: f_phi
     print(f_phi(300, 0))
     print(f_phi(300, 1))
