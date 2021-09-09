@@ -2,6 +2,7 @@
 from plot import *
 from plotnames2 import *
 
+'''
 # -------------- fiso -----------------------
 
 plotEbolaAll(names=names_fiso_1, savename='fiso_1',Nerls = [1,1,1,1,1],
@@ -45,3 +46,8 @@ plotEbolaAll(names=names_d_1, savename='d_1',Nerls = [1,1,1,1,1],
 plotEbolaAll(names=names_d_16, savename='d_16',Nerls = [16,16,16,16,16],
              lab=['d_p = 0','d_p = 0.1','d_p = 0.2','d_p = 0.3','d_p = 0.4','d_p = 0.5'],
              col=colsA, q_max=False, tb=True)
+
+'''
+plotEbolaAll(names=names_d, savename='d_',Nerls = [16,16,16,16,16],
+             lab=['d_p = 0.1','d_p = 0.2','d_p = 0.4','d_p = 0.6','d_p = 0.8'],
+             col=colsA, q_max=False, tb=True, days = 1000)

@@ -1,7 +1,7 @@
 # duration of simulation, in days
 days = 1000
 # number of Erlang stages for the compartments (compartment names below)
-NE = NP = NIp = NIh = NIi = 1
+NE = NP = NIp = NIh = NIi = 16
 
 # initial population
 N = 10_000
@@ -61,8 +61,11 @@ qmax = N
 cmax = N/100
 
 # probability of safe funeral for those dying
-d_p = 0.5  # at home
-d_h = 0.75  # in hospital (no isolation)
+d_p1 = 0.0  # at home
+d_h1 = 0.1  # in hospital (no isolation)
+d_p2 = [0.1, 0.2, 0.4, 0.6, 0.8]  # at home
+d_h2 = [0.2, 0.4, 0.6, 0.9, 0.95]  # in hospital (no isolation)
+l = 0
 
 # vaccination
 # start date

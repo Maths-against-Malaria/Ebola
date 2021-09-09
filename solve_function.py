@@ -45,12 +45,15 @@ def modelEbola(
         f_p2=f_p2,
         f_h2=f_h2,
         k=k,
+        d_p1=d_p1,
+        d_h1=d_h1,
+        d_p2=d_p2,
+        d_h2=d_h2,
+        l=l,
         f_tb=f_tb,
         ph=ph,
         qmax=qmax,
         cmax=cmax,
-        d_h=d_h,
-        d_p=d_p,
         fc = fc,
         t_vac=t_vac,
         Nvac=Nvac,
@@ -83,19 +86,21 @@ def modelEbola(
            + str(f_p2) + '_' \
            + str(f_h2) + '_' \
            + str(k) + '_' \
+           + str(l) + '_' \
            + str(f_tb) + '_' \
            + str(ph) + '_' \
            + str(qmax) + '_' \
            + str(cmax) + '_' \
-           + str(d_h) + '_' \
-           + str(d_p) + '_' \
            + str(fc)  + '_' \
            + str(t_vac) + '_' \
            + str(Nvac) + '_' \
            + nameIn
 
     print("'" + name + "',")
-
+    #     + str(d_p1) + '_' \
+    #     + str(d_h1) + '_' \
+    #     + str(d_p2) + '_' \
+    #     + str(d_h2) + '_' \
     # compute values that do not change by time (or population)
     Nerls = [NE, NP, NIp, NIh, NIi]
     index = indexFunction(Nerls)
@@ -127,6 +132,7 @@ def modelEbola(
         # compute once per time and then use constants
         fc_ = fct(t=t, t_iso=t_iso, fc=fc)
         f_phi_ = f_phi(t=t, k=k, t_iso=t_iso, f_p1=f_p1, f_h1=f_h1, f_p2=f_p2, f_h2=f_h2)
+        d_ph_ = d_ph(t=t, l=l, t_iso=t_iso, d_p1=d_p1, d_h1=d_h1, d_p2=d_p2, d_h2=d_h2)
         q_ = q(pop=pop, t=t, t_iso=t_iso, qmax=qmax, Nerls=Nerls, index=index)
         cc = c(pop=pop, t=t, t_iso=t_iso, cmax=cmax, Nerls=Nerls, index=index, FT=FT, FP=FP, NP = NP, f_iso=f_phi_[2])
         c_ = cc[0]
@@ -138,6 +144,7 @@ def modelEbola(
         # la__ = la(f_phi_[2], f_tb, pop, betaP, betaIp, betaIh, betaF)
         la_ = la__[0]
         ls_ = la__[1]  # ls(f_phi_[2], pop, betaP, betaIp, betaIh)
+        lt_ = lt(la=la_, ls=ls_)
         lt_ = lt(la=la_, ls=ls_)
 
         vac_ = vac(pop=pop, index=index, t=t,t_vac=t_vac, Nvac=Nvac)
@@ -224,11 +231,11 @@ def modelEbola(
         out[index['R__']] = dR(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, fdead_i=fdead_i, FI=FI, NIp=NIp, NIh=NIh,
                                NIi=NIi, index=index, vac=vac_)
 
-        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, FI=FI, FF=FF, NIp=NIp, NIh=NIh, index=index, d_h=d_h, d_p=d_p)
+        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, FI=FI, FF=FF, NIp=NIp, NIh=NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0])
 
         out[index['B_f']] = dB_f(pop=pop, FF=FF, index=index)
 
-        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i, FI=FI, NIi=NIi, NIp=NIp, NIh = NIh, index=index, d_h=d_h, d_p=d_p, fdead_h=fdead_h, fdead_p=fdead_p)
+        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i, FI=FI, NIi=NIi, NIp=NIp, NIh = NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0], fdead_h=fdead_h, fdead_p=fdead_p)
 
         # return
         return out

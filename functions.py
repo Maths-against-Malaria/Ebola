@@ -42,13 +42,24 @@ def fct (t, t_iso,fc):
     else:
         fct = fc
     return fct
-
+'''
 def f_hom(t, b, t_iso, d_p1, d_p2):
     if t < t_iso:
         d_p = d_p1
     else:
         d_p = 1 - d_p2[b]
     x = d_p
+    return x
+'''
+
+def d_ph(t, l, t_iso, d_p1, d_h1, d_p2, d_h2):
+    if t <= t_iso:
+        d_p = d_p1
+        d_h = d_h1
+    else:
+        d_p = d_p2[l]
+        d_h = d_h2[l]
+    x = [d_p, d_h]
     return x
 
 def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):

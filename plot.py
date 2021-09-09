@@ -61,7 +61,7 @@ def plotEbolaParameters(names, savename, Nerls, days, pathIn=pathIn, pathOut = p
     for j in range(0, n):
         par[j] = np.empty(shape = [len(names), days])#s[1]])
         for i in range(0, len(names)):
-            par[j][i] = getQ(pathIn=pathIn, name = names[i], i = j)
+            par[j][i] = getQ(pathIn=pathIn, name = names[i], i = j, days = days)
 
     fig = plt.figure()
     fig.set_size_inches(12, 12)
@@ -103,19 +103,19 @@ def plotEbolaParameters(names, savename, Nerls, days, pathIn=pathIn, pathOut = p
         p.plot(par[8][i], color=col[i])
     plt.show()
 
-def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=colsA, lab=lab, q_max=False, tb = True, legendout=True, maxdays=730):
+def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=colsA, lab=lab, q_max=False, tb = True, legendout=True, days=1000):
     if legendout:
         plt.rcParams['legend.fontsize'] = 12
     plt.rcParams['axes.labelsize'] = 12
     index = indexFunction(Nerls)
     popSum0 = popsum2d(pops=np.loadtxt(pathIn + '/ebola_' + names[0] + '.txt'), Nerls=Nerls)
     s = np.shape(popSum0)
-    s1 = int(max(s[1], maxdays))
+    s1 = int(max(s[1], days))
     print(s)
     if q_max == True:
         q_ = np.empty(shape = [len(names),s[1]])
         for i in range(0, len(names)):
-            q_[i] = getQ(pathIn=pathIn, name = names[i], i = 1)
+            q_[i] = getQ(pathIn=pathIn, name = names[i], i = 1, days = s1)
 
     #popSum = np.empty(shape = [len(names),s[0], s[1]])
     #popSum[0] = popSum0

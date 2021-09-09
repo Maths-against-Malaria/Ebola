@@ -51,9 +51,8 @@ modelEbola(f_tb=0.8, d_p = 0, d_h = 0, cmax = N)
 '''
 
 # d_p, d_h;
-modelEbola(f_tb=0.8, d_p = 0, d_h = 0)
-modelEbola(f_tb=0.8, d_p = 0.1, d_h = 0.2)
-modelEbola(f_tb=0.8, d_p = 0.2, d_h = 0.4)
-modelEbola(f_tb=0.8, d_p = 0.3, d_h = 0.6)
-modelEbola(f_tb=0.8, d_p = 0.4, d_h = 0.8)
-modelEbola(f_tb=0.8, d_p = 0.5, d_h = 1)
+modelEbola(f_tb=0.8, l=0)
+modelEbola(f_tb=0.8, l=1)
+modelEbola(f_tb=0.8, l=2)
+modelEbola(f_tb=0.8, l=3)
+modelEbola(f_tb=0.8, l=4)
