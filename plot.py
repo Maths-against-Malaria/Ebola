@@ -115,7 +115,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
     if q_max == True:
         q_ = np.empty(shape = [len(names),s[1]])
         for i in range(0, len(names)):
-            q_[i] = getQ(pathIn=pathIn, name = names[i], i = 1, days = s1)
+            q_[i] = getQ(pathIn=pathIn, name = names[i], i = 1, days = days)
 
     #popSum = np.empty(shape = [len(names),s[0], s[1]])
     #popSum[0] = popSum0

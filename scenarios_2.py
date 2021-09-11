@@ -18,41 +18,63 @@ from solve_function import *
 # in parameters set  NE = 1, NP = 1, NIp = 1, NIh = 1, NIi = 1
 
 '''
-# fiso = 0, 0.2...1; f_tb=0; d_ = 0
-modelEbola(k=0, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(k=1, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(k=2, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(k=3, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(k=4, f_tb=0, d_p = 0, d_h = 0)
-'''
-'''
-#tiso = 0, 60, 120, 180, 240, 300; fiso = 0.8, f_tb = 0, d_ = 0
-modelEbola(t_iso = 0, k=4, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(t_iso = 60, k=4, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(t_iso = 120, k=4, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(t_iso = 180, k=4, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(t_iso = 240, k=4, f_tb=0, d_p = 0, d_h = 0)
-modelEbola(t_iso = 300, k=4, f_tb=0, d_p = 0, d_h = 0)
-'''
-'''
-# f_tb=0, 0.2, ...; fiso = 0.8; d_ = 0
-modelEbola(f_tb=0, d_p = 0, d_h = 0)
-modelEbola(f_tb=0.2, d_p = 0, d_h = 0)
-modelEbola(f_tb=0.4, d_p = 0, d_h = 0)
-modelEbola(f_tb=0.6, d_p = 0, d_h = 0)
-modelEbola(f_tb=0.8, d_p = 0, d_h = 0)
-''''''
-# cmax=N/10000, N/1000,...; fiso = 0.8; d_ = 0
-modelEbola(f_tb=0.8, d_p = 0, d_h = 0, cmax = N/10000)
-modelEbola(f_tb=0.8, d_p = 0, d_h = 0, cmax = N/1000)
-modelEbola(f_tb=0.8, d_p = 0, d_h = 0, cmax = N/100)
-modelEbola(f_tb=0.8, d_p = 0, d_h = 0, cmax = N/10)
-modelEbola(f_tb=0.8, d_p = 0, d_h = 0, cmax = N)
-'''
+# no countermeasures
+modelEbola(k = 0, f_tb = 0, l = 0)
 
-# d_p, d_h;
-modelEbola(f_tb=0.8, l=0)
-modelEbola(f_tb=0.8, l=1)
-modelEbola(f_tb=0.8, l=2)
-modelEbola(f_tb=0.8, l=3)
-modelEbola(f_tb=0.8, l=4)
+# fiso...f_tb=0; d_ = 0
+modelEbola(k = 1, f_tb = 0, l = 0)
+modelEbola(k = 2, f_tb = 0, l = 0)
+modelEbola(k = 3, f_tb = 0, l = 0)
+modelEbola(k = 4, f_tb = 0, l = 0)
+
+# fiso...; f_tb=0.8; d_ = 0
+modelEbola(k = 1, f_tb = 0.8, l = 0)
+modelEbola(k = 2, f_tb = 0.8, l = 0)
+modelEbola(k = 3, f_tb = 0.8, l = 0)
+modelEbola(k = 4, f_tb = 0.8, l = 0)
+'''
+# qmax
+modelEbola(k = 3, f_tb = 0.8, l = 0, qmax = 0)
+modelEbola(k = 3, f_tb = 0.8, l = 0, qmax = 20)
+modelEbola(k = 3, f_tb = 0.8, l = 0, qmax = 40)
+modelEbola(k = 3, f_tb = 0.8, l = 0, qmax = 60)
+modelEbola(k = 3, f_tb = 0.8, l = 0, qmax = 80)
+modelEbola(k = 3, f_tb = 0.8, l = 0, qmax = 100)
+'''
+# ftb
+modelEbola(k = 3, f_tb = 0.0, l = 0)
+modelEbola(k = 3, f_tb = 0.2, l = 0)
+modelEbola(k = 3, f_tb = 0.4, l = 0)
+modelEbola(k = 3, f_tb = 0.6, l = 0)
+modelEbola(k = 3, f_tb = 0.6, l = 0)
+
+
+modelEbola(k = 3, f_tb = 0.6, l = 0, cmax = 0)
+modelEbola(k = 3, f_tb = 0.6, l = 0, cmax = 5)
+modelEbola(k = 3, f_tb = 0.6, l = 0, cmax = 10)
+modelEbola(k = 3, f_tb = 0.6, l = 0, cmax = 15)
+modelEbola(k = 3, f_tb = 0.6, l = 0, cmax = 20)
+
+
+modelEbola(k = 3, f_tb = 0.6, l = 0, cmax = 10)
+modelEbola(k = 3, f_tb = 0.6, l = 1, cmax = 10)
+modelEbola(k = 3, f_tb = 0.6, l = 2, cmax = 10)
+modelEbola(k = 3, f_tb = 0.6, l = 3, cmax = 10)
+modelEbola(k = 3, f_tb = 0.6, l = 4, cmax = 10)
+modelEbola(k = 3, f_tb = 0.6, l = 5, cmax = 10)
+
+modelEbola(k = 1, f_tb = 0, l = 0)
+modelEbola(k = 1, f_tb = 0, l = 1)
+modelEbola(k = 1, f_tb = 0, l = 2)
+modelEbola(k = 1, f_tb = 0, l = 3)
+modelEbola(k = 1, f_tb = 0, l = 4)
+modelEbola(k = 1, f_tb = 0, l = 5)
+
+modelEbola(k = 3, f_tb = 0.6, l = 3, cmax = 10, t_iso = 150)
+modelEbola(k = 3, f_tb = 0.6, l = 3, cmax = 10, t_iso = 120)
+modelEbola(k = 3, f_tb = 0.6, l = 3, cmax = 10, t_iso = 90)
+modelEbola(k = 3, f_tb = 0.6, l = 3, cmax = 10, t_iso = 60)
+modelEbola(k = 3, f_tb = 0.6, l = 3, cmax = 10, t_iso = 30)
+modelEbola(k = 3, f_tb = 0.6, l = 3, cmax = 10, t_iso = 0)
+
+'''

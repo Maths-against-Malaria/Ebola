@@ -1,5 +1,5 @@
 # duration of simulation, in days
-days = 1000
+days = 365
 # number of Erlang stages for the compartments (compartment names below)
 NE = NP = NIp = NIh = NIi = 16
 
@@ -32,7 +32,7 @@ P0 = 25
 
 # countermeasures
 # day when isolation starts
-t_iso = 120
+t_iso = 90
 
 # general reduction of contact with sick
 fc = 1 # 0.2
@@ -42,8 +42,8 @@ f_p1 = 0.5
 f_h1 = 0.5
 
 # fraction at home, in hospital, in isolation after this day (4 scenarios provided)
-f_p2 = [0.5, 0.5, 0.5, 0.3, 0.1, 0.1]
-f_h2 = [0.5, 0.3, 0.1, 0.1, 0.1, 0]
+f_p2 = [0.5, 0.5, 0.5, 0.3, 0.1]
+f_h2 = [0.5, 0.3, 0.1, 0.1, 0.1]
 
 # index of the scenario from the ones above
 k = 4
@@ -55,17 +55,17 @@ f_tb = 0.8
 ph = 0.8
 
 # capacity of isolation wards
-qmax = N
+qmax = N/400
 
 # capacity for trace back
-cmax = N/100
+cmax = N/400
 
 # probability of safe funeral for those dying
 d_p1 = 0.0  # at home
-d_h1 = 0.1  # in hospital (no isolation)
-d_p2 = [0.1, 0.2, 0.4, 0.6, 0.8]  # at home
-d_h2 = [0.2, 0.4, 0.6, 0.9, 0.95]  # in hospital (no isolation)
-l = 0
+d_h1 = 0.0  # in hospital (no isolation)
+d_p2 = [0.0, 0.1, 0.2, 0.4, 0.6, 0.8]  # at home
+d_h2 = [0.0, 0.2, 0.4, 0.6, 0.9, 0.95]  # in hospital (no isolation)
+l = 4
 
 # vaccination
 # start date
