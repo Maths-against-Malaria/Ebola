@@ -139,6 +139,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
         p.legend()
     p.set_ylabel('Susceptible ind.')
     p.set_title(label='A.', loc='left')
+    p.set_ylim(bottom=0)
 
     # Latent
     p = fig.add_subplot(332)
@@ -156,6 +157,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
             p.plot(popSum[i][3], color=col[i], linestyle='--')
     p.set_ylabel('Latent ind.')
     p.set_title(label='B.', loc='left')
+    p.set_ylim(bottom=0)
 
     # Podromal
     p = fig.add_subplot(333)
@@ -201,6 +203,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
             p.plot(popSum[i][6], color=col[i], linestyle='--')
     p.set_ylabel('Podromal ind.')
     p.set_title(label='C.', loc='left')
+    p.set_ylim(bottom=0)
 
     # Fully infected at home
     p = fig.add_subplot(334)
@@ -215,6 +218,8 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
             p.plot(popSum[i][11], color=col[i], linestyle='--')
     p.set_ylabel('Fully inf. ind. at home')
     p.set_title(label='D.', loc='left')
+    p.set_ylim(bottom=0)
+
     # Fully infected in hospital
     p = fig.add_subplot(335)
     if tb == True:
@@ -228,6 +233,8 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
             p.plot(popSum[i][10], color=col[i], linestyle=':')
     p.set_ylabel('Fully inf. ind. in hospital')
     p.set_title(label='E.', loc='left')
+    p.set_ylim(bottom=0)
+
     # Fully infected in isolation
     p = fig.add_subplot(336)
     if q_max == True:
@@ -247,6 +254,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
     #p.ylim([-5, np.ndarray.max(popSum[:, 9]) * 1.05])
     p.set_ylabel('Fully inf. ind. in isolation')
     p.set_title(label='F.', loc='left')
+    p.set_ylim(bottom=0)
 
     # Unsafe funerals
     p = fig.add_subplot(337)
@@ -254,6 +262,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
         p.plot(popSum[i][12], label=lab[i], color=col[i], linestyle='-')
     p.set_ylabel('Unsafe funerals')
     p.set_title(label='G.', loc='left')
+    p.set_ylim(bottom=0)
 
     # Buried
     p = fig.add_subplot(338)
@@ -267,6 +276,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
         p.plot(popSum[i][14], label=lab[i], color=col[i], linestyle='-')
     p.set_ylabel('Buried ind.')
     p.set_title(label='H.', loc='left')
+    p.set_ylim(bottom=0)
 
     # Recovered
     p = fig.add_subplot(339)
@@ -274,6 +284,7 @@ def plotEbolaAll(names, savename, Nerls, pathIn=pathIn, pathOut = pathOut, col=c
         p.plot(popSum[i][15], label=lab[i], color=col[i], linestyle='-')
     p.set_ylabel('Recovered ind')
     p.set_title(label='I.', loc='left')
+    p.set_ylim(bottom=0)
 
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=None)
     #plt.tight_layout()

@@ -12,7 +12,7 @@ Created on Fri Dec 18 15:03:23 2020
 import numpy as np
 from scipy.integrate import solve_ivp
 
-from parameters_2 import *  # basic scenario (all parameters)
+from parameters_3 import *  # basic scenario (all parameters)
 from index import *
 from functions import *
 from differential_equations import *
@@ -33,6 +33,7 @@ def modelEbola(
         fdead_p=fdead_p,
         fdead_h=fdead_h,
         fdead_i=fdead_i,
+        m = m,
         R0=R0,
         cP=cP,
         cI=cI,
@@ -40,6 +41,7 @@ def modelEbola(
         cF=cF,
         P0=P0,  # P(0)
         t_iso=t_iso,
+        I_iso = I_iso,
         f_p1=f_p1,
         f_h1=f_h1,
         f_p2=f_p2,
@@ -74,6 +76,7 @@ def modelEbola(
            + str(fdead_p) + '_' \
            + str(fdead_h) + '_' \
            + str(fdead_i) + '_' \
+           + str(m) + '_' \
            + str(R0) + '_' \
            + str(cP) + '_' \
            + str(cI) + '_' \
@@ -81,6 +84,7 @@ def modelEbola(
            + str(cF) + '_' \
            + str(P0) + '_' \
            + str(t_iso) + '_' \
+           + str(I_iso) + '_' \
            + str(f_p1) + '_' \
            + str(f_h1) + '_' \
            + str(f_p2) + '_' \
@@ -130,11 +134,18 @@ def modelEbola(
 
         ## Values that change by time or population but are not differential equations
         # compute once per time and then use constants
-        fc_ = fct(t=t, t_iso=t_iso, fc=fc)
-        f_phi_ = f_phi(t=t, k=k, t_iso=t_iso, f_p1=f_p1, f_h1=f_h1, f_p2=f_p2, f_h2=f_h2)
-        d_ph_ = d_ph(t=t, l=l, t_iso=t_iso, d_p1=d_p1, d_h1=d_h1, d_p2=d_p2, d_h2=d_h2)
-        q_ = q(pop=pop, t=t, t_iso=t_iso, qmax=qmax, Nerls=Nerls, index=index)
-        cc = c(pop=pop, t=t, t_iso=t_iso, cmax=cmax, Nerls=Nerls, index=index, FT=FT, FP=FP, NP = NP, f_iso=f_phi_[2])
+        t_iso_ = t_iso
+        if (t < t_iso):
+            if popsum(pop=pop, compartment ='I', script1='_', script2='h', Nerls=Nerls, index=index) >= I_iso:
+                t_iso_ = t-1
+        fdead_i_ = fdead_i[m]
+        fdead_h_ = fdead_h[m]
+        fdead_p_ = fdead_p[m]
+        fc_ = fct(t=t, t_iso=t_iso_, fc=fc)
+        f_phi_ = f_phi(t=t, k=k, t_iso=t_iso_, f_p1=f_p1, f_h1=f_h1, f_p2=f_p2, f_h2=f_h2)
+        d_ph_ = d_ph(t=t, l=l, t_iso=t_iso_, d_p1=d_p1, d_h1=d_h1, d_p2=d_p2, d_h2=d_h2)
+        q_ = q(pop=pop, t=t, t_iso=t_iso_, qmax=qmax, Nerls=Nerls, index=index)
+        cc = c(pop=pop, t=t, t_iso=t_iso_, cmax=cmax, Nerls=Nerls, index=index, FT=FT, FP=FP, NP = NP, f_iso=f_phi_[2])
         c_ = cc[0]
         la__ = la(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,
                   q=q_, c = c_, fc = fc_, Nerls=Nerls, index=index)
@@ -228,14 +239,14 @@ def modelEbola(
             out[index['I_i' + str(i)]] = dI_ik(pop=pop, j=i, FI=FI, FT=FT, index=index)
 
         # Recovered, Dead
-        out[index['R__']] = dR(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, fdead_i=fdead_i, FI=FI, NIp=NIp, NIh=NIh,
+        out[index['R__']] = dR(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, fdead_i=fdead_i_, FI=FI, NIp=NIp, NIh=NIh,
                                NIi=NIi, index=index, vac=vac_)
 
-        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p, fdead_h=fdead_h, FI=FI, FF=FF, NIp=NIp, NIh=NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0])
+        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, FI=FI, FF=FF, NIp=NIp, NIh=NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0])
 
         out[index['B_f']] = dB_f(pop=pop, FF=FF, index=index)
 
-        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i, FI=FI, NIi=NIi, NIp=NIp, NIh = NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0], fdead_h=fdead_h, fdead_p=fdead_p)
+        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i_, FI=FI, NIi=NIi, NIp=NIp, NIh = NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0], fdead_h=fdead_h_, fdead_p=fdead_p_)
 
         # return
         return out

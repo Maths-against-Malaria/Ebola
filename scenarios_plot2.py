@@ -40,8 +40,22 @@ plotEbolaAll(names=names_d2, savename='d_tb0',Nerls = [16,16,16,16,16],
 plotEbolaAll(names=names_tiso, savename='tiso',Nerls = [16,16,16,16,16],
              lab=['t_iso=150','t_iso=120','t_iso=90','t_iso=60','t_iso=30', 't_iso=0'],
              col=colsA, q_max=False, tb=True)
-'''
+
 # --------- all ----------------------
 plotEbolaAll(names=names0 + [names_fiso[2]] + [names_ftb[3]] + [names_cmax[2]] + [names_d[3]] + [names_tiso[3]], savename='all',Nerls = [16,16,16,16,16],
              lab=['none','f_iso = 0.4','f_tb = 0.6','cmax = 10','d = 0.4', 't_iso = 60'],
              col=colsA, q_max=False, tb=True)
+
+plotEbolaAll(names=names3_base, savename='base3',Nerls = [16,16,16,16,16],
+             lab=['m=0','m=1'],
+             col=colsA, q_max=False, tb=True)
+
+plotEbolaAll(names=names3_tiso_m1, savename='base3',Nerls = [16,16,16,16,16],
+             lab=['tiso = 7','tiso = 14','tiso = 21','tiso = 28',],
+             col=colsA, q_max=False, tb=True)
+'''
+plotEbolaAll(names=names3_tiso, savename='base3_Iiso',Nerls = [16,16,16,16,16],
+             lab=['I_iso = 10','I_iso = 20','I_iso = 30','I_iso = 40','I_iso = 50',],
+             col=colsA, q_max=False, tb=True)
+
+
