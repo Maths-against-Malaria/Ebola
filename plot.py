@@ -540,8 +540,10 @@ def plotEbolaScenarios(namesAllScenarios, savename, Nerls, pathIn=pathIn, pathOu
     plt.rcParams['legend.fontsize'] = 12
     plt.rcParams['axes.labelsize'] = 12
 
+    # M sets of scenarios
     M = len(namesAllScenarios)
-    fig.set_size_inches(12, M * 4)
+    #fig.set_size_inches(12, M * 4)
+    fig.set_size_inches(12, 12)
 
     alphabet = []
     for letter in range(65, 91):
@@ -566,7 +568,7 @@ def plotEbolaScenarios(namesAllScenarios, savename, Nerls, pathIn=pathIn, pathOu
         for i in range(0, len(names)):
             p.plot(popSum[i][0], label= r'$f_{iso} = $' + lab[i], color=col[i], linestyle='-')
         if m == 0:
-            #p.legend(bbox_to_anchor=(-0.05, -4.8, 3.9, 1), loc="upper center", mode="expand", ncol=5)
+            #p.legend(bbox_to_anchor=(-0.05, -4.9, 3.9, 1), loc="upper center", mode="expand", ncol=5)
             p.legend(bbox_to_anchor=(-0.05, -4.9, 3.9, 1), loc="upper center", mode="expand", ncol=5)
 
         p.set_ylabel('Susceptible ind.')
