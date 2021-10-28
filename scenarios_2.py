@@ -91,9 +91,70 @@ modelEbola(m=1, t_iso = 7)
 modelEbola(m=1, t_iso = 14)
 modelEbola(m=1, t_iso = 21)
 modelEbola(m=1, t_iso = 28)
+
+modelEbola(m=1, I_iso = 14)
+modelEbola(m=1, I_iso = 28)
+modelEbola(m=1, I_iso = 42)
+modelEbola(m=1, I_iso = 56)
+modelEbola(m=1, I_iso = 70)
+
 '''
-modelEbola(m=1, t_iso = 14)
-modelEbola(m=1, t_iso = 28)
-modelEbola(m=1, t_iso = 42)
-modelEbola(m=1, t_iso = 56)
-modelEbola(m=1, t_iso = 70)
+'''
+# ASTMH poster Nov 2021
+#days= 365, t_iso = 30
+# only isolation
+modelEbola(k=0)
+modelEbola(k=1)
+modelEbola(k=2)
+modelEbola(k=3)
+modelEbola(k=4)
+
+# combined with traceback
+modelEbola(k=0, f_tb =0.6)
+modelEbola(k=1, f_tb =0.6)
+modelEbola(k=2, f_tb =0.6)
+modelEbola(k=3, f_tb =0.6)
+modelEbola(k=4, f_tb =0.6)
+
+# combined with safe funeral
+modelEbola(k=0, f_tb =0.6, l=1)
+modelEbola(k=1, f_tb =0.6, l=1)
+modelEbola(k=2, f_tb =0.6, l=1)
+modelEbola(k=3, f_tb =0.6, l=1)
+modelEbola(k=4, f_tb =0.6, l=1)
+
+# combined with earlier intervention
+modelEbola(k=0, f_tb =0.6, l=1, t_iso = 15)
+modelEbola(k=1, f_tb =0.6, l=1, t_iso = 15)
+modelEbola(k=2, f_tb =0.6, l=1, t_iso = 15)
+modelEbola(k=3, f_tb =0.6, l=1, t_iso = 15)
+modelEbola(k=4, f_tb =0.6, l=1, t_iso = 15)
+'''
+#days= 365, t_iso = 30
+# only isolation
+modelEbola(k=0)
+modelEbola(k=1)
+modelEbola(k=2)
+modelEbola(k=3)
+modelEbola(k=4)
+
+# combined with traceback
+modelEbola(k=0, f_tb =0.6)
+modelEbola(k=1, f_tb =0.6)
+modelEbola(k=2, f_tb =0.6)
+modelEbola(k=3, f_tb =0.6)
+modelEbola(k=4, f_tb =0.6)
+
+# combined with safe funeral
+modelEbola(k=0, f_tb =0.6, l=1)
+modelEbola(k=1, f_tb =0.6, l=1)
+modelEbola(k=2, f_tb =0.6, l=1)
+modelEbola(k=3, f_tb =0.6, l=1)
+modelEbola(k=4, f_tb =0.6, l=1)
+
+# combined with earlier intervention
+modelEbola(k=0, f_tb =0.6, l=1, t_iso = 30)
+modelEbola(k=1, f_tb =0.6, l=1, t_iso = 30)
+modelEbola(k=2, f_tb =0.6, l=1, t_iso = 30)
+modelEbola(k=3, f_tb =0.6, l=1, t_iso = 30)
+modelEbola(k=4, f_tb =0.6, l=1, t_iso = 30)

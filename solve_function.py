@@ -136,7 +136,8 @@ def modelEbola(
         # compute once per time and then use constants
         t_iso_ = t_iso
         if (t < t_iso):
-            if popsum(pop=pop, compartment ='I', script1='_', script2='h', Nerls=Nerls, index=index) >= I_iso:
+            if popsum(pop=pop, compartment ='I', script1='_', script2='h', Nerls=Nerls, index=index) + \
+                    popsum(pop=pop, compartment='I', script1='_', script2='i', Nerls=Nerls, index=index) >= I_iso:
                 t_iso_ = t-1
         fdead_i_ = fdead_i[m]
         fdead_h_ = fdead_h[m]

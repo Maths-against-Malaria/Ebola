@@ -1,5 +1,5 @@
 # duration of simulation, in days
-days = 365
+days = 2 * 365
 
 # number of Erlang stages for the compartments (compartment names below)
 NE = NP = NIp = NIh = NIi = 16
@@ -9,7 +9,7 @@ N = 10_000 # 1_000_000
 
 # duration of diseas states in days
 ## general meaning of E (latent), P (podromal), I (fully infectous), F (dead, not yet buried)
-DE = 9
+DE = 10
 DP = 5
 DI = 5
 DF = 2
@@ -35,7 +35,7 @@ P0 = 10
 
 # countermeasures
 # day when isolation starts
-t_iso = 182 #7  14, 21, 28
+t_iso = 60 #30 #7  14, 21, 28
 # number of infected at hospital where isolation starts (first criterion relevant)
 I_iso = N
 
@@ -54,24 +54,24 @@ f_h2 = [0.5, 0.3, 0.1, 0.1, 0.1]
 k = 3
 
 # probability that a person who had contact with somebody who gets into isolation (f_iso = 1- (f_p2 + f_h2)) is traced back
-f_tb = 0.4
+f_tb = 0 # 0.4
 
 # capacity for trace back
-cmax = N/100_000 * 200
+cmax = N    #/100_000 * 200
 
 # goodness of isolation beyond isolation wards (0 - not better than else at home/hospital)
 ph = 0.6
 
 # capacity of isolation wards
-qmax = N/100_000 * 500
+qmax = N    #'/100_000 * 500
 
 
 
 # probability of safe funeral for those dying
 d_p1 = 0.0  # at home
 d_h1 = 0.0  # in hospital (no isolation)
-d_p2 = [0.1] #[0.0, 0.1, 0.2, 0.4, 0.6, 0.8]  # at home
-d_h2 = [0.6] # [0.0, 0.2, 0.4, 0.6, 0.9, 0.95]  # in hospital (no isolation)
+d_p2 = [0.0, 0.1] #[0.0, 0.1, 0.2, 0.4, 0.6, 0.8]  # at home
+d_h2 = [0.0, 0.6] # [0.0, 0.2, 0.4, 0.6, 0.9, 0.95]  # in hospital (no isolation)
 l = 0
 
 # vaccination
