@@ -12,6 +12,7 @@ N = 10_000 # 1_000_000
 DE = 10
 DP = 5
 DI = 5
+DIp = 5 # 3
 DF = 2
 DT = 15   # trace back time 9
 
@@ -73,6 +74,9 @@ d_h1 = 0.0  # in hospital (no isolation)
 d_p2 = [0.0, 0.1] #[0.0, 0.1, 0.2, 0.4, 0.6, 0.8]  # at home
 d_h2 = [0.0, 0.6] # [0.0, 0.2, 0.4, 0.6, 0.9, 0.95]  # in hospital (no isolation)
 l = 0
+
+d_p2 = [0, 0.04, 0.08, 0.12, 0.16]
+d_h2 = [0, 0.2, 0.4, 0.6, 0.8]
 
 # vaccination
 # start date

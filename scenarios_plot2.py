@@ -69,10 +69,10 @@ plotEbolaScenarios(
                         pathOut=pathOut,
                         col=colsA,
 )
-'''
+
 plotEbolaScenarios(
     namesAllScenarios= [names_ASTMH21_2_fiso, names_ASTMH21_2_fiso_tb, names_ASTMH21_2_fiso_tb_sf, names_ASTMH21_2_fiso_tb_sf_tiso],
-                        savename = 'ASTMH21_2',
+                        savename = 'ASTMH21_3',
                         lab=['0.0','0.2','0.4','0.6','0.8'],
                         #lab=['f_iso=0.0','f_iso=0.2','f_iso=0.4','f_iso=0.6','f_iso=0.8'],
                         Nerls = [16,16,16,16,16,],
@@ -80,8 +80,59 @@ plotEbolaScenarios(
                         pathOut=pathOut,
                         col=colsA,
 )
-'''
-plotEbolaAll(names=names_ASTMH21_2_fiso, savename='ASTMH21_2_fiso',Nerls = [16,16,16,16,16],
-             lab=['f_iso=0.0','f_iso=0.2','f_iso=0.4','f_iso=0.6','f_iso=0.8'],
+
+names_ASTMH21_3_fiso = names_ASTMH21_2_fiso
+names_ASTMH21_3_fiso_tb = names_ASTMH21_2_fiso_tb
+names_ASTMH21_3_fiso_tb[0] = names_ASTMH21_3_fiso[0]
+names_ASTMH21_3_fiso_tb_sf=names_ASTMH21_2_fiso_tb_sf
+names_ASTMH21_3_fiso_tb_sf[0] = names_ASTMH21_3_fiso[0]
+names_ASTMH21_3_fiso_tb_sf_tiso=names_ASTMH21_2_fiso_tb_sf_tiso
+names_ASTMH21_3_fiso_tb_sf_tiso[0] = names_ASTMH21_3_fiso[0]
+plotEbolaScenarios(
+    namesAllScenarios= [names_ASTMH21_3_fiso, names_ASTMH21_3_fiso_tb, names_ASTMH21_3_fiso_tb_sf, names_ASTMH21_3_fiso_tb_sf_tiso],
+                        savename = 'ASTMH21_3',
+                        lab=['0.0','0.2','0.4','0.6','0.8'],
+                        #lab=['f_iso=0.0','f_iso=0.2','f_iso=0.4','f_iso=0.6','f_iso=0.8'],
+                        Nerls = [16,16,16,16,16,],
+                        pathIn=pathIn,
+                        pathOut=pathOut,
+                        col=colsA,
+)
+
+plotEbolaScenarios(
+    namesAllScenarios= [names_ASTMH21_4_fiso, names_ASTMH21_4_fiso_tb, names_ASTMH21_4_fiso_tb_sf, names_ASTMH21_4_fiso_tb_sf_tiso],
+                        savename = 'ASTMH21_4',
+                        lab=['a','b','c','d','e'],
+                        #lab=['f_iso=0.0','f_iso=0.2','f_iso=0.4','f_iso=0.6','f_iso=0.8'],
+                        Nerls = [16,16,16,16,16,],
+                        pathIn=pathIn,
+                        pathOut=pathOut,
+                        col=colsA,
+)
+
+plotEbolaScenarios(
+    namesAllScenarios= [names_ASTMH21_4_fiso, names_ASTMH21_4_fiso_tb, names_ASTMH21_4_fiso_tb_sf, names_ASTMH21_4_sf],
+                        savename = 'ASTMH21_5',
+                        lab=['a','b','c','d','e'],
+                        #lab=['f_iso=0.0','f_iso=0.2','f_iso=0.4','f_iso=0.6','f_iso=0.8'],
+                        Nerls = [16,16,16,16,16,],
+                        pathIn=pathIn,
+                        pathOut=pathOut,
+                        col=colsA,
+)
+
+plotEbolaAll(names=names_DIp, savename='DIp',Nerls = [16,16,16,16,16],
+             lab=['DIp =5 sf','DIp = 3 sf','DIp =5','DIp = 3', ],
              col=colsA, q_max=False, tb=True)
 '''
+
+plotEbolaScenarios(
+    namesAllScenarios= [names_ASTMH21_4_fiso, names_ASTMH21_4_fiso_bugfix],
+                        savename = 'ASTMH21_bugfix',
+                        lab=['a','b','c','d','e'],
+                        #lab=['f_iso=0.0','f_iso=0.2','f_iso=0.4','f_iso=0.6','f_iso=0.8'],
+                        Nerls = [16,16,16,16,16,],
+                        pathIn=pathIn,
+                        pathOut=pathOut,
+                        col=colsA,
+)

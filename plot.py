@@ -549,6 +549,7 @@ def plotEbolaScenarios(namesAllScenarios, savename, Nerls, pathIn=pathIn, pathOu
     for letter in range(65, 91):
         alphabet.append(chr(letter))
 
+    popSums = []
     for m in range(0, M):
         mm = 3 + (m - 1) * 3
 
@@ -562,11 +563,16 @@ def plotEbolaScenarios(namesAllScenarios, savename, Nerls, pathIn=pathIn, pathOu
             pops_i = np.loadtxt(pathIn + '/ebola_' + names[i] + '.txt')
             popSum[i] = popsum2d(pops_i, Nerls=Nerls)
 
+            # Result: final number of dead
+            #print(names[i])
+            print(np.sum(popSum[i][12:15], axis = 0)[-1])
+
         # Susceptible
         p = fig.add_subplot(M, 3, mm + 1)
 
         for i in range(0, len(names)):
             p.plot(popSum[i][0], label= r'$f_{iso} = $' + lab[i], color=col[i], linestyle='-')
+            #p.plot(popSum[i][0], label=lab[i], color=col[i], linestyle='-')
         if m == 0:
             #p.legend(bbox_to_anchor=(-0.05, -4.9, 3.9, 1), loc="upper center", mode="expand", ncol=5)
             p.legend(bbox_to_anchor=(-0.05, -4.9, 3.9, 1), loc="upper center", mode="expand", ncol=5)
@@ -596,4 +602,6 @@ def plotEbolaScenarios(namesAllScenarios, savename, Nerls, pathIn=pathIn, pathOu
 
     plt.savefig(pathOut + '/Ebola_scenarios_' + savename + '.pdf', dpi=100,bbox_inches='tight')
     plt.show()
+
+
     return (savename)

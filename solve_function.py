@@ -28,6 +28,7 @@ def modelEbola(
         DE=DE,
         DP=DP,
         DI=DI,
+        DIp = DIp,
         DF=DF,
         DT=DT,
         fdead_p=fdead_p,
@@ -71,6 +72,7 @@ def modelEbola(
            + str(DE) + '_' \
            + str(DP) + '_' \
            + str(DI) + '_' \
+           + str(DIp) + '_' \
            + str(DF) + '_' \
            + str(DT) + '_' \
            + str(fdead_p) + '_' \
@@ -119,10 +121,11 @@ def modelEbola(
     betaF = cF * cD
 
     FE = NE/DE # epsilon
-    FP = NP/DP # phi
-    FI = NIi/DI # gamma
-    FF = 1/FI # phi2
-    FT = 1/DI # alpha
+    FP = NP/DP # gamma
+    FI = NIi/DI # delta
+    FIp = NIp/DIp # delta at home
+    FF = 1/DF # phi
+    FT = 1/DT # alpha
 
     ####################################################
     #rec = [[-10000 for i in np.arange(2)] for j in np.arange(days + 1)]
@@ -206,10 +209,10 @@ def modelEbola(
 
         # Fully Infectious
         # I_p home        
-        out[index['I_p1']] = dI_p1(pop=pop, fp=f_phi_[0], FP=FP, FI=FI, NP=NP, index=index)
+        out[index['I_p1']] = dI_p1(pop=pop, fp=f_phi_[0], FP=FP, FI=FIp, NP=NP, index=index)
 
         for i in range(2, NIp + 1):
-            out[index['I_p' + str(i)]] = dI_pk(pop=pop, j=i, FI=FI, index=index)
+            out[index['I_p' + str(i)]] = dI_pk(pop=pop, j=i, FI=FIp, index=index)
 
         # I_h hosp
         out[index['I_h1']] = dI_h1(pop=pop, fh=f_phi_[1], FP=FP, FI=FI, NP=NP, index=index)
@@ -240,14 +243,14 @@ def modelEbola(
             out[index['I_i' + str(i)]] = dI_ik(pop=pop, j=i, FI=FI, FT=FT, index=index)
 
         # Recovered, Dead
-        out[index['R__']] = dR(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, fdead_i=fdead_i_, FI=FI, NIp=NIp, NIh=NIh,
+        out[index['R__']] = dR(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, fdead_i=fdead_i_, FI=FI, FIp = FIp, NIp=NIp, NIh=NIh,
                                NIi=NIi, index=index, vac=vac_)
 
-        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, FI=FI, FF=FF, NIp=NIp, NIh=NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0])
+        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, FI=FI, FIp=FIp, FF=FF, NIp=NIp, NIh=NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0])
 
         out[index['B_f']] = dB_f(pop=pop, FF=FF, index=index)
 
-        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i_, FI=FI, NIi=NIi, NIp=NIp, NIh = NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0], fdead_h=fdead_h_, fdead_p=fdead_p_)
+        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i_, FI=FI, FIp=FIp, NIi=NIi, NIp=NIp, NIh = NIh, index=index, d_h=d_ph_[1], d_p=d_ph_[0], fdead_h=fdead_h_, fdead_p=fdead_p_)
 
         # return
         return out

@@ -130,31 +130,49 @@ modelEbola(k=2, f_tb =0.6, l=1, t_iso = 15)
 modelEbola(k=3, f_tb =0.6, l=1, t_iso = 15)
 modelEbola(k=4, f_tb =0.6, l=1, t_iso = 15)
 '''
-#days= 365, t_iso = 30
+
+'''
+'''
 # only isolation
 modelEbola(k=0)
 modelEbola(k=1)
 modelEbola(k=2)
 modelEbola(k=3)
 modelEbola(k=4)
+'''
 
 # combined with traceback
-modelEbola(k=0, f_tb =0.6)
-modelEbola(k=1, f_tb =0.6)
-modelEbola(k=2, f_tb =0.6)
+modelEbola(k=3, f_tb =0.0)
+modelEbola(k=3, f_tb =0.2)
+modelEbola(k=3, f_tb =0.4)
 modelEbola(k=3, f_tb =0.6)
-modelEbola(k=4, f_tb =0.6)
+modelEbola(k=3, f_tb =0.8)
 
 # combined with safe funeral
-modelEbola(k=0, f_tb =0.6, l=1)
-modelEbola(k=1, f_tb =0.6, l=1)
-modelEbola(k=2, f_tb =0.6, l=1)
+modelEbola(k=3, f_tb =0.6, l=0)
 modelEbola(k=3, f_tb =0.6, l=1)
-modelEbola(k=4, f_tb =0.6, l=1)
+modelEbola(k=3, f_tb =0.6, l=2)
+modelEbola(k=3, f_tb =0.6, l=3)
+modelEbola(k=3, f_tb =0.6, l=4)
 
 # combined with earlier intervention
-modelEbola(k=0, f_tb =0.6, l=1, t_iso = 30)
-modelEbola(k=1, f_tb =0.6, l=1, t_iso = 30)
-modelEbola(k=2, f_tb =0.6, l=1, t_iso = 30)
-modelEbola(k=3, f_tb =0.6, l=1, t_iso = 30)
-modelEbola(k=4, f_tb =0.6, l=1, t_iso = 30)
+modelEbola(k=3, f_tb =0.6, l=3, t_iso = 15)
+modelEbola(k=3, f_tb =0.6, l=3, t_iso = 30)
+modelEbola(k=3, f_tb =0.6, l=3, t_iso = 45)
+modelEbola(k=3, f_tb =0.6, l=3, t_iso = 60)
+modelEbola(k=3, f_tb =0.6, l=3, t_iso = 75)
+
+# only safe funeral
+modelEbola(k=0, f_tb =0, l=0)
+modelEbola(k=0, f_tb =0, l=1)
+modelEbola(k=0, f_tb =0, l=2)
+modelEbola(k=0, f_tb =0, l=3)
+modelEbola(k=0, f_tb =0, l=4)
+
+# DIp
+modelEbola(k=3, f_tb =0.6, l=1, DIp = 5)
+modelEbola(k=3, f_tb =0.6, l=1, DIp = 3)
+
+modelEbola(k=3, f_tb =0.6, l=0, DIp = 5)
+modelEbola(k=3, f_tb =0.6, l=0, DIp = 3)
+'''

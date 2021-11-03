@@ -152,16 +152,16 @@ def dI_ik(pop, j, FI, FT, index):
     return x
         
 
-def dR(pop,fdead_p, fdead_h, fdead_i, FI, NIp, NIh, NIi, index, vac):
-    x = FI * ((1-fdead_p) * pop[index['I_p' + str(NIp)]] \
-              + (1-fdead_h) * pop[index['I_h' + str(NIh)]] \
+def dR(pop,fdead_p, fdead_h, fdead_i, FI, FIp, NIp, NIh, NIi, index, vac):
+    x = FIp * (1-fdead_p) * pop[index['I_p' + str(NIp)]] \
+        + FI * ((1-fdead_h) * pop[index['I_h' + str(NIh)]] \
               + (1-fdead_i) * pop[index['I_i' + str(NIi)]])\
             + vac
     return x
 
-def dF(pop, fdead_p, fdead_h, FI, FF, NIp, NIh, index,d_h, d_p):
-    x = FI * ((1-d_p) * fdead_p * pop[index['I_p' + str(NIp)]] \
-               +  (1-d_h) * fdead_h * pop[index['I_h' + str(NIh)]]) \
+def dF(pop, fdead_p, fdead_h, FI, FIp, FF, NIp, NIh, index,d_h, d_p):
+    x = FIp * (1-d_p) * fdead_p * pop[index['I_p' + str(NIp)]] \
+        + FI * (1-d_h) * fdead_h * pop[index['I_h' + str(NIh)]] \
                 - FF  * pop[index['F__']]
     return x
 
@@ -169,9 +169,9 @@ def dB_f(pop, FF, index):
     x = FF *   pop[index['F__']]
     return x
 
-def dB_j(pop, fdead_i, FI, NIi, NIh, NIp, index, d_h, d_p, fdead_h, fdead_p):
-    x = FI * (fdead_i * pop[index['I_i' + str(NIi)]] \
-                + d_p * fdead_p * pop[index['I_p' + str(NIp)]] \
+def dB_j(pop, fdead_i, FI, FIp, NIi, NIh, NIp, index, d_h, d_p, fdead_h, fdead_p):
+    x = FIp * d_p * fdead_p * pop[index['I_p' + str(NIp)]] \
+        + FI * (fdead_i * pop[index['I_i' + str(NIi)]] \
                 + d_h * fdead_h * pop[index['I_h' + str(NIh)]])
                   # * (1-q(t)) * d_h
     return x
