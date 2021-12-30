@@ -12,8 +12,9 @@ from scipy.integrate import solve_ivp
 #from index import *
 #from functions import *
 #from differential_equations import *
-from solve_function import *
+#from solve_function import *
 
+from functions2 import *
 # in parameters set  NE = 16, NP = 16, NIp = 16, NIh = 16, NIi = 16
 # in parameters set  NE = 1, NP = 1, NIp = 1, NIh = 1, NIi = 1
 
@@ -132,14 +133,14 @@ modelEbola(k=4, f_tb =0.6, l=1, t_iso = 15)
 '''
 
 '''
-'''
+
 # only isolation
 modelEbola(k=0)
 modelEbola(k=1)
 modelEbola(k=2)
 modelEbola(k=3)
 modelEbola(k=4)
-'''
+
 
 # combined with traceback
 modelEbola(k=3, f_tb =0.0)
@@ -175,4 +176,92 @@ modelEbola(k=3, f_tb =0.6, l=1, DIp = 3)
 
 modelEbola(k=3, f_tb =0.6, l=0, DIp = 5)
 modelEbola(k=3, f_tb =0.6, l=0, DIp = 3)
+
+# the following scenarios should all be the same (they are)
+modelEbola(k=0, f_tb =0)
+modelEbola(k=0, f_tb =0.8)
+modelEbola(k=0, f_tb =0.8,t_iso=0)
+modelEbola(k=0, f_tb =0.8,t_iso=730)
+modelEbola(k=4, f_tb =0.8,t_iso=730)
+
+
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, qmax = qmax_[0])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, qmax = qmax_[1])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, qmax = qmax_[2])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, qmax = qmax_[3])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, qmax = qmax_[4])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, qmax = qmax_[5])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, qmax = qmax_[6])
+modelEbola(k=0, l = 1)
+
+modelEbola(k=3, f_tb =0, t_iso = 60, l = 1)
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, cmax = cmax_[0])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, cmax = cmax_[1])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, cmax = cmax_[2])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, cmax = cmax_[3])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, cmax = cmax_[4])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, cmax = cmax_[5])
+modelEbola(k=3, f_tb =0.6, t_iso = 60, l = 1, cmax = cmax_[6])
+
+modelEbola(k=3, f_tb =0.6, t_iso = 45, l = 1, cmax = cmax_[6], qmax = qmax_[6])
+
+
+k = 3
+l = 1
+f_ph1 = [f_p1[k], f_h1[k]]
+d_ph1 = [d_p1[l], d_h1[l]]
+modelEbola(f_ph1=f_ph1, f_tb =0.6, t_iso = 45, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7])
+modelEbola(f_ph1=f_ph1, f_tb =0.6, t_iso = 45, d_ph1=d_ph1, cmax = cmax_[5], qmax = qmax_[6])
+modelEbola(f_ph1=f_ph1, f_tb =0.6, t_iso = 45, d_ph1=d_ph1, cmax = cmax_[4], qmax = qmax_[5])
+modelEbola(f_ph1=f_ph1, f_tb =0.6, t_iso = 45, d_ph1=d_ph1, cmax = cmax_[3], qmax = qmax_[4])
+modelEbola(f_ph1=f_ph1, f_tb =0.6, t_iso = 45, d_ph1=d_ph1, cmax = cmax_[2], qmax = qmax_[3])
+modelEbola(f_ph1=f_ph1, f_tb =0.6, t_iso = 45, d_ph1=d_ph1, cmax = cmax_[1], qmax = qmax_[2])
+modelEbola(f_ph1=f_ph1, f_tb =0.6, t_iso = 45, d_ph1=d_ph1, cmax = cmax_[0], qmax = qmax_[1])
+
+
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 730, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 1)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 730, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 2)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 730, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 5)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 730, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 10)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 730, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 20)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 730, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 50)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 730, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 100)
+
+modelEbola(f_ph1=[f_p1[0], f_h1[0]], f_tb =0, t_iso = 30, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= N)
+modelEbola(f_ph1=[f_p1[1], f_h1[1]], f_tb =0, t_iso = 30, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= N)
+modelEbola(f_ph1=[f_p1[2], f_h1[2]], f_tb =0, t_iso = 30, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= N)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0, t_iso = 30, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= N)
+modelEbola(f_ph1=[f_p1[4], f_h1[4]], f_tb =0, t_iso = 30, d_ph1=d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= N)
+
+
+#----------------
+from plot import getQ, pathIn
+
+x1=modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 730, d_ph1 = d_ph1, cmax = cmax_[0], qmax = qmax_[0], I_iso= I_iso_[0])
+x2=modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 730, d_ph1 = d_ph1, cmax = cmax_[1], qmax = qmax_[0], I_iso= I_iso_[1])
+x3=modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 730, d_ph1 = d_ph1, cmax = cmax_[2], qmax = qmax_[0], I_iso= I_iso_[2])
+x4=modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 730, d_ph1 = d_ph1, cmax = cmax_[3], qmax = qmax_[0], I_iso= I_iso_[3])
+x5=modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 730, d_ph1 = d_ph1, cmax = cmax_[4], qmax = qmax_[0], I_iso= I_iso_[4])
+x6=modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 730, d_ph1 = d_ph1, cmax = cmax_[5], qmax = qmax_[0], I_iso= I_iso_[5])
+
+
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], t_iso= t1, I_iso = N)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], t_iso= t2, I_iso = N)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], t_iso= t5, I_iso = N)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], t_iso= t10, I_iso = N)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], t_iso= t20, I_iso = N)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], t_iso= t50, I_iso = N)
+
+
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 365, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 2)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 365, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 5)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 365, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 10)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 365, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 20)
+modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 365, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 50)
 '''
+
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=4)
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=7)
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=13)
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=25)
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=47)

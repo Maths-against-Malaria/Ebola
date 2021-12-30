@@ -425,6 +425,7 @@ def modelEbola(
         if (t < t_iso):
             if popsum(pop=pop, compartment ='I', script1='_', script2='h', n=n, index=index) + \
                     popsum(pop=pop, compartment='I', script1='_', script2='i', n=n, index=index) + \
+                    popsum(pop=pop, compartment='I', script1='s', script2='h', n=n, index=index) + \
                     pop[index['F__']] + pop[index['B_j']] + pop[index['B_f']] + pop[index['R__']]\
                     >= I_iso:
                 t_iso_ = t-1
@@ -442,9 +443,9 @@ def modelEbola(
         c_ = cc[0]
         la__ = la(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,
                   q=q_, c = c_, fc = fc_, n=n, index=index)
-        la_ = la__[0]
-        ls_ = la__[1]  # ls(f_phi_[2], pop, betaP, betaIp, betaIh)
-        lt_ = lt(la=la_, ls=ls_)
+        la_ = la__[0] # lambda
+        ls_ = la__[1] # lambda^*
+        lt_ = la_ + ls_  #lt(la=la_, ls=ls_)
 
         vac_ = vac(pop=pop, index=index, t=t,t_vac=t_vac, N_vac=N_vac)
         rec[int(t)] = [t] + [t_iso_] + [q_] + [fc_] + f_phi_ + [c_] + la__ + [vac_] + np.ndarray.tolist(pop)

@@ -124,7 +124,7 @@ plotEbolaScenarios(
 plotEbolaAll(names=names_DIp, savename='DIp',Nerls = [16,16,16,16,16],
              lab=['DIp =5 sf','DIp = 3 sf','DIp =5','DIp = 3', ],
              col=colsA, q_max=False, tb=True)
-'''
+
 
 plotEbolaScenarios(
     namesAllScenarios= [names_ASTMH21_4_fiso, names_ASTMH21_4_fiso_bugfix],
@@ -136,3 +136,48 @@ plotEbolaScenarios(
                         pathOut=pathOut,
                         col=colsA,
 )
+plotEbolaAll(names=names_test_fiso_ftb_tiso, savename='DIp',Nerls = [16,16,16,16,16],
+             lab=['a', 'b', 'c', 'd', 'e'],
+             col=colsA, q_max=False, tb=True)
+             
+plotEbolaAll(names=names_qmax2, savename='Qmax',Nerls = [16,16,16,16,16],
+             lab=['qmax = 0', 'qmax = 1', 'qmax = 2','qmax = 5','qmax = 10','qmax = 20'],
+             col=colsA, q_max=True, tb=True)
+
+plotEbolaAll(names=names_cmax1, savename='Cmax',Nerls = [16,16,16,16,16],
+             lab=['no tb', 'cmax = 0', 'cmax = 1', 'cmax = 2','cmax = 5','cmax = 10','cmax = 20', 'unlimited'],
+             col=colsA, q_max=True, tb=True)
+             
+plotEbolaAll(names=names_Aliou_all, savename='Aliou_all',Nerls = [16,16,16,16,16],
+             lab=['mix'],
+             col=colsA, q_max=True, tb=True)
+
+plotEbolaAll(names=names_qcmax, savename='qcmax',
+             lab=['a','b', 'c', 'd', 'e', 'f', 'g'],
+              q_max=True, tb=True)
+plotEbolaAll(names=names_qcmax, savename='qcmax2',
+             lab=['a','b', 'c', 'd', 'e', 'f', 'g'],
+             q_max=True, tb=True)
+
+plotEbolaAll(names=names_fiso_Iiso10, savename='fiso_Iiso10',
+             lab=['f_iso=0.0','f_iso=0.2','f_iso=0.4','f_iso=0.6','f_iso=0.8'],
+              q_max=True, tb=False)
+
+plotEbolaAll(names=names_Iiso, savename='Iiso',
+             lab=['Iiso = 1', 'Iiso = 2','Iiso = 5','Iiso = 10','Iiso = 20','Iiso = 50','Iiso = 100',],
+              q_max=True, tb=False)
+
+plotEbolaAll(names=names_Iiso , savename='Iiso',n = 16,
+             lab=['Iiso = 1', 'Iiso = 2','Iiso = 5','Iiso = 10','Iiso = 20','Iiso = 50'],
+              q_max=True, tb=False)
+
+print(np.where(getQ(pathIn=pathIn, name=names_Iiso[1], i=1, days = 730) < 730)[0][0]) # Iiso=1 => t_iso = 4
+print(np.where(getQ(pathIn=pathIn, name=names_Iiso[2], i=1, days = 730) < 730)[0][0]) #7
+print(np.where(getQ(pathIn=pathIn, name=names_Iiso[3], i=1, days = 730) < 730)[0][0]) #13
+print(np.where(getQ(pathIn=pathIn, name=names_Iiso[4], i=1, days = 730) < 730)[0][0]) #25
+print(np.where(getQ(pathIn=pathIn, name=names_Iiso[5], i=1, days = 730) < 730)[0][0]) # Iiso = 20 => t_iso = 47
+'''
+plotEbolaAll(names=names_tiso2 , savename='tiso_2',n=16,
+             lab=['a','b', 'c', 'd', 'e'],
+             q_max=False, tb=False)
+
