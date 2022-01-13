@@ -103,18 +103,20 @@ def plotEbolaParameters(names, savename, n, days, pathIn=pathIn, pathOut = pathO
         p.plot(par[8][i], color=col[i])
     plt.show()
 
+# day=0 plots full scenario
 def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object = pathIn, pathOut: object = pathOut, col: object = colsA,
                  q_max: object = False,
                  tb: object = True,
-                 legendout: object = True) -> object:
+                 legendout: object = True, days = 0) -> object:
     if legendout:
         plt.rcParams['legend.fontsize'] = 12
     plt.rcParams['axes.labelsize'] = 12
     index = indexFunction(n)
     popSum0 = popsum2d(pops=np.loadtxt(pathIn + '/ebola_' + names[0] + '.txt'), n=n)
     s = np.shape(popSum0)
+
     #s1 = int(max(s[1], days))
-    print(s)
+    #print(s)
     #print(s1)
     if q_max == True:
         q_ = np.empty(shape = [len(names),s[1]])
@@ -124,10 +126,18 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     #popSum = np.empty(shape = [len(names),s[0], s[1]])
     #popSum[0] = popSum0
     popSum = np.empty(shape=[len(names), s[0], s[1]])
+
     popSum[0] = popSum0
     for i in range(0,len(names)):
         pops_i = np.loadtxt(pathIn + '/ebola_' + names[i] + '.txt')
         popSum[i] = popsum2d(pops_i, n=n)
+
+    if days != 0:
+        popSum1 = np.empty(shape=[len(names), s[0], days])
+        for i in range(0, len(names)):
+            for j in range(0, n):
+                popSum1[i][j] =  popSum[i][j][0:days]
+        popSum=popSum1
 
 
     fig = plt.figure()
@@ -136,7 +146,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     # Susceptible
     p = fig.add_subplot(331)
     for i in range(0, len(names)):
-        l4=l3=l2=l1=p.plot(popSum[i][0], label=lab[i], color=col[i])
+        l4=l3=l2=l1=p.plot(popSum[i][0], label=lab[i], color=col[i], )
     if legendout == False:
         #p.legend(bbox_to_anchor=(-0.2, 1.1, 3.5, -0.2), loc="lower left", mode="expand", ncol=len(lab))
         #p.legend(bbox_to_anchor=(-0.2, 1.1, 2.3, -0.2), loc="lower left", mode="expand", ncol=3)
