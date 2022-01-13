@@ -303,12 +303,12 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     plt.show()
 
 
-    plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
+    #plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
     plt.plot(np.sum(popSum[0][1:12], axis=0), label='infected (E+P+I)', color=col[0], linestyle='--')
     plt.plot(np.sum(popSum[0][12:15], axis=0), label='dead (D+B)', color=col[0], linestyle=':')
     for i in range(0, len(names)):
-        plt.plot(popSum[i][0] + popSum[i][15], label=lab[i],color=col[i], linestyle='-')
-        print('healthy ' + lab[i] + ': '+ str(round((popSum[i][0] + popSum[i][15])[-1])))
+        #plt.plot(popSum[i][0] + popSum[i][15], label=lab[i],color=col[i], linestyle='-')
+        #print('healthy ' + lab[i] + ': '+ str(round((popSum[i][0] + popSum[i][15])[-1])))
         plt.plot(np.sum(popSum[i][1:12], axis=0), color=col[i], linestyle='--')
         print('infected ' + lab[i] + ': ' + str(round(np.sum(popSum[i][1:12], axis=0)[-1])))
         plt.plot(np.sum(popSum[i][12:15], axis=0), color=col[i], linestyle=':')

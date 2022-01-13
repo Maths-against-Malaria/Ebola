@@ -364,6 +364,7 @@ def modelEbola(
         t_vac=t_vac,
         N_vac=N_vac,
         nameIn='',
+        method ="RK45",
         pathOut='results'):
     name = str(days) + '_' \
             + str(n) + '_' \
@@ -386,6 +387,7 @@ def modelEbola(
             + str(fc) + '_' \
             + str(t_vac) + '_' \
             + str(N_vac) + '_' \
+            + method + '_' \
             + nameIn
 
     print("'" + name + "',")
@@ -541,17 +543,29 @@ def modelEbola(
     # All individuals are susceptible
     pop0[index['S__']] = N - P0
     pop0[index['P__1']] = P0
-
+    '''
+    pop0[index['E__1']] = P0/10 # 
+    pop0[index['E__2']] = P0/10
+    pop0[index['E__3']] = P0/10
+    pop0[index['E__4']] = P0/10
+    pop0[index['E__5']] = P0/10
+    pop0[index['E__6']] = P0/10
+    pop0[index['E__7']] = P0/10
+    pop0[index['E__8']] = P0/10
+    pop0[index['E__9']] = P0/10
+    pop0[index['E__10']] = P0/10
+    '''
     soln = solve_ivp(f,
                      [0, days],
                      pop0,
-                     method="RK45",
+                     method=method,
                      t_eval=np.arange(0, days),
-                     dense_output=True)
+                     dense_output=True,
+                     max_step = 1)
 
     # print(ints)
     np.savetxt(pathOut + "/ebola_" + name + ".txt", soln.y)
     #print(rec)
-    np.savetxt(pathOut + "/ebolaVar_" + name + ".txt", rec,fmt='%.5f')
+    # np.savetxt(pathOut + "/ebolaVar_" + name + ".txt", rec,fmt='%.5f')
     return (name)
 

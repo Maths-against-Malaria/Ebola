@@ -260,8 +260,39 @@ modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 365, d_ph1 = d_ph1, cmax
 modelEbola(f_ph1=[f_p1[3], f_h1[3]], f_tb =0.6, t_iso = 365, d_ph1 = d_ph1, cmax = cmax_[6], qmax = qmax_[7], I_iso= 50)
 '''
 
-modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=4)
-modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=7)
-modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=13)
-modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=25)
-modelEbola(f_ph1 = [f_p1[3], f_h1[3]], t_iso=47)
+'''
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "DOP853",f_tb = f_tb_[0])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "DOP853",f_tb = f_tb_[1])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "DOP853",f_tb = f_tb_[2])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "DOP853",f_tb = f_tb_[3])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "DOP853",f_tb = f_tb_[4])
+
+# does not work
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "Radau",f_tb = f_tb_[0])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "Radau",f_tb = f_tb_[1])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "Radau",f_tb = f_tb_[2])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "Radau",f_tb = f_tb_[3])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "Radau",f_tb = f_tb_[4])
+
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "BDF",f_tb = f_tb_[0])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "BDF",f_tb = f_tb_[1])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "BDF",f_tb = f_tb_[2])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "BDF",f_tb = f_tb_[3])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "BDF",f_tb = f_tb_[4])
+
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "LSODA",f_tb = f_tb_[0])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "LSODA",f_tb = f_tb_[1])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "LSODA",f_tb = f_tb_[2])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "LSODA",f_tb = f_tb_[3])
+modelEbola(f_ph1 = [f_p1[3], f_h1[3]], method = "LSODA",f_tb = f_tb_[4])
+
+
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], method = "Radau", f_tb = f_tb_[4])
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], method = "BDF", f_tb = f_tb_[4])
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], method = "LSODA", f_tb = f_tb_[4])
+'''
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[0])
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[1])
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[2])
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[3])
+modelEbola(days = 120, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[4])
