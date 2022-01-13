@@ -95,4 +95,10 @@ t_vac=days  # 500
 # daily number
 N_vac=0
 
-
+# method
+#‘RK45’
+#‘RK23''
+#‘DOP853’
+#‘Radau’
+#‘BDF’
+#‘LSODA’

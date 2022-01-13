@@ -9,6 +9,7 @@ Created on Wed Dec 16 12:35:02 2020
 #from index import *
 from functions import *
 import numpy as np
+from scipy.integrate import solve_ivp
 
 def dS(pop, lt, N, index, vac):
     x = - (lt/N) * pop[index['S__']] - vac

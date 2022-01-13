@@ -25,11 +25,11 @@ import numpy as np
 # second index: _, p: home; h: hospital; i: isolation; 
 #              j: after safe funeral; f: after normal funeral
 
-def indexFunction(Nerls):
+def indexFunction(n):
     compartments = [('S',  0, '__'),
-                ('E', Nerls[0], '__'), ('E',Nerls[0], 't_'),('E', Nerls[0], 's_'),
-                ('P', Nerls[1], '__'), ('P',Nerls[1], 't_'),('P', Nerls[1], 's_'),
-                ('I', Nerls[2], '_p'), ('I',Nerls[3], '_h'),('I', Nerls[4], '_i'), ('I', Nerls[3], 'sh'), ('I',Nerls[2], 'sp'),
+                ('E', n, '__'), ('E',n, 't_'),('E', n, 's_'),
+                ('P', n, '__'), ('P',n, 't_'),('P', n, 's_'),
+                ('I', n, '_p'), ('I',n, '_h'),('I', n, '_i'), ('I', n, 'sh'), ('I',n, 'sp'),
                 ('F',  0, '__'), 
                 ('B',  0, '_j'),('B',  0, '_f'),
                 ('R',  0, '__')

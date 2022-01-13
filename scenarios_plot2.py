@@ -177,7 +177,7 @@ print(np.where(getQ(pathIn=pathIn, name=names_Iiso[3], i=1, days = 730) < 730)[0
 print(np.where(getQ(pathIn=pathIn, name=names_Iiso[4], i=1, days = 730) < 730)[0][0]) #25
 print(np.where(getQ(pathIn=pathIn, name=names_Iiso[5], i=1, days = 730) < 730)[0][0]) # Iiso = 20 => t_iso = 47
 '''
-plotEbolaAll(names=names_tiso2 , savename='tiso_2',n=16,
-             lab=['a','b', 'c', 'd', 'e'],
+plotEbolaAll(names= names_tb  , savename='tb',n=16,
+             lab=['a','b', 'c', 'd', 'e', 'f', 'g', 'h'],
              q_max=False, tb=False)
 

@@ -19,113 +19,72 @@ from differential_equations import *
 
 def modelEbola(
         days=days,
-        NE=NE,
-        NP=NP,
-        NIp=NIp,
-        NIh=NIh,
-        NIi=NIi,
+        Nerls=Nerls,
         N=N,
-        DE=DE,
-        DP=DP,
-        DI=DI,
-        DIp = DIp,
-        DF=DF,
-        DT=DT,
-        fdead_p=fdead_p,
-        fdead_h=fdead_h,
-        fdead_i=fdead_i,
-        m = m,
+        DD = DD,
+        fdead = fdead,
         R0=R0,
-        cP=cP,
-        cI=cI,
-        cIh=cIh,
-        cF=cF,
+        cc = cc,
         P0=P0,  # P(0)
-        t_iso=t_iso,
+        t_iso=t_iso_,
         I_iso = I_iso,
-        f_p1=f_p1,
-        f_h1=f_h1,
-        f_p2=f_p2,
-        f_h2=f_h2,
-        k=k,
-        d_p1=d_p1,
-        d_h1=d_h1,
-        d_p2=d_p2,
-        d_h2=d_h2,
-        l=l,
+        f_ph0 = f_ph0,
+        f_ph1 = f_ph1,
+        d_ph0 = d_ph0,
+        d_ph1 = d_ph1,
         f_tb=f_tb,
         ph=ph,
         qmax=qmax,
         cmax=cmax,
         fc = fc,
         t_vac=t_vac,
-        Nvac=Nvac,
+        N_vac=N_vac,
         nameIn='',
         pathOut='results'):
     name = str(days) + '_' \
-           + str(NE) + '_' \
-           + str(NP) + '_' \
-           + str(NIp) + '_' \
-           + str(NIh) + '_' \
-           + str(NIi) + '_' \
-           + str(N) + '_' \
-           + str(DE) + '_' \
-           + str(DP) + '_' \
-           + str(DI) + '_' \
-           + str(DIp) + '_' \
-           + str(DF) + '_' \
-           + str(DT) + '_' \
-           + str(fdead_p) + '_' \
-           + str(fdead_h) + '_' \
-           + str(fdead_i) + '_' \
-           + str(m) + '_' \
-           + str(R0) + '_' \
-           + str(cP) + '_' \
-           + str(cI) + '_' \
-           + str(cIh) + '_' \
-           + str(cF) + '_' \
-           + str(P0) + '_' \
-           + str(t_iso) + '_' \
-           + str(I_iso) + '_' \
-           + str(f_p1) + '_' \
-           + str(f_h1) + '_' \
-           + str(f_p2) + '_' \
-           + str(f_h2) + '_' \
-           + str(k) + '_' \
-           + str(l) + '_' \
-           + str(f_tb) + '_' \
-           + str(ph) + '_' \
-           + str(qmax) + '_' \
-           + str(cmax) + '_' \
-           + str(fc)  + '_' \
-           + str(t_vac) + '_' \
-           + str(Nvac) + '_' \
-           + nameIn
+            + str(Nerls) + '_' \
+            + str(N) + '_' \
+            + str(DD) + '_' \
+            + str(fdead) + '_' \
+            + str(R0) + '_' \
+            + str(cc) + '_' \
+            + str(P0) + '_' \
+            + str(t_iso) + '_' \
+            + str(I_iso) + '_' \
+            + str(f_ph0) + '_' \
+            + str(f_ph1) + '_' \
+            + str(d_ph0) + '_' \
+            + str(d_ph1) + '_' \
+            + str(f_tb) + '_' \
+            + str(ph) + '_' \
+            + str(qmax) + '_' \
+            + str(cmax) + '_' \
+            + str(fc) + '_' \
+            + str(t_vac) + '_' \
+            + str(N_vac) + '_' \
+            + nameIn
 
     print("'" + name + "',")
-    #     + str(d_p1) + '_' \
-    #     + str(d_h1) + '_' \
-    #     + str(d_p2) + '_' \
-    #     + str(d_h2) + '_' \
+
     # compute values that do not change by time (or population)
-    Nerls = [NE, NP, NIp, NIh, NIi]
     index = indexFunction(Nerls)
     #print(index)
-
-    cD = R0 / (cP * DP + cI * DI + cF * DF)
+    cc[0] * DD[1] + cc[2] * DD[2] + cc[3] * DD[4]
+    #cD = R0 / (cP * DP + cI * DI + cF * DF)
+    cD = R0 /cc[0] * DD[1] + cc[2] * DD[2] + cc[3] * DD[4]
     cD = float(cD)
 
-    betaP = cP * cD
-    betaIp = cI * cD
-    betaIh = cIh * cD
-    betaF = cF * cD
+    betaP =     cc[0] * cD
+    betaIp =    cc[2] * cD
+    betaIh =    cc[1] * cD
+    betaF =     cc[3] * cD
 
-    FE = NE/DE # epsilon
-    FP = NP/DP # gamma
-    FI = NIi/DI # delta
-    FIp = NIp/DIp # delta at home
-    FF = 1/DF # phi
-    FT = 1/DT # alpha
+    FE = Nerls[0]/DD[0] # epsilon
+    FP = Nerls[1]/DD[1] # gamma
+    FI = Nerls[4]/DD[2] # delta
+    FIp = Nerls[2]/DD[3] # delta at home
+    FF = 1/DD[4] # phi
+    FT = 1/DD[5] # alpha
 
     ####################################################
     #rec = [[-10000 for i in np.arange(2)] for j in np.arange(days + 1)]
@@ -142,14 +101,15 @@ def modelEbola(
             if popsum(pop=pop, compartment ='I', script1='_', script2='h', Nerls=Nerls, index=index) + \
                     popsum(pop=pop, compartment='I', script1='_', script2='i', Nerls=Nerls, index=index) >= I_iso:
                 t_iso_ = t-1
-        fdead_i_ = fdead_i[m]
-        fdead_h_ = fdead_h[m]
-        fdead_p_ = fdead_p[m]
+        fdead_i_ = fdead[2]
+        fdead_h_ = fdead[1]
+        fdead_p_ = fdead[0]
         fc_ = fct(t=t, t_iso=t_iso_, fc=fc)
-        f_phi_ = f_phi(t=t, k=k, t_iso=t_iso_, f_p1=f_p1, f_h1=f_h1, f_p2=f_p2, f_h2=f_h2)
-        d_ph_ = d_ph(t=t, l=l, t_iso=t_iso_, d_p1=d_p1, d_h1=d_h1, d_p2=d_p2, d_h2=d_h2)
-        q_ = q(pop=pop, t=t, t_iso=t_iso_, qmax=qmax, Nerls=Nerls, index=index)
-        cc = c(pop=pop, t=t, t_iso=t_iso_, cmax=cmax, Nerls=Nerls, index=index, FT=FT, FP=FP, NP = NP, f_iso=f_phi_[2])
+        f_phi_ = f_phi(t=t, t_iso=t_iso_, f_ph0=f_ph0, f_ph1=f_ph1)
+        d_ph_ = d_ph(t=t, t_iso=t_iso_, d_ph0 = d_ph0, d_ph1 = d_ph1)
+        qq = q(pop=pop, t=t, t_iso=t_iso_, qmax=qmax, Nerls=Nerls, index=index)
+        q_ = qq[0]
+        cc = c(pop=pop, t=t, t_iso=t_iso_, cmax=cmax, Nerls=Nerls, index=index, FT=FT, FP=FP, NP = Nerls[1], f_iso=f_phi_[2])
         c_ = cc[0]
         la__ = la(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,
                   q=q_, c = c_, fc = fc_, Nerls=Nerls, index=index)
@@ -162,7 +122,7 @@ def modelEbola(
         lt_ = lt(la=la_, ls=ls_)
         lt_ = lt(la=la_, ls=ls_)
 
-        vac_ = vac(pop=pop, index=index, t=t,t_vac=t_vac, Nvac=Nvac)
+        vac_ = vac(pop=pop, index=index, t=t,t_vac=t_vac, N_vac=N_vac)
         #rec[int(t)] = [t, q_]
         rec[int(t)] = [t] + [q_] + [fc_] + f_phi_ + [c_] + la__ + [vac_] + np.ndarray.tolist(pop)
         #rec[j] = [t, q_]
@@ -178,52 +138,52 @@ def modelEbola(
         # Latent
         out[index['E__1']] = dE__1(pop=pop, la=la_, N=N, FE=FE, index=index)
 
-        for i in range(2, NE + 1):
+        for i in range(2, Nerls[0] + 1):
             out[index['E__' + str(i)]] = dE__k(pop=pop, j=i, FE=FE, index=index)
 
         out[index['Es_1']] = dEs_1(pop=pop, ls=ls_, N=N, FT=FT, FE=FE, index=index)
 
-        for i in range(2, NE + 1):
+        for i in range(2, Nerls[0] + 1):
             out[index['Es_' + str(i)]] = dEs_k(pop=pop, j=i, FE=FE, FT=FT, index=index)
 
         out[index['Et_1']] = dEt_1(pop=pop, FT=FT, FE=FE, index=index)
 
-        for i in range(2, NE + 1):
+        for i in range(2, Nerls[0] + 1):
             out[index['Et_' + str(i)]] = dEt_k(pop=pop, j=i, FE=FE, FT=FT, index=index)
 
         # Podromal
         out[index['P__1']] = dP__1(pop=pop, FE=FE, FP=FP, NE=NE, index=index)
 
-        for i in range(2, NP + 1):
+        for i in range(2, Nerls[1] + 1):
             out[index['P__' + str(i)]] = dP__k(pop=pop, j=i, FP=FP, index=index)
 
         out[index['Ps_1']] = dPs_1(pop=pop, FE=FE, FT=FT, FP=FP, NE=NE, index=index)
 
-        for i in range(2, NP + 1):
+        for i in range(2, Nerls[1] + 1):
             out[index['Ps_' + str(i)]] = dPs_k(pop=pop, j=i, FP=FP, FT=FT, index=index)
 
         out[index['Pt_1']] = dPt_1(pop=pop, FT=FT, FE=FE, FP=FP, NE=NE, index=index)
 
-        for i in range(2, NP + 1):
+        for i in range(2, Nerls[1] + 1):
             out[index['Pt_' + str(i)]] = dPt_k(pop=pop, j=i, FP=FP, FT=FT, index=index)
 
         # Fully Infectious
         # I_p home        
         out[index['I_p1']] = dI_p1(pop=pop, fp=f_phi_[0], FP=FP, FI=FIp, NP=NP, index=index)
 
-        for i in range(2, NIp + 1):
+        for i in range(2, Nerls[3] + 1):
             out[index['I_p' + str(i)]] = dI_pk(pop=pop, j=i, FI=FIp, index=index)
 
         # I_h hosp
         out[index['I_h1']] = dI_h1(pop=pop, fh=f_phi_[1], FP=FP, FI=FI, NP=NP, index=index)
 
-        for i in range(2, NIh + 1):
+        for i in range(2, Nerls[3] + 1):
             out[index['I_h' + str(i)]] = dI_hk(pop=pop, j=i, FI=FI, index=index)
 
         # Isp * home
         out[index['Isp1']] = dIsp1(pop=pop, fp=f_phi_[0], FP=FP, FT=FT, FI = FI, NP=NP, index=index)
 
-        for i in range(2, NIp):
+        for i in range(2, Nerls[2]):
             out[index['Isp' + str(i)]] = dIspk(pop=pop, j=i, FI=FI, FT=FT, index=index)
         if NIp > 1:
             out[index['Isp' + str(NIp)]] = dIspNI(pop=pop, FI=FI, FT=FT, NIp=NIp, index=index)
@@ -231,7 +191,7 @@ def modelEbola(
         # Ish * hosp
         out[index['Ish1']] = dIsh1(pop=pop, fh=f_phi_[1], FP=FP, FT=FT, FI=FI, NP=NP, index=index)
 
-        for i in range(2, NIh):
+        for i in range(2, Nerls[3]):
             out[index['Ish' + str(i)]] = dIshk(pop=pop, j=i, FI=FI, FT=FT, index=index)
         if NIh > 1:
             out[index['Ish' + str(NIh)]] = dIshNI(pop=pop, FI=FI, FT=FT, NIh=NIh, index=index)
@@ -239,7 +199,7 @@ def modelEbola(
         # I_i iso 
         out[index['I_i1']] = dI_i1(pop=pop, fi=f_phi_[2], FP=FP, FT=FT, FI=FI, NP=NP, index=index)
 
-        for i in range(2, NIi + 1):
+        for i in range(2, Nerls[4] + 1):
             out[index['I_i' + str(i)]] = dI_ik(pop=pop, j=i, FI=FI, FT=FT, index=index)
 
         # Recovered, Dead
