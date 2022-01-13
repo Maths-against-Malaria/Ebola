@@ -27,12 +27,10 @@ def popsum(pop, compartment, script1, script2, Nerls, index):
         if script2 == 'i':
             Nerl = Nerls[4]
     x = 0
-    #print(compartment + str(Nerl))
     if Nerl == 0:
          x = x + pop[index[compartment + script1 + script2]]
     else:      
         for k in range(1, Nerl+1):
-            #print(compartment + script1 + script2 + str(k))
             x = x + pop[index[compartment + script1 + script2 + str(k)]]
     return x
 
@@ -52,23 +50,23 @@ def f_hom(t, b, t_iso, d_p1, d_p2):
     return x
 '''
 
-def d_ph(t, l, t_iso, d_p1, d_h1, d_p2, d_h2):
+def d_ph(t, t_iso, d_ph0, d_ph1):
     if t <= t_iso:
-        d_p = d_p1
-        d_h = d_h1
+        d_p = d_ph0[0]
+        d_h = d_ph0[1]
     else:
-        d_p = d_p2[l]
-        d_h = d_h2[l]
+        d_p = d_ph1[0]
+        d_h = d_ph1[1]
     x = [d_p, d_h]
     return x
 
-def f_phi(t, k, t_iso, f_p1, f_h1, f_p2, f_h2):
+def f_phi(t, t_iso, f_ph0, f_ph1):
     if t <= t_iso:
-        f_p = f_p1
-        f_h = f_h1
+        f_p = f_ph0[0]
+        f_h = f_ph0[1]
     else:
-        f_p = f_p2[k]
-        f_h = f_h2[k]
+        f_p = f_ph1[0]
+        f_h = f_ph1[1]
     f_i = 1-(f_p + f_h)
     x = [f_p, f_h, f_i]
     return x
@@ -129,11 +127,11 @@ def lt(la, ls):
     lt = la + ls
     return lt
 
-def vac(pop, index, t, t_vac, Nvac):
+def vac(pop, index, t, t_vac, N_vac):
     if t <= t_vac:
         x = 0
     if t > t_vac:
-        x = min(pop[index['S__']], Nvac)
+        x = min(pop[index['S__']], N_vac)
     return x
 
 '''
