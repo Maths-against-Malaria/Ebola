@@ -320,7 +320,24 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     plt.savefig(pathOut + '/Ebola_mix_' + savename + '.pdf', dpi=100)
     plt.show()
 
-    result = [[-10000 for i in np.arange(3*16)] for j in np.arange(len(names))]
+    result = [[-10000 for i in np.arange(3*16 + 3)] for j in np.arange(len(names) + 1)]
+    result[0] = ['S__final','S__max','S__whenmax',
+                 'E__final','E__max','E__whenmax',
+                 'Et_final','Et_max', 'Et_whenmax',
+                 'Es_final','Es_max','Es_whenmax',
+                 'P__final','P__max','P__whenmax',
+                 'Pt_final','Pt_max','Pt_whenmax',
+                 'Ps_final','Ps_max','Ps_whenmax',
+                 'I_pfinal','I_pmax','I_pwhenmax',
+                 'I_hfinal','I_hmax','I_hwhenmax',
+                 'I_ifinal','I_imax','I_iwhenmax',
+                 'Ishfinal','Ishmax','Ishwhenmax',
+                 'Ispfinal','Ispmax','Ispwhenmax',
+                 'F__final','F__max','F__whenmax',
+                 'B_jfinal','B_jmax','B_jwhenmax',
+                 'B_ffinal','B_fmax','B_fwhenmax',
+                 'R__final','R__max','R__whenmax',
+                 'Iallfinal','Iallmax','Iallwhenmax']
     for i in np.arange(len(names)):
         #print(i)
         result_i = []
@@ -330,10 +347,15 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
             max_ij = max(popSum[i][j])
             maxwhen_ij = np.argmax(popSum[i][j])
             result_i = result_i + [final_ij] + [max_ij] + [maxwhen_ij]
+        I_i = np.sum(popSum[i][1:12], axis=0)
+        result_i = result_i + [I_i[-1]] + \
+                   [max(I_i)] + \
+                   [np.argmax(I_i)]
+
         print(result_i)
             #result[i + len(names)[j]]
             #result[i + 2*len(names)[j]]
-        result[i] = result_i
+        result[i+1] = result_i
     with open(pathOut + "/ebolaFinal_" + savename + ".csv", "w+") as my_csv:  # writing the file as my_csv
         csvWriter = csv.writer(my_csv, delimiter=',')  # using the csv module to write the file
         csvWriter.writerows(result)
