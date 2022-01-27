@@ -10,8 +10,8 @@ import numpy as np
 import csv as csv
 #import parameters_1
 
-from index import *
-
+#from index import *
+from functions2 import indexFunction
 
 #CD6700
 colsA = ["#000000", "#801980", "#59B3E6", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3", "grey"]
@@ -244,7 +244,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     for i in range(0, len(names)):
         p.plot(popSum[i][8], label=lab[i], color=col[i], linestyle='-')
         if tb == True:
-            p.plot(popSum[i][10], color=col[i], linestyle=':')
+            p.plot(popSum[i][10], color=col[i], linestyle='--')
     p.set_ylabel('Fully inf. ind. in hospital')
     p.set_title(label='E.', loc='left')
     p.set_ylim(bottom=0)
@@ -357,7 +357,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
             max_ij = max(popSum[i][j])
             maxwhen_ij = np.argmax(popSum[i][j])
             result_i = result_i + [final_ij] + [max_ij] + [maxwhen_ij]
-        I_i = np.sum(popSum[i][1:12], axis=0)
+        I_i = np.sum(popSum[i][1:11], axis=0)
         result_i = result_i + [I_i[-1]] + \
                    [max(I_i)] + \
                    [np.argmax(I_i)]

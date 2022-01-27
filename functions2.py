@@ -346,6 +346,7 @@ def modelEbola(
         n=n,
         N=N,
         D = D,
+        DT = DT,
         fdead = fdead,
         R0=R0,
         cc = cc,
@@ -366,6 +367,7 @@ def modelEbola(
         nameIn='',
         method ="RK45",
         pathOut='results'):
+    D[5] = DT  # trace back time
     name = str(days) + '_' \
             + str(n) + '_' \
             + str(N) + '_' \
