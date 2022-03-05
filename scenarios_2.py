@@ -301,4 +301,4 @@ modelEbola(days = 365, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[3],d_ph1=[d_p1[4
 modelEbola(days = 365, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[3],d_ph1=[d_p1[4],d_h1[4]],fdead = [fdead_p[1],fdead_h[1],fdead_i[1]],t_iso=50, DT=15)
 modelEbola(days = 365, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[3],d_ph1=[d_p1[4],d_h1[4]],fdead = [fdead_p[1],fdead_h[1],fdead_i[1]],t_iso=50, DT=20)
 modelEbola(days = 365, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[3],d_ph1=[d_p1[4],d_h1[4]],fdead = [fdead_p[1],fdead_h[1],fdead_i[1]],t_iso=50, DT=25)
-
+modelEbola(days = 365, f_ph1 = [f_p1[3], f_h1[3]], f_tb = f_tb_[3],d_ph1=[d_p1[4],d_h1[4]],fdead = [fdead_p[1],fdead_h[1],fdead_i[1]],t_iso=50, DT=30)
