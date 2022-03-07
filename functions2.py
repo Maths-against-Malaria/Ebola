@@ -596,7 +596,7 @@ lstsB = ['-',(0, (1,1)), (0, (1,2)),(0, (2,1)),
          (0, (2,2)), (0, (3,1)), (0, (3,2)), (0, (2,1,1,1)), (0, (2,2,1,2)), (0, (3,1,1,1)), (0, (3,2,1,2)), (0, (3,1,1,1,1,1)),(0, (3,2,1,2,1,2)), (0, (3,1,1,1,1,1,1,1)),(0, (3,2,1,2,1,2,1,2))]
 lstsC = ['-',(0, (1,1)), (0, (3,1)), (0, (1,3)), (0, (3,3)),
          (0, (1,1,1,3)), (0, (1,1,3,1)), (0, (1,1,3,3)), (0, (1,3,3,1)), (0, (1,3,3,3)),(0, (3,1,3,3))]
-lstsA = lstsC[0:7]
+lstsA = ['-', '-', (0, (1,1)), (0, (3,1)), (0, (1,3)), (0, (1,1,1,3)), (0, (1,1,3,1)), (0, (1,1,3,3))]
 #11;1113, 1311;1131, 3111;1133, 3311;13;3113;31;1333,3313;3133,3331;33
 
 
@@ -755,6 +755,8 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         # generate legend for general plot (colors)
         legend_lines = legend_lines + [Line2D([0], [0], lw=1, color=col[i])]
         legend_text = legend_text + [lab[i]]
+    legend_lines = legend_lines + [Line2D([0], [0], lw=1, color='white')]
+    legend_text = legend_text + [' ']
     if legendout == False:
         p.legend()
     p.set_ylabel('Susceptible ind.')
@@ -832,11 +834,11 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         p.plot(popSum[0][7], label=lab[i], color=col[i])
     if tb == True:
         p.plot(popSum[0][7], color=col[0], linestyle=lst[1], label=leg[1])# 'never traced back'
-        p.plot(popSum[0][11], color=col[0], linestyle=lst[3], label=leg[3])# 'not yet traced back'
+        p.plot(popSum[0][11], color=col[0], linestyle=lst[2], label=leg[2])# 'not yet traced back'
     for i in range(0, len(names)):
         p.plot(popSum[i][7], label=lab[i], color=col[i], linestyle=lst[1])
         if tb == True:
-            p.plot(popSum[i][11], color=col[i], linestyle=lst[3])
+            p.plot(popSum[i][11], color=col[i], linestyle=lst[2])
     if legendout == False:
         p.legend()
     p.set_ylabel('Fully inf. ind. at home')
@@ -849,11 +851,11 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         p.plot(popSum[0][8], color=col[0], linestyle=lst[1])
     if tb == True:
         p.plot(popSum[0][8], color=col[0], linestyle=lst[1], label=leg[1])# 'never traced back'
-        p.plot(popSum[0][10], color=col[0], linestyle=lst[3], label=leg[3])# 'not yet traced back'
+        p.plot(popSum[0][10], color=col[0], linestyle=lst[2], label=leg[2])# 'not yet traced back'
     for i in range(0, len(names)):
         p.plot(popSum[i][8], label=lab[i], color=col[i], linestyle=lst[1])
         if tb == True:
-            p.plot(popSum[i][10], color=col[i], linestyle=lst[3])
+            p.plot(popSum[i][10], color=col[i], linestyle=lst[2])
     if legendout == False:
         p.legend()
     p.set_ylabel('Fully inf. ind. in hospital')
@@ -924,7 +926,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
 
     if legendout:
         # plot general legend
-        fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left", ncol=3)  # mode="expand", ncol=)
+        fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left", ncol=4)  # mode="expand", ncol=)
         # bbox_to_anchor=(-3, -3, 3.5, 0.5)
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=None)
     #plt.tight_layout()
