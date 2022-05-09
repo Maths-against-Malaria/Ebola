@@ -32,11 +32,11 @@ R0 = 2      # basic reproduction number
 
 # contagiousness in different states (P, I, F) and conditions (p, h - for I), cIi = 0
 cP = 0.3
-cIh = 0.5   # c_I hosp
 cI = 0.6    # c_I home
+cIh = 0.5   # c_I hosp
 cF = 1      # relative contagiousness after death before being buried
 
-cc = [cP,cIh,cI,cF]
+cc = [cP,cI,cIh,cF]
 
 # initial number of sick (in state P) individuals
 P0 = 10
