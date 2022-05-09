@@ -9,16 +9,17 @@ from parameters_3 import *
 import numpy as np
 from scipy.integrate import solve_ivp
 
+
 # index of compartments (depending on number of Erlang stages per compartment - assuming one general number of Erlang stages everywhere
 def indexFunction(n):
-    compartments = [('S',  0, '__'),
-                ('E', n, '__'), ('E',n, 't_'),('E', n, 's_'),
-                ('P', n, '__'), ('P',n, 't_'),('P', n, 's_'),
-                ('I', n, '_p'), ('I',n, '_h'),('I', n, '_i'), ('I', n, 'sh'), ('I',n, 'sp'),
-                ('F',  0, '__'),
-                ('B',  0, '_j'),('B',  0, '_f'),
-                ('R',  0, '__')
-                ]
+    compartments = [('S', 0, '__'),
+                    ('E', n, '__'), ('E', n, 't_'), ('E', n, 's_'),
+                    ('P', n, '__'), ('P', n, 't_'), ('P', n, 's_'),
+                    ('I', n, '_p'), ('I', n, '_h'), ('I', n, '_i'), ('I', n, 'sh'), ('I', n, 'sp'),
+                    ('F', 0, '__'),
+                    ('B', 0, '_j'), ('B', 0, '_f'),
+                    ('R', 0, '__')
+                    ]
     index = dict()
     ind = 0
     for i in compartments:
@@ -31,20 +32,20 @@ def indexFunction(n):
                 notation_k = notation + str(k)
                 index[notation_k] = ind
                 ind += 1
-    #print(index)
+    # print(index)
     return index
-
 
 
 # sum of population in compartment_script1_script1
 def popsum(pop, compartment, script1, script2, n, index):
-    x=0
+    x = 0
     if compartment in {'S', 'F', 'B', 'R'}:
         x = x + pop[index[compartment + script1 + script2]]
     else:
         for k in range(1, n + 1):
             x = x + pop[index[compartment + script1 + script2 + str(k)]]
     return x
+
 
 # general contact reduction, dependent on time (countermeasures being in place after t_iso)
 def fct(t, t_iso, fc):
@@ -53,6 +54,7 @@ def fct(t, t_iso, fc):
     else:
         fct = fc
     return fct
+
 
 # safe funeral, dependent on time  (countermeasures being in place after t_iso)
 def d_ph(t, t_iso, d_ph0, d_ph1):
@@ -64,6 +66,7 @@ def d_ph(t, t_iso, d_ph0, d_ph1):
         d_h = d_ph1[1]
     x = [d_p, d_h]
     return x
+
 
 # fraction in isolation - and elsewhere -  (countermeasures being in place after t_iso)
 def f_phi(t, t_iso, f_ph0, f_ph1):
@@ -77,6 +80,7 @@ def f_phi(t, t_iso, f_ph0, f_ph1):
     x = [f_p, f_h, f_i]
     return x
 
+
 # persons to be in quarantine: potential (q) and actual (Q) (all in compartments Pt_ and I_i; after t_iso; limited by capacity qmax)
 def q(pop, t, t_iso, qmax, n, index):
     if t < t_iso:
@@ -89,7 +93,8 @@ def q(pop, t, t_iso, qmax, n, index):
             q = 1
         else:
             q = qmax / Q
-    return [q,Q]
+    return [q, Q]
+
 
 # persons to be traced back: potential (c) and actual (C)
 # only after t_iso
@@ -111,6 +116,7 @@ def c(pop, t, t_iso, cmax, n, index, FT, FP, f_iso):
         else:
             c = cmax / C
     return [c, C]
+
 
 # force of infection
 def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, fc, n, index):
@@ -151,6 +157,7 @@ def vac(pop, index, t, t_vac, N_vac):
     if t > t_vac:
         x = min(pop[index['S__']], N_vac)
     return x
+
 
 # differential equations ---------------------------------------------------------------
 
@@ -345,76 +352,81 @@ def modelEbola(
         days=days,
         n=n,
         N=N,
-        D = D,
-        DT = DT,
-        fdead = fdead,
+        D=D,
+        DT=DT,
+        fdead=fdead,
         R0=R0,
-        cc = cc,
+        cc=cc,
         P0=P0,  # P(0)
         t_iso=t_iso,
-        I_iso = I_iso,
-        f_ph0 = f_ph0,
-        f_ph1 = f_ph1,
-        d_ph0 = d_ph0,
-        d_ph1 = d_ph1,
+        I_iso=I_iso,
+        f_ph0=f_ph0,
+        f_ph1=f_ph1,
+        d_ph0=d_ph0,
+        d_ph1=d_ph1,
         f_tb=f_tb,
         ph=ph,
         qmax=qmax,
         cmax=cmax,
-        fc = fc,
+        fc=fc,
         t_vac=t_vac,
         N_vac=N_vac,
         nameIn='',
-        method ="RK45",
+        method="RK45",
         pathOut='results'):
     D[5] = DT  # trace back time
     name = str(days) + '_' \
-            + str(n) + '_' \
-            + str(N) + '_' \
-            + str(D) + '_' \
-            + str(fdead) + '_' \
-            + str(R0) + '_' \
-            + str(cc) + '_' \
-            + str(P0) + '_' \
-            + str(t_iso) + '_' \
-            + str(I_iso) + '_' \
-            + str(f_ph0) + '_' \
-            + str(f_ph1) + '_' \
-            + str(d_ph0) + '_' \
-            + str(d_ph1) + '_' \
-            + str(f_tb) + '_' \
-            + str(ph) + '_' \
-            + str(qmax) + '_' \
-            + str(cmax) + '_' \
-            + str(fc) + '_' \
-            + str(t_vac) + '_' \
-            + str(N_vac) + '_' \
-            + method + '_' \
-            + nameIn
+           + str(n) + '_' \
+           + str(N) + '_' \
+           + str(D) + '_' \
+           + str(fdead) + '_' \
+           + str(R0) + '_' \
+           + str(cc) + '_' \
+           + str(P0) + '_' \
+           + str(t_iso) + '_' \
+           + str(I_iso) + '_' \
+           + str(f_ph0) + '_' \
+           + str(f_ph1) + '_' \
+           + str(d_ph0) + '_' \
+           + str(d_ph1) + '_' \
+           + str(f_tb) + '_' \
+           + str(ph) + '_' \
+           + str(qmax) + '_' \
+           + str(cmax) + '_' \
+           + str(fc) + '_' \
+           + str(t_vac) + '_' \
+           + str(N_vac) + '_' \
+           + method + '_' \
+           + nameIn
 
     print("'" + name + "',")
 
     # compute values that do not change by time (or population)
     index = indexFunction(n)
 
-    #cD = R0 / (cP * DP + cI * DI + cF * DF)
-    cD = R0 /(cc[0] * D[1] + cc[2] * D[3] + cc[3] * D[4])
+    # cD = R0 / (cP * DP + cI * DI + cF * DF)
+    u = (1 - d_ph0[0]) * fdead[0] * f_ph0[0] + \
+        (1 - d_ph0[1]) * fdead[1] * f_ph0[1]
+    cD = R0 / (cc[0] * D[1] + \
+               cc[1] * D[3] * f_ph0[0] + \
+               cc[2] * D[3] * f_ph0[1] + \
+               cc[3] * D[4] * u)
     cD = float(cD)
+    print(cD)
+    betaP = cc[0] * cD
+    betaIp = cc[1] * cD
+    betaIh = cc[2] * cD
+    betaF = cc[3] * cD
 
-    betaP =     cc[0] * cD
-    betaIh =    cc[1] * cD
-    betaIp =    cc[2] * cD
-    betaF =     cc[3] * cD
-
-    FE = n/D[0] # epsilon
-    FP = n/D[1] # gamma
-    FI = n/D[2] # delta
-    FIp = n/D[3] # delta at home
-    FF = 1/D[4] # phi
-    FT = 1/D[5] # alpha
+    FE = n / D[0]  # epsilon
+    FP = n / D[1]  # gamma
+    FI = n / D[2]  # delta
+    FIp = n / D[3]  # delta at home
+    FF = 1 / D[4]  # phi
+    FT = 1 / D[5]  # alpha
 
     ####################################################
-    #rec = [[-10000 for i in np.arange(2)] for j in np.arange(days + 1)]
+    # rec = [[-10000 for i in np.arange(2)] for j in np.arange(days + 1)]
     rec = [[-10000 for i in np.arange(10 + len(index))] for j in np.arange(days + 1)]
 
     def f(t, pop):
@@ -427,12 +439,12 @@ def modelEbola(
         # are countermeasures in place? after time t_iso or after number of cases in I_h + I_i >= I_iso
         t_iso_ = t_iso
         if (t < t_iso):
-            if popsum(pop=pop, compartment ='I', script1='_', script2='h', n=n, index=index) + \
+            if popsum(pop=pop, compartment='I', script1='_', script2='h', n=n, index=index) + \
                     popsum(pop=pop, compartment='I', script1='_', script2='i', n=n, index=index) + \
                     popsum(pop=pop, compartment='I', script1='s', script2='h', n=n, index=index) + \
-                    pop[index['F__']] + pop[index['B_j']] + pop[index['B_f']] + pop[index['R__']]\
+                    pop[index['F__']] + pop[index['B_j']] + pop[index['B_f']] + pop[index['R__']] \
                     >= I_iso:
-                t_iso_ = t-1
+                t_iso_ = t - 1
 
         fdead_i_ = fdead[2]
         fdead_h_ = fdead[1]
@@ -440,18 +452,18 @@ def modelEbola(
 
         fc_ = fct(t=t, t_iso=t_iso_, fc=fc)
         f_phi_ = f_phi(t=t, t_iso=t_iso_, f_ph0=f_ph0, f_ph1=f_ph1)
-        d_ph_ = d_ph(t=t, t_iso=t_iso_, d_ph0 = d_ph0, d_ph1 = d_ph1)
+        d_ph_ = d_ph(t=t, t_iso=t_iso_, d_ph0=d_ph0, d_ph1=d_ph1)
         qq = q(pop=pop, t=t, t_iso=t_iso_, qmax=qmax, n=n, index=index)
         q_ = qq[0]
-        cc = c(pop=pop, t=t, t_iso=t_iso_, cmax=cmax, n=n, index=index, FT=FT, FP=FP, f_iso=f_phi_[2])
-        c_ = cc[0]
+        ccc = c(pop=pop, t=t, t_iso=t_iso_, cmax=cmax, n=n, index=index, FT=FT, FP=FP, f_iso=f_phi_[2])
+        c_ = ccc[0]
         la__ = la(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,
-                  q=q_, c = c_, fc = fc_, n=n, index=index)
-        la_ = la__[0] # lambda
-        ls_ = la__[1] # lambda^*
-        lt_ = la_ + ls_  #lt(la=la_, ls=ls_)
+                  q=q_, c=c_, fc=fc_, n=n, index=index)
+        la_ = la__[0]  # lambda
+        ls_ = la__[1]  # lambda^*
+        lt_ = la_ + ls_  # lt(la=la_, ls=ls_)
 
-        vac_ = vac(pop=pop, index=index, t=t,t_vac=t_vac, N_vac=N_vac)
+        vac_ = vac(pop=pop, index=index, t=t, t_vac=t_vac, N_vac=N_vac)
         rec[int(t)] = [t] + [t_iso_] + [q_] + [fc_] + f_phi_ + [c_] + la__ + [vac_] + np.ndarray.tolist(pop)
 
         ## Differential equations for compartments
@@ -504,7 +516,7 @@ def modelEbola(
             out[index['I_h' + str(i)]] = dI_hk(pop=pop, j=i, FI=FI, index=index)
 
         # Isp * home
-        out[index['Isp1']] = dIsp1(pop=pop, fp=f_phi_[0], FP=FP, FT=FT, FI = FI, n=n, index=index)
+        out[index['Isp1']] = dIsp1(pop=pop, fp=f_phi_[0], FP=FP, FT=FT, FI=FI, n=n, index=index)
         for i in range(2, n):
             out[index['Isp' + str(i)]] = dIspk(pop=pop, j=i, FI=FI, FT=FT, index=index)
         if n > 1:
@@ -525,13 +537,16 @@ def modelEbola(
             out[index['I_i' + str(i)]] = dI_ik(pop=pop, j=i, FI=FI, FT=FT, index=index)
 
         # Recovered, Dead
-        out[index['R__']] = dR(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, fdead_i=fdead_i_, FI=FI, FIp = FIp, n=n, index=index, vac=vac_)
+        out[index['R__']] = dR(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, fdead_i=fdead_i_, FI=FI, FIp=FIp, n=n,
+                               index=index, vac=vac_)
 
-        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, FI=FI, FIp=FIp, FF=FF, n=n, index=index, d_h=d_ph_[1], d_p=d_ph_[0])
+        out[index['F__']] = dF(pop=pop, fdead_p=fdead_p_, fdead_h=fdead_h_, FI=FI, FIp=FIp, FF=FF, n=n, index=index,
+                               d_h=d_ph_[1], d_p=d_ph_[0])
 
         out[index['B_f']] = dB_f(pop=pop, FF=FF, index=index)
 
-        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i_, FI=FI, FIp=FIp, n = n, index=index, d_h=d_ph_[1], d_p=d_ph_[0], fdead_h=fdead_h_, fdead_p=fdead_p_)
+        out[index['B_j']] = dB_j(pop=pop, fdead_i=fdead_i_, FI=FI, FIp=FIp, n=n, index=index, d_h=d_ph_[1],
+                                 d_p=d_ph_[0], fdead_h=fdead_h_, fdead_p=fdead_p_)
 
         # return
         return out
@@ -563,13 +578,14 @@ def modelEbola(
                      method=method,
                      t_eval=np.arange(0, days),
                      dense_output=True,
-                     max_step = 1)
+                     max_step=1)
 
     # print(ints)
     np.savetxt(pathOut + "/ebola_" + name + ".txt", soln.y)
-    #print(rec)
-    np.savetxt(pathOut + "/ebolaVar_" + name + ".txt", rec,fmt='%.5f')
+    # print(rec)
+    np.savetxt(pathOut + "/ebolaVar_" + name + ".txt", rec, fmt='%.5f')
     return (name)
+
 
 ############
 # Plot     #
@@ -585,44 +601,48 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv as csv
 from matplotlib.lines import Line2D
-#import parameters_1
+# import parameters_1
 
-#from index import *
+# from index import *
 from functions2 import indexFunction
 
-#CD6700
+# CD6700
 colsA = ["#000000", "#801980", "#59B3E6", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3", "grey"]
-lstsB = ['-',(0, (1,1)), (0, (1,2)),(0, (2,1)),
-         (0, (2,2)), (0, (3,1)), (0, (3,2)), (0, (2,1,1,1)), (0, (2,2,1,2)), (0, (3,1,1,1)), (0, (3,2,1,2)), (0, (3,1,1,1,1,1)),(0, (3,2,1,2,1,2)), (0, (3,1,1,1,1,1,1,1)),(0, (3,2,1,2,1,2,1,2))]
-lstsC = ['-',(0, (1,1)), (0, (3,1)), (0, (1,3)), (0, (3,3)),
-         (0, (1,1,1,3)), (0, (1,1,3,1)), (0, (1,1,3,3)), (0, (1,3,3,1)), (0, (1,3,3,3)),(0, (3,1,3,3))]
-lstsA = ['-', '-', (0, (1,1)), (0, (3,1)), (0, (1,3)), (0, (1,1,1,3)), (0, (1,1,3,1)), (0, (1,1,3,3))]
-#11;1113, 1311;1131, 3111;1133, 3311;13;3113;31;1333,3313;3133,3331;33
+lstsB = ['-', (0, (1, 1)), (0, (1, 2)), (0, (2, 1)),
+         (0, (2, 2)), (0, (3, 1)), (0, (3, 2)), (0, (2, 1, 1, 1)), (0, (2, 2, 1, 2)), (0, (3, 1, 1, 1)),
+         (0, (3, 2, 1, 2)), (0, (3, 1, 1, 1, 1, 1)), (0, (3, 2, 1, 2, 1, 2)), (0, (3, 1, 1, 1, 1, 1, 1, 1)),
+         (0, (3, 2, 1, 2, 1, 2, 1, 2))]
+lstsC = ['-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (3, 3)),
+         (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 3, 3, 1)), (0, (1, 3, 3, 3)),
+         (0, (3, 1, 3, 3))]
+lstsA = ['-', '-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3))]
+# 11;1113, 1311;1131, 3111;1133, 3311;13;3113;31;1333,3313;3133,3331;33
 
 
 pathIn = 'results'
-pathOut= 'plots'
+pathOut = 'plots'
+
 
 def popsum2d(pops, n):
     index = indexFunction(n)
-    indexComp = [1, 1 + n, 1 + 2*n, 1 + 3*n,
-                    1 + 4*n, 1 + 5*n, 1 + 6*n,
-                    1 + 7*n, 1 + 8*n, 1 + 9*n,
-                    1 + 10*n, 1 + 11*n]
+    indexComp = [1, 1 + n, 1 + 2 * n, 1 + 3 * n,
+                 1 + 4 * n, 1 + 5 * n, 1 + 6 * n,
+                 1 + 7 * n, 1 + 8 * n, 1 + 9 * n,
+                 1 + 10 * n, 1 + 11 * n]
 
-    popSum = np.zeros((16,pops.shape[1]))
+    popSum = np.zeros((16, pops.shape[1]))
     popSum[0] = pops[index['S__']]
-    popSum[1] = np.sum(pops[indexComp[0]:indexComp[1]], axis = 0)            # E__
-    popSum[2] = np.sum(pops[indexComp[1]:indexComp[2]], axis = 0)       # Et_
-    popSum[3] = np.sum(pops[indexComp[2]:indexComp[3]], axis = 0)     # Es_
-    popSum[4] = np.sum(pops[indexComp[3]:indexComp[4]], axis = 0)     # P__
-    popSum[5] = np.sum(pops[indexComp[4]:indexComp[5]], axis = 0)     # Pt_
-    popSum[6] = np.sum(pops[indexComp[5]:indexComp[6]], axis = 0)     # Ps_
-    popSum[7] = np.sum(pops[indexComp[6]:indexComp[7]], axis = 0)     # I_p
-    popSum[8] = np.sum(pops[indexComp[7]:indexComp[8]], axis = 0)     # I_h
-    popSum[9] = np.sum(pops[indexComp[8]:indexComp[9]], axis = 0)     # I_i
-    popSum[10] = np.sum(pops[indexComp[9]:indexComp[10]], axis = 0)    # Ish
-    popSum[11] = np.sum(pops[indexComp[10]:indexComp[11]], axis = 0)   # Isp
+    popSum[1] = np.sum(pops[indexComp[0]:indexComp[1]], axis=0)  # E__
+    popSum[2] = np.sum(pops[indexComp[1]:indexComp[2]], axis=0)  # Et_
+    popSum[3] = np.sum(pops[indexComp[2]:indexComp[3]], axis=0)  # Es_
+    popSum[4] = np.sum(pops[indexComp[3]:indexComp[4]], axis=0)  # P__
+    popSum[5] = np.sum(pops[indexComp[4]:indexComp[5]], axis=0)  # Pt_
+    popSum[6] = np.sum(pops[indexComp[5]:indexComp[6]], axis=0)  # Ps_
+    popSum[7] = np.sum(pops[indexComp[6]:indexComp[7]], axis=0)  # I_p
+    popSum[8] = np.sum(pops[indexComp[7]:indexComp[8]], axis=0)  # I_h
+    popSum[9] = np.sum(pops[indexComp[8]:indexComp[9]], axis=0)  # I_i
+    popSum[10] = np.sum(pops[indexComp[9]:indexComp[10]], axis=0)  # Ish
+    popSum[11] = np.sum(pops[indexComp[10]:indexComp[11]], axis=0)  # Isp
     popSum[12] = pops[index['F__']]
     popSum[13] = pops[index['B_j']]
     popSum[14] = pops[index['B_f']]
@@ -631,20 +651,21 @@ def popsum2d(pops, n):
 
 
 def getQ(pathIn, name, i, days):
-    path = pathIn + '/ebolaVar_'+ name + '.txt'
-    q_  = np.loadtxt(path)
+    path = pathIn + '/ebolaVar_' + name + '.txt'
+    q_ = np.loadtxt(path)
     q__ = np.delete(q_, np.where(q_ == [-1.00000000e+04, -1.00000000e+04]), axis=0)
     q___ = np.interp(x=np.arange(days), xp=q__[:, 0], fp=q__[:, i])
     return q___
 
-def plotEbolaParameters(names, savename, n, days, pathIn=pathIn, pathOut = pathOut, nplots=10, col=colsA):
+
+def plotEbolaParameters(names, savename, n, days, pathIn=pathIn, pathOut=pathOut, nplots=10, col=colsA):
     index = indexFunction(n)
-    par_ji = getQ(pathIn=pathIn, name=names[1], i=1, days = days)
+    par_ji = getQ(pathIn=pathIn, name=names[1], i=1, days=days)
     par = [[-10000 for i in np.arange(2)] for j in np.arange(days)]
     for j in range(0, nplots):
-        par[j] = np.empty(shape = [len(names), days])#s[1]])
+        par[j] = np.empty(shape=[len(names), days])  # s[1]])
         for i in range(0, len(names)):
-            par[j][i] = getQ(pathIn=pathIn, name = names[i], i = j, days = days)
+            par[j][i] = getQ(pathIn=pathIn, name=names[i], i=j, days=days)
 
     fig = plt.figure()
     fig.set_size_inches(12, 12)
@@ -686,15 +707,19 @@ def plotEbolaParameters(names, savename, n, days, pathIn=pathIn, pathOut = pathO
         p.plot(par[8][i], color=col[i])
     plt.show()
 
+
 # day=0 plots full scenario
-legendsA = [' ', 'never traced back', 'not yet traced back', 'diagnosed or traced back', 'diagnosed or traced back, not in ward', 'diagnosed or traced back, in ward', 'unsafely buried', 'safely buried']
+legendsA = [' ', 'never traced back', 'not yet traced back', 'diagnosed or traced back',
+            'diagnosed or traced back, not in ward', 'diagnosed or traced back, in ward', 'unsafely buried',
+            'safely buried']
+
+
 def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object = pathIn, pathOut: object = pathOut,
-                 col: object = colsA, lst = lstsA, leg = legendsA,
+                 col: object = colsA, lst=lstsA, leg=legendsA,
                  q_max: object = False,
                  tb: object = False,
-                 sf: object=False,
-                 legendout: object = True, days = 0) -> object:
-
+                 sf: object = False,
+                 legendout: object = True, days=0) -> object:
     # -------- layout settings
     plt.rcParams['axes.labelsize'] = 12
 
@@ -724,15 +749,15 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
 
     # if q_max: generate factor of persons that do not fit into the wards, to mulitply with
     if q_max == True:
-        q_ = np.empty(shape = [len(names),s[1]])
+        q_ = np.empty(shape=[len(names), s[1]])
         for i in range(0, len(names)):
-            q_[i] = getQ(pathIn=pathIn, name = names[i], i = 1, days = s[1])
+            q_[i] = getQ(pathIn=pathIn, name=names[i], i=1, days=s[1])
 
     # load simulation
     popSum = np.empty(shape=[len(names), s[0], s[1]])
 
     popSum[0] = popSum0
-    for i in range(0,len(names)):
+    for i in range(0, len(names)):
         pops_i = np.loadtxt(pathIn + '/ebola_' + names[i] + '.txt')
         popSum[i] = popsum2d(pops_i, n=n)
 
@@ -740,8 +765,8 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         popSum1 = np.empty(shape=[len(names), s[0], days])
         for i in range(0, len(names)):
             for j in range(0, n):
-                popSum1[i][j] =  popSum[i][j][0:days]
-        popSum=popSum1
+                popSum1[i][j] = popSum[i][j][0:days]
+        popSum = popSum1
 
     # ------------- plot  (9 subplots)
     fig = plt.figure()
@@ -751,7 +776,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     p = fig.add_subplot(331)
     for i in range(0, len(names)):
         # generate legend of this subplot
-        p.plot(popSum[i][0], label=lab[i], color=col[i],)
+        p.plot(popSum[i][0], label=lab[i], color=col[i], )
         # generate legend for general plot (colors)
         legend_lines = legend_lines + [Line2D([0], [0], lw=1, color=col[i])]
         legend_text = legend_text + [lab[i]]
@@ -769,9 +794,9 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     if tb == False:
         p.plot(popSum[0][1], color=col[0], linestyle=lst[1])
     if tb == True:
-        p.plot(popSum[0][1], color=col[0], linestyle=lst[1], label=leg[1]) #'never traced back'
-        p.plot(popSum[0][2], color=col[0], linestyle=lst[2], label=leg[2]) #'traced back'
-        p.plot(popSum[0][3], color=col[0], linestyle=lst[3], label=leg[3]) # 'not yet traced back'
+        p.plot(popSum[0][1], color=col[0], linestyle=lst[1], label=leg[1])  # 'never traced back'
+        p.plot(popSum[0][2], color=col[0], linestyle=lst[2], label=leg[2])  # 'traced back'
+        p.plot(popSum[0][3], color=col[0], linestyle=lst[3], label=leg[3])  # 'not yet traced back'
 
     for i in range(0, len(names)):
         p.plot(popSum[i][1], label=lab[i], color=col[i], linestyle=lst[1])
@@ -789,21 +814,23 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     if tb == False:
         p.plot(popSum[0][4], color=col[0])
     if tb == True:
-        p.plot(popSum[0][4], color=col[0], linestyle=lst[1], label=leg[1]) # 'never traced back'
-        p.plot(popSum[0][6], color=col[0], linestyle=lst[2], label=leg[2])# 'not yet traced back'
+        p.plot(popSum[0][4], color=col[0], linestyle=lst[1], label=leg[1])  # 'never traced back'
+        p.plot(popSum[0][6], color=col[0], linestyle=lst[2], label=leg[2])  # 'not yet traced back'
         # generate general legend (linestyles)
         legend_lines = legend_lines \
-            + [Line2D([0], [0], lw=1,color=col[0], linestyle=lst[1])] \
-            + [Line2D([0], [0], lw=1,color=col[0], linestyle=lst[2])]
+                       + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[1])] \
+                       + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[2])]
         legend_text = legend_text + [leg[1]] + [leg[2]]
         if q_max == False:
-            p.plot(popSum[0][5], color=col[0], linestyle=lst[3], label=leg[3])# 'traced back'
+            p.plot(popSum[0][5], color=col[0], linestyle=lst[3], label=leg[3])  # 'traced back'
             legend_lines = legend_lines \
                            + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[3])]
             legend_text = legend_text + [leg[3]]
         if q_max == True:
-            p.plot(np.multiply(popSum[0][5], q_[0]), color=col[0], linestyle=lst[3], label=leg[3])# 'traced back, in ward'
-            p.plot(np.multiply(popSum[0][5], np.multiply(q_[0],-1)+1), color=col[0], linestyle=lst[4], label=leg[4])# 'traced back, not in ward'
+            p.plot(np.multiply(popSum[0][5], q_[0]), color=col[0], linestyle=lst[3],
+                   label=leg[3])  # 'traced back, in ward'
+            p.plot(np.multiply(popSum[0][5], np.multiply(q_[0], -1) + 1), color=col[0], linestyle=lst[4],
+                   label=leg[4])  # 'traced back, not in ward'
             legend_lines = legend_lines \
                            + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[3])] \
                            + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[4])]
@@ -822,8 +849,8 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
 
     if legendout == False:
         p.legend()
-    #else:
-        #p.legend(bbox_to_anchor=(-3, -3, 3.5, 0.5), loc="upper left", mode="expand", ncol=3)
+    # else:
+    # p.legend(bbox_to_anchor=(-3, -3, 3.5, 0.5), loc="upper left", mode="expand", ncol=3)
     p.set_ylabel('Podromal ind.')
     p.set_title(label='C.', loc='left')
     p.set_ylim(bottom=0)
@@ -833,8 +860,8 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     if tb == False:
         p.plot(popSum[0][7], label=lab[i], color=col[i])
     if tb == True:
-        p.plot(popSum[0][7], color=col[0], linestyle=lst[1], label=leg[1])# 'never traced back'
-        p.plot(popSum[0][11], color=col[0], linestyle=lst[2], label=leg[2])# 'not yet traced back'
+        p.plot(popSum[0][7], color=col[0], linestyle=lst[1], label=leg[1])  # 'never traced back'
+        p.plot(popSum[0][11], color=col[0], linestyle=lst[2], label=leg[2])  # 'not yet traced back'
     for i in range(0, len(names)):
         p.plot(popSum[i][7], label=lab[i], color=col[i], linestyle=lst[1])
         if tb == True:
@@ -850,8 +877,8 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     if tb == False:
         p.plot(popSum[0][8], color=col[0], linestyle=lst[1])
     if tb == True:
-        p.plot(popSum[0][8], color=col[0], linestyle=lst[1], label=leg[1])# 'never traced back'
-        p.plot(popSum[0][10], color=col[0], linestyle=lst[2], label=leg[2])# 'not yet traced back'
+        p.plot(popSum[0][8], color=col[0], linestyle=lst[1], label=leg[1])  # 'never traced back'
+        p.plot(popSum[0][10], color=col[0], linestyle=lst[2], label=leg[2])  # 'not yet traced back'
     for i in range(0, len(names)):
         p.plot(popSum[i][8], label=lab[i], color=col[i], linestyle=lst[1])
         if tb == True:
@@ -865,10 +892,11 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     # Fully infected in isolation
     p = fig.add_subplot(336)
     if q_max == False:
-        p.plot(popSum[0][9], color=col[0],linestyle=lst[3], label=leg[3])
+        p.plot(popSum[0][9], color=col[0], linestyle=lst[3], label=leg[3])
     if q_max == True:
-        p.plot(np.multiply(popSum[0][9], q_[0]), color=col[0], linestyle=lst[3], label=leg[3])# 'in ward'
-        p.plot(np.multiply(popSum[0][9], np.multiply(q_[0], -1) + 1), color=col[0], linestyle=lst[4], label=leg[4])# 'not in ward'
+        p.plot(np.multiply(popSum[0][9], q_[0]), color=col[0], linestyle=lst[3], label=leg[3])  # 'in ward'
+        p.plot(np.multiply(popSum[0][9], np.multiply(q_[0], -1) + 1), color=col[0], linestyle=lst[4],
+               label=leg[4])  # 'not in ward'
 
     for i in range(0, len(names)):
         if q_max == False:
@@ -897,8 +925,8 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     if sf == False:
         p.plot(popSum[0][14], color=col[0], linestyle=lst[5])
     if sf == True:
-        p.plot(popSum[0][13], color=col[0], linestyle=lst[6], label=leg[7])#'safely')
-        p.plot(popSum[0][14], color=col[0], linestyle=lst[5], label=leg[6])#'unsafely')
+        p.plot(popSum[0][13], color=col[0], linestyle=lst[6], label=leg[7])  # 'safely')
+        p.plot(popSum[0][14], color=col[0], linestyle=lst[5], label=leg[6])  # 'unsafely')
         legend_lines = legend_lines \
                        + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[6])] \
                        + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[5])]
@@ -926,21 +954,22 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
 
     if legendout:
         # plot general legend
-        fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left", ncol=4)  # mode="expand", ncol=)
+        fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
+                   ncol=4)  # mode="expand", ncol=)
         # bbox_to_anchor=(-3, -3, 3.5, 0.5)
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=None)
-    #plt.tight_layout()
-    #plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
+    # plt.tight_layout()
+    # plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
 
     plt.savefig(pathOut + '/Ebola_all_' + savename + '.pdf', dpi=100)
     plt.show()
 
-    #plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
+    # plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
     plt.plot(np.sum(popSum[0][1:12], axis=0), label='infected (E+P+I)', color=col[0], linestyle='--')
     plt.plot(np.sum(popSum[0][12:15], axis=0), label='dead (D+B)', color=col[0], linestyle=':')
     for i in range(0, len(names)):
-        #plt.plot(popSum[i][0] + popSum[i][15], label=lab[i],color=col[i], linestyle='-')
-        #print('healthy ' + lab[i] + ': '+ str(round((popSum[i][0] + popSum[i][15])[-1])))
+        # plt.plot(popSum[i][0] + popSum[i][15], label=lab[i],color=col[i], linestyle='-')
+        # print('healthy ' + lab[i] + ': '+ str(round((popSum[i][0] + popSum[i][15])[-1])))
         plt.plot(np.sum(popSum[i][1:12], axis=0), color=col[i], linestyle='--')
         print('infected ' + lab[i] + ': ' + str(round(np.sum(popSum[i][1:12], axis=0)[-1])))
         plt.plot(np.sum(popSum[i][12:15], axis=0), color=col[i], linestyle=':')
@@ -948,28 +977,28 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         print('---------')
         plt.ylabel('Individuals')
     plt.legend()
-    #plt.title(savename)
+    # plt.title(savename)
     plt.savefig(pathOut + '/Ebola_mix_' + savename + '.pdf', dpi=100)
     plt.show()
 
-    result = [[-10000 for i in np.arange(3*16 + 3)] for j in np.arange(len(names) + 1)]
-    result[0] = ['S__final','S__max','S__whenmax',
-                 'E__final','E__max','E__whenmax',
-                 'Et_final','Et_max', 'Et_whenmax',
-                 'Es_final','Es_max','Es_whenmax',
-                 'P__final','P__max','P__whenmax',
-                 'Pt_final','Pt_max','Pt_whenmax',
-                 'Ps_final','Ps_max','Ps_whenmax',
-                 'I_pfinal','I_pmax','I_pwhenmax',
-                 'I_hfinal','I_hmax','I_hwhenmax',
-                 'I_ifinal','I_imax','I_iwhenmax',
-                 'Ishfinal','Ishmax','Ishwhenmax',
-                 'Ispfinal','Ispmax','Ispwhenmax',
-                 'F__final','F__max','F__whenmax',
-                 'B_jfinal','B_jmax','B_jwhenmax',
-                 'B_ffinal','B_fmax','B_fwhenmax',
-                 'R__final','R__max','R__whenmax',
-                 'Iallfinal','Iallmax','Iallwhenmax']
+    result = [[-10000 for i in np.arange(3 * 16 + 3)] for j in np.arange(len(names) + 1)]
+    result[0] = ['S__final', 'S__max', 'S__whenmax',
+                 'E__final', 'E__max', 'E__whenmax',
+                 'Et_final', 'Et_max', 'Et_whenmax',
+                 'Es_final', 'Es_max', 'Es_whenmax',
+                 'P__final', 'P__max', 'P__whenmax',
+                 'Pt_final', 'Pt_max', 'Pt_whenmax',
+                 'Ps_final', 'Ps_max', 'Ps_whenmax',
+                 'I_pfinal', 'I_pmax', 'I_pwhenmax',
+                 'I_hfinal', 'I_hmax', 'I_hwhenmax',
+                 'I_ifinal', 'I_imax', 'I_iwhenmax',
+                 'Ishfinal', 'Ishmax', 'Ishwhenmax',
+                 'Ispfinal', 'Ispmax', 'Ispwhenmax',
+                 'F__final', 'F__max', 'F__whenmax',
+                 'B_jfinal', 'B_jmax', 'B_jwhenmax',
+                 'B_ffinal', 'B_fmax', 'B_fwhenmax',
+                 'R__final', 'R__max', 'R__whenmax',
+                 'Iallfinal', 'Iallmax', 'Iallwhenmax']
     for i in np.arange(len(names)):
         result_i = []
         for j in np.arange(16):
@@ -983,13 +1012,13 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
                    [np.argmax(I_i)]
 
         print(result_i)
-        result[i+1] = result_i
+        result[i + 1] = result_i
     with open(pathOut + "/ebolaFinal_" + savename + ".csv", "w+") as my_csv:  # writing the file as my_csv
         csvWriter = csv.writer(my_csv, delimiter=',')  # using the csv module to write the file
         csvWriter.writerows(result)
-    #np.savetxt(pathOut + "/ebolaFinal_" + savename + ".txt", result, fmt='%.5f')
+    # np.savetxt(pathOut + "/ebolaFinal_" + savename + ".txt", result, fmt='%.5f')
 
-    return(savename)
+    return (savename)
 
 
 def plotEbolaScenarios(namesAllScenarios, lab, savename, n=16, pathIn=pathIn, pathOut=pathOut, col=colsA):
@@ -999,7 +1028,7 @@ def plotEbolaScenarios(namesAllScenarios, lab, savename, n=16, pathIn=pathIn, pa
 
     # M sets of scenarios
     M = len(namesAllScenarios)
-    #fig.set_size_inches(12, M * 4)
+    # fig.set_size_inches(12, M * 4)
     fig.set_size_inches(12, 12)
 
     alphabet = []
@@ -1021,17 +1050,17 @@ def plotEbolaScenarios(namesAllScenarios, lab, savename, n=16, pathIn=pathIn, pa
             popSum[i] = popsum2d(pops_i, n=n)
 
             # Result: final number of dead
-            #print(names[i])
-            print(np.sum(popSum[i][12:15], axis = 0)[-1])
+            # print(names[i])
+            print(np.sum(popSum[i][12:15], axis=0)[-1])
 
         # Susceptible
         p = fig.add_subplot(M, 3, mm + 1)
 
         for i in range(0, len(names)):
-            p.plot(popSum[i][0], label= r'$f_{iso} = $' + lab[i], color=col[i], linestyle='-')
-            #p.plot(popSum[i][0], label=lab[i], color=col[i], linestyle='-')
+            p.plot(popSum[i][0], label=r'$f_{iso} = $' + lab[i], color=col[i], linestyle='-')
+            # p.plot(popSum[i][0], label=lab[i], color=col[i], linestyle='-')
         if m == 0:
-            #p.legend(bbox_to_anchor=(-0.05, -4.9, 3.9, 1), loc="upper center", mode="expand", ncol=5)
+            # p.legend(bbox_to_anchor=(-0.05, -4.9, 3.9, 1), loc="upper center", mode="expand", ncol=5)
             p.legend(bbox_to_anchor=(-0.05, -4.9, 3.9, 1), loc="upper center", mode="expand", ncol=5)
 
         p.set_ylabel('Susceptible ind.')
@@ -1043,7 +1072,7 @@ def plotEbolaScenarios(namesAllScenarios, lab, savename, n=16, pathIn=pathIn, pa
         for i in range(0, len(names)):
             p.plot(np.sum(popSum[i][1:12], axis=0), label=lab[i], color=col[i], linestyle='-')
         p.set_ylabel('Infected ind.')
-        p.set_title(label=alphabet[mm+1] + '.', loc='left')
+        p.set_title(label=alphabet[mm + 1] + '.', loc='left')
         p.set_ylim(bottom=0)
 
         # Dead
@@ -1051,15 +1080,12 @@ def plotEbolaScenarios(namesAllScenarios, lab, savename, n=16, pathIn=pathIn, pa
         for i in range(0, len(names)):
             p.plot(np.sum(popSum[i][12:15], axis=0), label=lab[i], color=col[i], linestyle='-')
         p.set_ylabel('Dead ind.')
-        p.set_title(label=alphabet[mm+2] + '.', loc='left')
+        p.set_title(label=alphabet[mm + 2] + '.', loc='left')
         p.set_ylim(bottom=0)
-
 
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=0.25)
 
-    plt.savefig(pathOut + '/Ebola_scenarios_' + savename + '.pdf', dpi=100,bbox_inches='tight')
+    plt.savefig(pathOut + '/Ebola_scenarios_' + savename + '.pdf', dpi=100, bbox_inches='tight')
     plt.show()
 
-
     return (savename)
-
