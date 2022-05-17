@@ -405,6 +405,12 @@ def modelEbola(
     index = indexFunction(n)
 
     # cD = R0 / (cP * DP + cI * DI + cF * DF)
+    print(d_ph0)
+    print(f_ph0)
+    print(fdead)
+    print(cc)
+    print(D)
+
     u = (1 - d_ph0[0]) * fdead[0] * f_ph0[0] + \
         (1 - d_ph0[1]) * fdead[1] * f_ph0[1]
     cD = R0 / (cc[0] * D[1] + \
@@ -615,7 +621,9 @@ lstsB = ['-', (0, (1, 1)), (0, (1, 2)), (0, (2, 1)),
 lstsC = ['-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (3, 3)),
          (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 3, 3, 1)), (0, (1, 3, 3, 3)),
          (0, (3, 1, 3, 3))]
-lstsA = ['-', '-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3))]
+#lstsA = ['-', '-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 1, 1, 1,1,3)),]
+lstsA = ['-', (0, (5, 1)), (0, (3, 1)), (0, (3, 3)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 1)),]
+
 # 11;1113, 1311;1131, 3111;1133, 3311;13;3113;31;1333,3313;3133,3331;33
 
 
@@ -711,7 +719,7 @@ def plotEbolaParameters(names, savename, n, days, pathIn=pathIn, pathOut=pathOut
 # day=0 plots full scenario
 legendsA = [' ', 'never traced back', 'not yet traced back', 'diagnosed or traced back',
             'diagnosed or traced back, not in ward', 'diagnosed or traced back, in ward', 'unsafely buried',
-            'safely buried']
+            'safely buried', 'total buried']
 
 
 def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object = pathIn, pathOut: object = pathOut,
@@ -719,7 +727,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
                  q_max: object = False,
                  tb: object = False,
                  sf: object = False,
-                 legendout: object = True, days=0) -> object:
+                 legendout: object = True, legendlong = False, days=0) -> object:
     # -------- layout settings
     plt.rcParams['axes.labelsize'] = 12
 
@@ -817,24 +825,27 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         p.plot(popSum[0][4], color=col[0], linestyle=lst[1], label=leg[1])  # 'never traced back'
         p.plot(popSum[0][6], color=col[0], linestyle=lst[2], label=leg[2])  # 'not yet traced back'
         # generate general legend (linestyles)
-        legend_lines = legend_lines \
+        if legendlong == True:
+            legend_lines = legend_lines \
                        + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[1])] \
                        + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[2])]
-        legend_text = legend_text + [leg[1]] + [leg[2]]
+            legend_text = legend_text + [leg[1]] + [leg[2]]
         if q_max == False:
             p.plot(popSum[0][5], color=col[0], linestyle=lst[3], label=leg[3])  # 'traced back'
-            legend_lines = legend_lines \
+            if legendlong == True:
+                legend_lines = legend_lines \
                            + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[3])]
-            legend_text = legend_text + [leg[3]]
+                legend_text = legend_text + [leg[3]]
         if q_max == True:
             p.plot(np.multiply(popSum[0][5], q_[0]), color=col[0], linestyle=lst[3],
                    label=leg[3])  # 'traced back, in ward'
             p.plot(np.multiply(popSum[0][5], np.multiply(q_[0], -1) + 1), color=col[0], linestyle=lst[4],
                    label=leg[4])  # 'traced back, not in ward'
-            legend_lines = legend_lines \
+            if legendlong == True:
+                legend_lines = legend_lines \
                            + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[3])] \
                            + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[4])]
-            legend_text = legend_text + [leg[3]] + [leg[4]]
+                legend_text = legend_text + [leg[3]] + [leg[4]]
     for i in range(0, len(names)):
         if tb == False:
             p.plot(popSum[i][4], label=lab[i], color=col[i])
@@ -927,15 +938,19 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     if sf == True:
         p.plot(popSum[0][13], color=col[0], linestyle=lst[6], label=leg[7])  # 'safely')
         p.plot(popSum[0][14], color=col[0], linestyle=lst[5], label=leg[6])  # 'unsafely')
-        legend_lines = legend_lines \
+        p.plot(popSum[0][13] + popSum[0][14], color=col[0], linestyle=lst[8], label=leg[8])  # 'total')
+        if legendlong == True:
+            legend_lines = legend_lines \
                        + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[6])] \
-                       + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[5])]
-        legend_text = legend_text + [leg[7]] + [leg[6]]
+                       + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[5])] \
+                       + [Line2D([0], [0], lw=1, color=col[0], linestyle=lst[8])]
+            legend_text = legend_text + [leg[7]] + [leg[6]]+ [leg[8]]
 
     for i in range(0, len(names)):
         p.plot(popSum[i][14], label=lab[i], color=col[i], linestyle=lst[5])
         if sf == True:
             p.plot(popSum[i][13], color=col[i], linestyle=lst[6])
+            p.plot(popSum[i][13] + popSum[i][14], color=col[i], linestyle=lst[8])  # 'total')
     if legendout == False:
         p.legend()
     p.set_ylabel('Buried ind.')
