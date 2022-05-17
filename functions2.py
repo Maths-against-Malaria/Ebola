@@ -621,8 +621,8 @@ lstsB = ['-', (0, (1, 1)), (0, (1, 2)), (0, (2, 1)),
 lstsC = ['-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (3, 3)),
          (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 3, 3, 1)), (0, (1, 3, 3, 3)),
          (0, (3, 1, 3, 3))]
-#lstsA = ['-', '-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 1, 1, 1,1,3)),]
-lstsA = ['-', (0, (5, 1)), (0, (3, 1)), (0, (3, 3)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 1)),]
+lstsA = ['-', '-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), '-',]
+#lstsA = ['-', (0, (5, 1)), (0, (3, 1)), (0, (3, 3)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0, (1, 1, 3, 1)), (0, (1, 1, 3, 3)), (0, (1, 1)),]
 
 # 11;1113, 1311;1131, 3111;1133, 3311;13;3113;31;1333,3313;3133,3331;33
 
@@ -969,8 +969,12 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
 
     if legendout:
         # plot general legend
-        fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
+        if legendlong == True:
+            fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
                    ncol=4)  # mode="expand", ncol=)
+        else:
+            fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
+                   ncol=6)  # mode="expand", ncol=)
         # bbox_to_anchor=(-3, -3, 3.5, 0.5)
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=None)
     # plt.tight_layout()
