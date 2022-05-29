@@ -87,7 +87,8 @@ def q(pop, t, t_iso, qmax, n, index):
         q = 0
         Q = 0
     else:
-        Q = (popsum(pop=pop, compartment='P', script1='t', script2='_', n=n, index=index) + \
+        Q = (popsum(pop=pop, compartment='E', script1='t', script2='_', n=n, index=index) + \
+             popsum(pop=pop, compartment='P', script1='t', script2='_', n=n, index=index) + \
              popsum(pop=pop, compartment='I', script1='_', script2='i', n=n, index=index))
         if Q <= qmax:
             q = 1
@@ -405,12 +406,6 @@ def modelEbola(
     index = indexFunction(n)
 
     # cD = R0 / (cP * DP + cI * DI + cF * DF)
-    print(d_ph0)
-    print(f_ph0)
-    print(fdead)
-    print(cc)
-    print(D)
-
     u = (1 - d_ph0[0]) * fdead[0] * f_ph0[0] + \
         (1 - d_ph0[1]) * fdead[1] * f_ph0[1]
     cD = R0 / (cc[0] * D[1] + \
@@ -418,7 +413,6 @@ def modelEbola(
                cc[2] * D[3] * f_ph0[1] + \
                cc[3] * D[4] * u)
     cD = float(cD)
-    print(cD)
     betaP = cc[0] * cD
     betaIp = cc[1] * cD
     betaIh = cc[2] * cD
