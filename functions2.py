@@ -100,18 +100,17 @@ def q(pop, t, t_iso, qmax, n, index):
 # persons to be traced back: potential (c) and actual (C)
 # only after t_iso
 # depends on number of people entering status Pt or Ii
-def c(pop, t, t_iso, cmax, n, index, FT, FP, f_iso):
+def c(pop, t, t_iso, cmax, n, index, FT, FP, FE, f_iso):
     if t < t_iso:
         c = 0
         C = 0
     else:
-        C = 1 / FT * (
-                FP * (
-                f_iso * (
-                pop[index['P__' + str(n)]] + pop[index['Ps_' + str(n)]]) +
-                pop[index['Pt_' + str(n)]])) + \
-            popsum(pop=pop, compartment='I', script1='s', script2='p', n=n, index=index) + \
-            popsum(pop=pop, compartment='I', script1='s', script2='h', n=n, index=index)
+        C = FT * (1/FE * pop[index['Et_' + str(n)]] + \
+                  1/FP * (pop[index['P__' + str(n)]] + pop[index['Ps_' + str(n)]]) +\
+                  1/FT * (popsum(pop=pop, compartment='P', script1='s', script2='_', n=n, index=index) + \
+                          popsum(pop=pop, compartment='I', script1='s', script2='p', n=n, index=index) + \
+                          popsum(pop=pop, compartment='I', script1='s', script2='h', n=n, index=index)))
+
         if C <= cmax:
             c = 1
         else:
@@ -121,31 +120,24 @@ def c(pop, t, t_iso, cmax, n, index, FT, FP, f_iso):
 
 # force of infection
 def la(pop, fiso, f_tb, betaP, betaIp, betaIh, betaF, ph, q, c, fc, n, index):
-    # infections that may be found later by tracing back
-    ls0 = fc * betaP * (fiso * \
-                        popsum(pop=pop, compartment='P', script1='_', script2='_', n=n, index=index) + \
-                        popsum(pop=pop, compartment='P', script1='s', script2='_', n=n, index=index)) + \
-          betaIp * \
-          popsum(pop=pop, compartment='I', script1='s', script2='p', n=n, index=index) + \
-          betaIh * \
-          popsum(pop=pop, compartment='I', script1='s', script2='h', n=n, index=index) + \
-          betaIh * (1 - ph) * (1 - q) * (
-                  popsum(pop=pop, compartment='P', script1='t', script2='_', n=n, index=index) + \
-                  popsum(pop=pop, compartment='I', script1='_', script2='i', n=n,
-                         index=index))
-    # infections that will not be traced back
-    l = fc * betaP * (1 - fiso) * \
-        popsum(pop=pop, compartment='P', script1='_', script2='_', n=n, index=index) + \
-        betaIp * \
-        popsum(pop=pop, compartment='I', script1='_', script2='p', n=n, index=index) + \
-        betaIh * \
-        popsum(pop=pop, compartment='I', script1='_', script2='h', n=n, index=index) + \
-        betaF * pop[index['F__']] + \
-        (1 - f_tb * c) * ls0
-    # infections that will be traced back
-    ls = f_tb * c * ls0
-    return [l, ls]
+    l = betaP * ((1 - fiso * f_tb * c) * popsum(pop=pop, compartment='P', script1='_', script2='_', n=n, index=index) + \
+                (1 - f_tb * c) * (popsum(pop=pop, compartment='P', script1='s', script2='_', n=n, index=index)+
+                (1 - ph) * (1 - q) * popsum(pop=pop, compartment='P', script1='t', script2='_', n=n, index=index) )) +\
+        betaIp * (popsum(pop=pop, compartment='I', script1='_', script2='p', n=n, index=index) +\
+                 (1 - f_tb * c) * popsum(pop=pop, compartment='I', script1='s', script2='p', n=n, index=index)) +\
+        betaIh * (popsum(pop=pop, compartment='I', script1='_', script2='h', n=n, index=index) +
+                 (1 - f_tb * c) * popsum(pop=pop, compartment='I', script1='s', script2='h', n=n, index=index))+ \
+        betaIh * (1 - ph) * (1 - q) * (1 - f_tb * c) * \
+                        popsum(pop=pop, compartment='I', script1='_', script2='i', n=n, index=index) +\
+        betaF * pop[index['F__']]
 
+    ls = f_tb * c * (betaP * (fiso * popsum(pop=pop, compartment='P', script1='_', script2='_', n=n, index=index)+ \
+                             popsum(pop=pop, compartment='P', script1='s', script2='_', n=n, index=index) + \
+                             (1 - ph) * (1 - q) * popsum(pop=pop, compartment='P', script1='t', script2='_', n=n, index=index)) + \
+                    betaIp * popsum(pop=pop, compartment='I', script1='s', script2='p', n=n, index=index) + \
+                    betaIh * popsum(pop=pop, compartment='I', script1='s', script2='h', n=n, index=index) + \
+                    betaIh * (1 - ph) * (1 - q) * popsum(pop=pop, compartment='I', script1='_', script2='i', n=n, index=index))
+    return [l, ls]
 
 def lt(la, ls):
     lt = la + ls
@@ -455,7 +447,7 @@ def modelEbola(
         d_ph_ = d_ph(t=t, t_iso=t_iso_, d_ph0=d_ph0, d_ph1=d_ph1)
         qq = q(pop=pop, t=t, t_iso=t_iso_, qmax=qmax, n=n, index=index)
         q_ = qq[0]
-        ccc = c(pop=pop, t=t, t_iso=t_iso_, cmax=cmax, n=n, index=index, FT=FT, FP=FP, f_iso=f_phi_[2])
+        ccc = c(pop=pop, t=t, t_iso=t_iso_, cmax=cmax, n=n, index=index, FT=FT, FP=FP, FE=FE, f_iso=f_phi_[2])
         c_ = ccc[0]
         la__ = la(pop=pop, fiso=f_phi_[2], f_tb=f_tb, betaP=betaP, betaIp=betaIp, betaIh=betaIh, betaF=betaF, ph=ph,
                   q=q_, c=c_, fc=fc_, n=n, index=index)
