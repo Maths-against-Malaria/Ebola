@@ -699,7 +699,7 @@ def plotEbolaParameters(names, savename, n, days, pathIn=pathIn, pathOut=pathOut
     p = fig.add_subplot(339)
     for i in range(0, len(names)):
         p.plot(par[8][i], color=col[i])
-    plt.show()
+    #plt.show()
 
 
 # day=0 plots full scenario
@@ -716,7 +716,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
                  legendout: object = True, legendlong = False, days=0) -> object:
     # -------- layout settings
     plt.rcParams['axes.labelsize'] = 12
-
+    plt.rcParams['mathtext.default'] = 'regular' # new
     # legendout: legend of everything outside plots (if False: each plot has extra legend)
     if legendout:
         plt.rcParams['legend.fontsize'] = 12
@@ -969,7 +969,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
     plt.savefig(pathOut + '/Ebola_all_' + savename + '.pdf', dpi=100)
     plt.show()
 
-    # plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
+    plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
     plt.plot(np.sum(popSum[0][1:12], axis=0), label='infected (E+P+I)', color=col[0], linestyle='--')
     plt.plot(np.sum(popSum[0][12:15], axis=0), label='dead (D+B)', color=col[0], linestyle=':')
     for i in range(0, len(names)):
