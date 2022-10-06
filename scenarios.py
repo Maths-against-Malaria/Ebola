@@ -37,7 +37,7 @@ plotEbolaAll_5(names = names2_fisoftb0l0m1,
               savename = 'Fig2',
               lab = lab_fiso0, # labels for varied fiso
               tb = False, sf = True)
-'''
+
 # ---------------------- Fig 3 -----------------------------------------------------------------------------------------
 # fraction in treatments (fiso) varied (trace back fraction: ftb=0, safe funeral scenario 4: l=4, severe mortality: m=1)
 
