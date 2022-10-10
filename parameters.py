@@ -10,8 +10,6 @@ Created on Fri Dec 11 16:13:23 2020
 # paths: folders have to exist
 # simulation results (to be used as plot input)
 pathResult = 'result'
-# plots and result tables
-pathPlot = 'plot'
 
 # duration of simulation, in days
 days = 2 * 365
