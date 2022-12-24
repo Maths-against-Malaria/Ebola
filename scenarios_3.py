@@ -7,12 +7,12 @@ Created on Sat Dec 19 18:20:23 2020
 
 import numpy as np
 from scipy.integrate import solve_ivp
-
+from functions2 import *
 #from parameters_2 import *  # basic scenario (all parameters)
 #from index import *
 #from functions import *
 #from differential_equations import *
-from solve_function import *
+#from solve_function import *
 
 # in parameters set  NE = 16, NP = 16, NIp = 16, NIh = 16, NIi = 16
 # in parameters set  NE = 1, NP = 1, NIp = 1, NIh = 1, NIi = 1

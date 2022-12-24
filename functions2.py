@@ -2,13 +2,12 @@
 """
 Created on Fri Dec 11 16:13:23 2020
 
-@author: helle
+@author: Kristina B. Helle, Aliou Bouba, Kristan A. Schneider
 """
 
-from parameters_3 import *
-import numpy as np
+from parameters import *
 from scipy.integrate import solve_ivp
-
+#import numpy as np
 
 # index of compartments (depending on number of Erlang stages per compartment - assuming one general number of Erlang stages everywhere
 def indexFunction(n):
@@ -603,7 +602,14 @@ from matplotlib.lines import Line2D
 from functions2 import indexFunction
 
 # CD6700
+colsA0 = ["#000000", "#801980", "#0073B3", "#59B3E6", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3", "grey"]
+colsA1 = ["#801980", "#0073B3", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3"]
+colsA0 = ["#000000", "#0073B3", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3", "grey"]
 colsA = ["#000000", "#801980", "#59B3E6", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3", "grey"]
+colsA = ["#000000", "#801980", "#0073B3", "#009980", "#E69900", "#CC6600", "#CD6700", "#0073B3"]
+
+
+#colsA = ["#000000", "#801980", "#59B3E6", "#009980", "#E69900",   "#0073B3", "#CC6600","#CD6700","grey"]
 lstsB = ['-', (0, (1, 1)), (0, (1, 2)), (0, (2, 1)),
          (0, (2, 2)), (0, (3, 1)), (0, (3, 2)), (0, (2, 1, 1, 1)), (0, (2, 2, 1, 2)), (0, (3, 1, 1, 1)),
          (0, (3, 2, 1, 2)), (0, (3, 1, 1, 1, 1, 1)), (0, (3, 2, 1, 2, 1, 2)), (0, (3, 1, 1, 1, 1, 1, 1, 1)),
@@ -620,8 +626,8 @@ lstsD = ['-', '-', (0, (1, 1)), (0, (3, 1)), (0, (1, 3)), (0, (1, 1, 1, 3)), (0,
 
 
 pathIn = 'results'
-pathOut = 'plots'
-
+#pathOut = 'plots'
+pathOut = 'C:/Users/helle/PycharmProjects/Ebola2/plots'
 
 def popsum2d(pops, n):
     index = indexFunction(n)
@@ -713,7 +719,7 @@ legendsA = [' ', 'never traced back', 'not yet traced back', 'diagnosed or trace
 
 # day=0 plots full scenario
 def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object = pathIn, pathOut: object = pathOut,
-                 col: object = colsA, lst=lstsA, leg=legendsA,
+                 col: object = colsA, lst=lstsD, leg=legendsA,
                  q_max: object = False,
                  tb: object = False,
                  sf: object = False,
@@ -727,6 +733,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         legend_lines = []
         legend_text = []
 
+    '''
     # dependent on tb etc. choose the correct linestyles and legends (some have to be the same)
     if sf == False:
         lst[5] = lst[0]
@@ -739,6 +746,7 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         lst[1] = lst[0]
         lst[2] = lst[0]
         lst[3] = lst[0]
+    '''
 
     # -------- load data
     # determine number of days
@@ -963,16 +971,17 @@ def plotEbolaAll(names: object, savename: object, lab: object, n, pathIn: object
         # plot general legend
         if legendlong == True:
             fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
-                       ncol=4)  # mode="expand", ncol=)
+                       ncol=6, mode="expand")  # mode="expand", ncol=)
         else:
             fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
-                       ncol=6)  # mode="expand", ncol=)
+                       ncol=6, mode="expand")  # mode="expand", ncol=)
         # bbox_to_anchor=(-3, -3, 3.5, 0.5)
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=None)
     # plt.tight_layout()
     # plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
 
     plt.savefig(pathOut + '/Ebola_all_' + savename + '.pdf', dpi=100)
+    plt.savefig(fname = pathOut + '/Ebola_all_' + savename, dpi=100)
     plt.show()
     '''
     plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')
@@ -1047,7 +1056,7 @@ def plotEbolaAllCumulative(names: object, savename: object, lab: object, n, path
                  #            q_max: object = False,
                  tb: object = False,
                  sf: object = False,
-                 legendout: object = True, legendlong=False, days=0) -> object:
+                 legendout: object = True, legendlong=False, days=0, ncolsLeg = 6) -> object:
     # -------- layout settings
     plt.rcParams['axes.labelsize'] = 12
     plt.rcParams['mathtext.default'] = 'regular'  # new
@@ -1248,17 +1257,18 @@ def plotEbolaAllCumulative(names: object, savename: object, lab: object, n, path
 
         # plot general legend
         if legendlong == True:
-            fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
-                       ncol=3)  # mode="expand", ncol=)
+            fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.09, 0.09), loc="upper left",
+                       ncol=ncolsLeg)  # mode="expand", ncol=)
         else:
-            fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.1, 0.09), loc="upper left",
-                       ncol=6)  # mode="expand", ncol=)
+            fig.legend(legend_lines, legend_text, bbox_to_anchor=(0.09, 0.09), loc="upper left",
+                       ncol=ncolsLeg)  # mode="expand", ncol=)
         # bbox_to_anchor=(-3, -3, 3.5, 0.5)
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=None)
     # plt.tight_layout()
     # plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
 
-    plt.savefig(pathOut + '/Ebola_all_' + savename + '.pdf', dpi=100)
+    #plt.savefig(pathOut + '/Ebola_all_' + savename + '.jpg', dpi=100)
+    plt.savefig(pathOut + '/Ebola_all_' + savename, dpi=100)
     plt.show()
     '''
     plt.plot(popSum[0][0] + popSum[0][15], label='healthy (S+R)', color=col[0], linestyle='-')

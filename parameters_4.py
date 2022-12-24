@@ -16,19 +16,19 @@ DP = 5
 DIh = 5
 DI= 5 # 3
 DF = 2
-DT = 21   # trace back time 9
+DT = 21 #! DT = 15   # trace back time 9
 
 D = [DE, DP, DIh, DI, DF, DT]
 
 # fraction of infected who dies under the conditions: p (at home), h (in hospital), i (in isolation unit)
-fdead_p = [0.6, 0.90] # 0.7 # f dead home # 0.5 - 0.95
-fdead_h = [0.4, 0.6] # 0.5 # f dead hosp # 0.35 - 0.6
+#! fdead_p = [0.6, 0.95] # 0.7 # f dead home # 0.5 - 0.95
+#! fdead_h = [0.35, 0.6] # 0.5 # f dead hosp # 0.35 - 0.6
 fdead_i = [0.1, 0.3]  # 0.3 # f dead iso  # 0.1- 0.3
-m = 1
+m = 0
 fdead = [fdead_p[m],fdead_h[m], fdead_i[m]]
-print(fdead)
+
 # basic reproduction number of the virus
-R0 = 1.8      # basic reproduction number
+R0 = 2      # basic reproduction number
 
 # contagiousness in different states (P, I, F) and conditions (p, h - for I), cIi = 0
 cP = 0.3
@@ -36,15 +36,16 @@ cIh = 0.5   # c_I hosp
 cI = 0.6    # c_I home
 cF = 1      # relative contagiousness after death before being buried
 
-cc = [cP,cI,cIh,cF]
+cc = [cP,cIh,cI,cF]
 
 # initial number of sick (in state P) individuals
 P0 = 10
 
 # countermeasures
 # day when isolation starts
-t_iso_ = [30, 45, 60, 75, 90] #[7, 14, 21, 30, 45, 60]
-t_iso = t_iso_[4]
+#! t_iso_ = [7, 14, 21, 30, 45, 60]
+t_iso_ = [10, 20, 30, 40, 50, 60]
+t_iso = t_iso_[5]
 # number of infected at hospital where isolation starts (first criterion relevant)
 I_iso_=[1,2,5,10,20,50,100,1000,N]
 I_iso = N
@@ -57,9 +58,8 @@ fc = 1 # 0.2
 #f_h1 = 0.5
 f_ph0 = [0.5, 0.5]
 # fraction at home, in hospital, in isolation after this day (4 scenarios provided)
-#S4
-f_p1 = [0.5, 0.45, 0.35, 0.25, 0.1]
-f_h1 = [0.5, 0.35, 0.25, 0.15, 0.1]
+f_p1 = [0.5, 0.5, 0.5, 0.3, 0.1]
+f_h1 = [0.5, 0.3, 0.1, 0.1, 0.1]
 # index of the scenario from the ones above
 k = 3
 f_ph1 = [f_p1[k], f_h1[k]]

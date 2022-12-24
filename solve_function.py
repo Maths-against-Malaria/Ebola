@@ -12,7 +12,7 @@ Created on Fri Dec 18 15:03:23 2020
 import numpy as np
 from scipy.integrate import solve_ivp
 
-from parameters_3 import *  # basic scenario (all parameters)
+from parameters import *  # basic scenario (all parameters)
 from index import *
 from functions import *
 from differential_equations import *

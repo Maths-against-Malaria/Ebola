@@ -183,7 +183,8 @@ plotEbolaAll(names= names_DT  , savename='DT',n=16,
              q_max=False, tb=True, sf=True,
              legendout=True, days = 180)
 '''
-#---------------fiso (+ftb=0.8+l4)------------------
-plotEbolaAll(names=names4, savename='fisoftb0.8l4m1tiso90', n = 16,
-             lab=['none', 'f_iso=0.2', 'f_iso=0.4', 'f_iso=0.6', 'f_iso=0.8'],
+
+#---------------fiso (+ftb=0.8+l4)-----------------
+plotEbolaAll(names=names2__fisoftb0l0m0, savename='fisoftb0.8l4m1tiso90', n = 16,
+             lab=['none', '$f_{iso}=0.2$', '$f_{iso}=0.4$', '$f_{iso}=0.6$', '$f_{iso}=0.8$'],
              col=colsA, q_max=False, tb=True, sf=True)

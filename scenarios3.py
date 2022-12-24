@@ -1,8 +1,41 @@
-import numpy as np
-from scipy.integrate import solve_ivp
-
+#import numpy as np
+#from scipy.integrate import solve_ivp
+from functions import *
+from parameters import *
 ########################################################
 # from Aliou Bouba VI 2022
+
+
+#20'')tbtime (fiso=0.8+ftb=0.8+l4+tiso90+m=0)
+print('20_21'')tbtime (fiso=0.6+ftb=0.6+l4+tiso90+m=0); DTfiso08l4m0')
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90, DT=25)
+'''
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90, DT=20)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90, DT=15)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90, DT=10)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90, DT=5)
+print('20_21'')tbtime (fiso=0.6+ftb=0.6+l4+tiso90+m=1); DTfiso08l4m1')
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90, DT=25)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90, DT=20)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90, DT=15)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90, DT=10)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90, DT=5)
+
+
+#18)tiso (fiso=0.6+ftb=0.6+l4)
+print('18_19)tiso (fiso=0.8+ftb=0.8+l4,m=0); tisofiso08tb08l4m0')
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=75)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=60)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=45)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=30)
+print('18_19)tiso (fiso=0.8+ftb=0.8+l4,m=1); tisofiso08tb08l4m1')
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=75)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=60)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=45)
+modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=30)
+
 
 
 #20)tbtime (fiso=0.6+ftb=0.6+l4+tiso90+m=0)
@@ -80,6 +113,7 @@ modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[3], d_ph1 = [d_p1[0], d_h1[0]
 #2')fiso (only+safe funeral)
 print('2*_5)fiso (only+safe funeral)')
 modelEbola(f_ph1 = [f_p1[0], f_h1[0]], f_tb =f_tb_[0], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90)
+modelEbola(f_ph1 = [f_p1[0], f_h1[0]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[1], f_h1[1]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[2], f_h1[2]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[3], f_h1[3]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[0],fdead_h[0], fdead_i[0]], t_iso=90)
@@ -154,7 +188,7 @@ modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[4], d_ph1 = [d_p1[4], d_h1[4]
 
 #5)fiso (ftb=0.8)
 print('5_8)fiso (ftb=0.8)')
-modelEbola(f_ph1 = [f_p1[0], f_h1[0]], f_tb =f_tb_[4], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
+modelEbola(f_ph1 = [f_p1[0], f_h1[0]], f_tb =f_tb_[0], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[1], f_h1[1]], f_tb =f_tb_[4], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[2], f_h1[2]], f_tb =f_tb_[4], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[3], f_h1[3]], f_tb =f_tb_[4], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
@@ -171,6 +205,7 @@ modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[3], d_ph1 = [d_p1[0], d_h1[0]
 #1')fiso (only+safe funeral)
 print('1*_4)fiso (only+safe funeral)')
 modelEbola(f_ph1 = [f_p1[0], f_h1[0]], f_tb =f_tb_[0], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
+#modelEbola(f_ph1 = [f_p1[0], f_h1[0]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[1], f_h1[1]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[2], f_h1[2]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[3], f_h1[3]], f_tb =f_tb_[0], d_ph1 = [d_p1[4], d_h1[4]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
@@ -183,4 +218,4 @@ modelEbola(f_ph1 = [f_p1[1], f_h1[1]], f_tb =f_tb_[0], d_ph1 = [d_p1[0], d_h1[0]
 modelEbola(f_ph1 = [f_p1[2], f_h1[2]], f_tb =f_tb_[0], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[3], f_h1[3]], f_tb =f_tb_[0], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
 modelEbola(f_ph1 = [f_p1[4], f_h1[4]], f_tb =f_tb_[0], d_ph1 = [d_p1[0], d_h1[0]], fdead = [fdead_p[1],fdead_h[1], fdead_i[1]], t_iso=90)
-#'''
+'''
